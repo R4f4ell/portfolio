@@ -1,4 +1,5 @@
 import BackgroundSite from "./components/backgroundSite/BackgroundSite";
+import Header from "./components/header/Header";
 
 export default function App() {
   return (
@@ -16,6 +17,7 @@ export default function App() {
         distortion={0.05}
         dprMax={2}
       />
+      <Header />
       {/* restante do app */}
     </>
   );
