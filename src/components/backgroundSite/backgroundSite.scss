@@ -1,0 +1,11 @@
+.background-site {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: -1;
+  pointer-events: none;
+  overflow: hidden;
+  background: #000; // fundo preto
+  will-change: transform, opacity;
+}
