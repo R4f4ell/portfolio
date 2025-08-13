@@ -1,5 +1,6 @@
 import BackgroundSite from "./components/backgroundSite/BackgroundSite";
 import Header from "./components/header/Header";
+import ApresentacaoInicial from "./components/apresentacaoInicial/ApresentacaoInicial";
 
 export default function App() {
   return (
@@ -18,7 +19,9 @@ export default function App() {
         dprMax={2}
       />
       <Header />
-      {/* restante do app */}
+      <main>
+        <ApresentacaoInicial />
+      </main>
     </>
   );
 }

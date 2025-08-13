@@ -13,10 +13,11 @@ const LINKS = [
 export default function Header() {
   const [open, setOpen] = useState(false)
   const [isScrolled, setIsScrolled] = useState(false)
-  const [panelPos, setPanelPos] = useState({ top: 0, right: 0 }) // <- posição dinâmica
+  const [panelPos, setPanelPos] = useState({ top: 0, right: 0 })
   const headerRef = useRef(null)
   const panelRef = useRef(null)
   const burgerRef = useRef(null)
+  const rafRef = useRef(0)
 
   useLockBodyScroll(open)
 
@@ -32,28 +33,33 @@ export default function Header() {
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
-  // Calcula a posição do painel para ficar logo ABAIXO do X
+  // rAF para ancoragem suave (evita layouts repetidos em resize/scroll)
   useEffect(() => {
     const updateAnchors = () => {
       if (!burgerRef.current) return
       const r = burgerRef.current.getBoundingClientRect()
-      const gap = 14 // gap entre X e painel
+      const gap = 14
       const top = Math.max(0, r.top + r.height + gap)
       const right = Math.max(12, window.innerWidth - r.right + gap)
       setPanelPos({ top, right })
     }
+    const schedule = () => {
+      cancelAnimationFrame(rafRef.current)
+      rafRef.current = requestAnimationFrame(updateAnchors)
+    }
+
     if (open) {
-      updateAnchors()
-      window.addEventListener('resize', updateAnchors)
-      window.addEventListener('scroll', updateAnchors, { passive: true })
+      schedule()
+      window.addEventListener('resize', schedule)
+      window.addEventListener('scroll', schedule, { passive: true })
     }
     return () => {
-      window.removeEventListener('resize', updateAnchors)
-      window.removeEventListener('scroll', updateAnchors)
+      cancelAnimationFrame(rafRef.current)
+      window.removeEventListener('resize', schedule)
+      window.removeEventListener('scroll', schedule)
     }
   }, [open])
 
-  // Fecha ao clicar fora (fora do painel e do burger)
   useEffect(() => {
     if (!open) return
     const handleDown = (e) => {
@@ -87,21 +93,22 @@ export default function Header() {
     scrollToId(id)
   }
 
-  // Framer: animações
+  // Variants leves (sem blur/filtro para evitar travadas)
   const panelVariants = {
-    hidden: { opacity: 0, x: 18, scale: 0.98, filter: 'blur(2px)' },
-    show:   { opacity: 1, x: 0,  scale: 1,    filter: 'blur(0px)',
-              transition: { type: 'spring', stiffness: 480, damping: 34, mass: 0.6 } },
-    exit:   { opacity: 0, x: 20, scale: 0.98, filter: 'blur(2px)',
-              transition: { duration: 0.18, ease: [0.22,0.61,0.36,1] } }
+    hidden: { opacity: 0, x: 18, scale: 0.98 },
+    show: {
+      opacity: 1, x: 0, scale: 1,
+      transition: { type: 'spring', stiffness: 520, damping: 36, mass: 0.6 }
+    },
+    exit: { opacity: 0, x: 20, scale: 0.98, transition: { duration: 0.16 } }
   }
-  const listVariants = { show: { transition: { staggerChildren: 0.05, delayChildren: 0.05 } } }
-  const itemVariants = { hidden: { opacity: 0, y: -6 }, show: { opacity: 1, y: 0, transition: { duration: 0.18 } } }
+  const listVariants = { show: { transition: { staggerChildren: 0.05, delayChildren: 0.04 } } }
+  const itemVariants = { hidden: { opacity: 0, y: -6 }, show: { opacity: 1, y: 0, transition: { duration: 0.16 } } }
 
   return (
     <header ref={headerRef} className={`site-header${isScrolled ? ' is-scrolled' : ''}`} role="banner">
       <div className="header__inner" role="navigation" aria-label="Navegação principal">
-        <p className="brand" aria-label="Portfólio">Portfólio</p>
+        <span className="brand" aria-label="Portfólio">Portfólio</span>
 
         {/* Desktop */}
         <nav className="nav__links--desktop" aria-hidden="false">
@@ -120,7 +127,7 @@ export default function Header() {
           </ul>
         </nav>
 
-        {/* Burger (mesma posição; só troca ícone) */}
+        {/* Burger */}
         <label
           ref={burgerRef}
           className="burger"
@@ -140,7 +147,7 @@ export default function Header() {
           <span></span>
         </label>
 
-        {/* Backdrop para fechar ao clicar fora */}
+        {/* Backdrop */}
         <AnimatePresence>
           {open && (
             <motion.button
@@ -150,13 +157,13 @@ export default function Header() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              transition={{ duration: 0.18 }}
+              transition={{ duration: 0.12 }}
               onClick={() => setOpen(false)}
             />
           )}
         </AnimatePresence>
 
-        {/* Painel — ancorado abaixo do X, sai da direita */}
+        {/* Painel mobile/tablet */}
         <AnimatePresence>
           {open && (
             <motion.div
@@ -168,7 +175,7 @@ export default function Header() {
               animate="show"
               exit="exit"
               variants={panelVariants}
-              style={{ top: `${panelPos.top}px`, right: `${panelPos.right}px` }} // <- abaixo do X
+              style={{ top: `${panelPos.top}px`, right: `${panelPos.right}px` }}
             >
               <nav id="primary-navigation" className="nav__links--panel">
                 <motion.ul variants={listVariants} initial="hidden" animate="show" exit="hidden">

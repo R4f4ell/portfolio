@@ -1,20 +1,22 @@
-@use '../../styles/variables';
 @use '../../styles/breakpoints' as breakpoint;
 
-/* HEADER transparente; o pill é só no desktop */
 .site-header {
   position: sticky;
   top: 0;
   z-index: 50;
   width: 100%;
-  background: transparent;
-  backdrop-filter: none;
-  -webkit-backdrop-filter: none;
-  border: none;
-  box-shadow: none;
-  transition: all 220ms ease;
+  /* Garante que NÃO há fundo global no header */
+  background: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  transition: height 220ms ease;
   --header-h: 64px;
   height: var(--header-h);
+
+  &::before,
+  &::after { content: none !important; display: none !important; }
 
   &.is-scrolled { --header-h: 56px; }
 }
@@ -26,21 +28,37 @@
   margin: 0 auto;
   padding-inline: 16px;
   display: grid;
-  grid-template-columns: auto 1fr auto; /* brand | espaço | burger */
+  grid-template-columns: auto 1fr auto;
   align-items: center;
   column-gap: 8px;
+  /* Sem fundo aqui também */
+  background: none !important;
+  box-shadow: none !important;
+  border: 0 !important;
 }
 
 /* ===== Brand ===== */
 .brand {
-  color: #fff;
-  font-weight: 700;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
+  font-weight: 800;
+  letter-spacing: 0.02em;
   line-height: 1;
+  /* Mantém sua cor/gradiente atual */
+  background: linear-gradient(90deg, #6366f1, #22d3ee);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+
+  /* Tamanhos por dispositivo */
+  font-size: clamp(18px, 5.2vw, 22px); /* Mobile: 390/360/412 */
+  @media (min-width: breakpoint.$bp-tab-768) {
+    font-size: clamp(22px, 3.2vw, 28px); /* Tablet: 768/800 */
+  }
+  @media (min-width: breakpoint.$bp-desk-1366) {
+    font-size: clamp(26px, 2.6vw, 32px); /* Desktop: 1366/1440/1920 */
+  }
 }
 
-/* ===== Desktop: pill central + brand com a mesma “vibe” ===== */
+/* ===== Desktop: pill central ===== */
 .nav__links--desktop {
   display: none;
   position: absolute;
@@ -57,6 +75,7 @@
     justify-content: center;
     align-items: center;
 
+    /* ÚNICO fundo visível no desktop */
     background: rgba(12,12,12,0.42);
     backdrop-filter: blur(16px) saturate(155%) contrast(108%);
     -webkit-backdrop-filter: blur(16px) saturate(155%) contrast(108%);
@@ -68,7 +87,7 @@
   a {
     display: inline-block;
     padding: 8px 12px;
-    font-weight: 600;
+    font-weight: 700;
     letter-spacing: 0.06em;
     text-transform: uppercase;
     color: #fff;
@@ -92,22 +111,9 @@
   }
 }
 
-/* Brand com a mesma estética dos links — apenas no desktop */
-@media (min-width: breakpoint.$bp-desk-1366) {
-  .brand {
-    padding: 8px 12px;
-    border-radius: 9999px;
-    background: rgba(12,12,12,0.42);
-    backdrop-filter: blur(16px) saturate(155%) contrast(108%);
-    -webkit-backdrop-filter: blur(16px) saturate(155%) contrast(108%);
-    border: 1px solid rgba(255,255,255,0.06);
-    box-shadow: 0 8px 28px rgba(0,0,0,0.18), inset 0 1px 0 rgba(255,255,255,0.06);
-  }
-}
-
-/* ===== Burger (mesma posição sempre; X fora do painel) ===== */
+/* ===== Burger ===== */
 .burger {
-  position: relative;    
+  position: relative;
   width: 32px;
   height: 24px;
   background: transparent;
@@ -128,7 +134,8 @@
     opacity: 1;
     left: 0;
     transform: rotate(0deg);
-    transition: .25s ease-in-out;
+    transition: transform .22s ease, opacity .2s ease, width .2s ease, left .2s ease, top .2s ease;
+    will-change: transform, opacity, width, left, top;
   }
 
   span:nth-of-type(1) { top: 0; transform-origin: left center; }
@@ -140,36 +147,34 @@
   input:checked ~ span:nth-of-type(3) { transform: rotate(-45deg); top: 22px; left: 4px; }
 }
 
-/* ===== Backdrop clicável (fecha ao clicar fora) — mobile/tablet ===== */
+/* ===== Backdrop clicável ===== */
 .nav__backdrop {
   position: fixed;
   inset: 0;
-  background: transparent; /* troque para rgba(0,0,0,.15) se quiser véu */
+  background: transparent; /* use rgba(0,0,0,.15) se quiser véu */
   border: 0;
   padding: 0;
   margin: 0;
   cursor: default;
-  z-index: 60; /* abaixo do painel (70) e do burger (80) */
+  z-index: 60;
 }
 
-/* ===== Painel MOBILE/TABLET =====
-   - Posicionado via inline style (top/right) para ficar ABAIXO do X
-   - Desliza da direita com Framer Motion (JS controla transform/opacity) */
+/* ===== Painel MOBILE/TABLET ===== */
 .nav__panel {
   position: fixed;
   z-index: 70;
   pointer-events: auto;
-
   width: fit-content;
   max-width: calc(100vw - 24px);
   border-radius: 14px;
 
+  /* Leve – evita travadas */
   background: rgba(10,10,10,0.32);
-  backdrop-filter: blur(16px) saturate(165%) contrast(108%);
-  -webkit-backdrop-filter: blur(16px) saturate(165%) contrast(108%);
+  backdrop-filter: blur(12px) saturate(150%) contrast(105%);
+  -webkit-backdrop-filter: blur(12px) saturate(150%) contrast(105%);
   border: 1px solid rgba(255,255,255,0.10);
   box-shadow: 0 10px 30px rgba(0,0,0,0.28);
-  will-change: transform, opacity, filter;
+  will-change: transform, opacity;
 
   .nav__links--panel {
     padding: 10px 12px;
@@ -179,14 +184,14 @@
       margin: 0; padding: 0;
       display: grid;
       justify-items: center;
-      align-content: start; /* links no topo do container */
+      align-content: start;
       gap: 8px;
     }
 
     a {
       display: inline-block;
       padding: 8px 10px;
-      font-weight: 600;
+      font-weight: 700;
       letter-spacing: 0.06em;
       text-transform: uppercase;
       color: #fff;
@@ -218,11 +223,14 @@
 
   .header__inner {
     padding-inline: 32px;
-    .burger { display: none; }     /* desktop não usa burger */
+    .burger { display: none; }
   }
 
   .nav__links--desktop { display: block; }
-  .nav__panel, .nav__backdrop { display: none; }
+
+  /* Some totalmente qualquer overlay móvel no desktop */
+  .nav__panel,
+  .nav__backdrop { display: none !important; }
 
   /* Pill shrink ao rolar */
   .site-header.is-scrolled .nav__links--desktop ul {
