@@ -1,6 +1,7 @@
+@use '../../styles/variables';
 @use '../../styles/breakpoints' as breakpoint;
 
-/* HEADER totalmente transparente — só o pill do desktop tem fundo */
+/* HEADER transparente; o pill é só no desktop */
 .site-header {
   position: sticky;
   top: 0;
@@ -25,11 +26,21 @@
   margin: 0 auto;
   padding-inline: 16px;
   display: grid;
-  grid-template-columns: 1fr auto;
+  grid-template-columns: auto 1fr auto; /* brand | espaço | burger */
   align-items: center;
+  column-gap: 8px;
 }
 
-/* DESKTOP: pill central ocupando só a largura dos links */
+/* ===== Brand ===== */
+.brand {
+  color: #fff;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  line-height: 1;
+}
+
+/* ===== Desktop: pill central + brand com a mesma “vibe” ===== */
 .nav__links--desktop {
   display: none;
   position: absolute;
@@ -46,12 +57,12 @@
     justify-content: center;
     align-items: center;
 
-    background: rgba(10,10,10,0.42);
-    backdrop-filter: blur(14px) saturate(140%);
-    -webkit-backdrop-filter: blur(14px) saturate(140%);
+    background: rgba(12,12,12,0.42);
+    backdrop-filter: blur(16px) saturate(155%) contrast(108%);
+    -webkit-backdrop-filter: blur(16px) saturate(155%) contrast(108%);
     border-radius: 9999px;
-    box-shadow: 0 6px 24px rgba(0,0,0,0.22);
     border: 1px solid rgba(255,255,255,0.06);
+    box-shadow: 0 8px 28px rgba(0,0,0,0.28), inset 0 1px 0 rgba(255,255,255,0.06);
   }
 
   a {
@@ -64,29 +75,46 @@
     text-decoration: none;
     opacity: 0.92;
     border-radius: 9999px;
-    position: relative;
-    transition:
-      background 160ms ease,
-      box-shadow 160ms ease,
-      transform 160ms ease,
-      opacity 160ms ease;
+    transition: background 160ms ease, box-shadow 160ms ease, transform 160ms ease, opacity 160ms ease;
 
     &:hover {
       opacity: 1;
       transform: translateY(-1px);
+      background: rgba(255,255,255,0.06);
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.08), 0 4px 12px rgba(0,0,0,0.25);
+    }
+
+    &.is-active {
+      background: rgba(255,255,255,0.08);
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.10), 0 6px 16px rgba(0,0,0,0.28);
+      opacity: 1;
     }
   }
 }
 
-/* Burger (mobile/tablet) */
+/* Brand com a mesma estética dos links — apenas no desktop */
+@media (min-width: breakpoint.$bp-desk-1366) {
+  .brand {
+    padding: 8px 12px;
+    border-radius: 9999px;
+    background: rgba(12,12,12,0.42);
+    backdrop-filter: blur(16px) saturate(155%) contrast(108%);
+    -webkit-backdrop-filter: blur(16px) saturate(155%) contrast(108%);
+    border: 1px solid rgba(255,255,255,0.06);
+    box-shadow: 0 8px 28px rgba(0,0,0,0.18), inset 0 1px 0 rgba(255,255,255,0.06);
+  }
+}
+
+/* ===== Burger (mesma posição sempre; X fora do painel) ===== */
 .burger {
-  position: relative;
+  position: relative;    
   width: 32px;
   height: 24px;
   background: transparent;
   cursor: pointer;
   display: block;
   justify-self: end;
+  z-index: 80;
 
   input { display: none; }
 
@@ -112,41 +140,46 @@
   input:checked ~ span:nth-of-type(3) { transform: rotate(-45deg); top: 22px; left: 4px; }
 }
 
-/* Painel mobile/tablet full-width (inalterado) */
-.nav__panel {
-  position: absolute;
-  top: calc(var(--header-h));
-  left: 0; right: 0;
-  pointer-events: none;
-  transform: translateY(-8px);
-  opacity: 0;
-  max-height: 0;
-  overflow: hidden;
-  transition: opacity 200ms ease, transform 200ms ease, max-height 220ms ease;
-  background: rgba(10, 10, 10, 0.20);
-  backdrop-filter: blur(14px) saturate(140%);
-  -webkit-backdrop-filter: blur(14px) saturate(140%);
-  border: none;
-  box-shadow: none;
+/* ===== Backdrop clicável (fecha ao clicar fora) — mobile/tablet ===== */
+.nav__backdrop {
+  position: fixed;
+  inset: 0;
+  background: transparent; /* troque para rgba(0,0,0,.15) se quiser véu */
+  border: 0;
+  padding: 0;
+  margin: 0;
+  cursor: default;
+  z-index: 60; /* abaixo do painel (70) e do burger (80) */
+}
 
-  &.is-open {
-    pointer-events: auto;
-    opacity: 1;
-    transform: translateY(0);
-    max-height: 220px;
-  }
+/* ===== Painel MOBILE/TABLET =====
+   - Posicionado via inline style (top/right) para ficar ABAIXO do X
+   - Desliza da direita com Framer Motion (JS controla transform/opacity) */
+.nav__panel {
+  position: fixed;
+  z-index: 70;
+  pointer-events: auto;
+
+  width: fit-content;
+  max-width: calc(100vw - 24px);
+  border-radius: 14px;
+
+  background: rgba(10,10,10,0.32);
+  backdrop-filter: blur(16px) saturate(165%) contrast(108%);
+  -webkit-backdrop-filter: blur(16px) saturate(165%) contrast(108%);
+  border: 1px solid rgba(255,255,255,0.10);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.28);
+  will-change: transform, opacity, filter;
 
   .nav__links--panel {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 8px 16px;
+    padding: 10px 12px;
 
     ul {
       list-style: none;
       margin: 0; padding: 0;
       display: grid;
       justify-items: center;
-      align-content: center;
+      align-content: start; /* links no topo do container */
       gap: 8px;
     }
 
@@ -159,7 +192,7 @@
       color: #fff;
       text-decoration: none;
       opacity: 0.92;
-      border-radius: 8px;
+      border-radius: 10px;
       transition: transform 160ms ease, background 160ms ease, opacity 160ms ease;
 
       &:hover { opacity: 1; transform: translateY(-1px); background: rgba(255,255,255,0.10); }
@@ -168,43 +201,34 @@
   }
 }
 
-/* Tablet ≥ 768px */
+/* ===== Tablet ===== */
 @media (min-width: breakpoint.$bp-tab-768) {
   .site-header { --header-h: 64px; }
-  .header__inner { padding-inline: 24px; }
 
   .nav__panel .nav__links--panel {
-    padding: 10px 24px;
+    padding: 12px 14px;
     ul { gap: 10px; }
     a { padding: 10px 12px; border-radius: 10px; }
   }
 }
 
-/* Desktop ≥ 1366px */
+/* ===== Desktop ===== */
 @media (min-width: breakpoint.$bp-desk-1366) {
   .site-header { --header-h: 72px; }
 
   .header__inner {
     padding-inline: 32px;
-    .burger { display: none; }
+    .burger { display: none; }     /* desktop não usa burger */
   }
 
   .nav__links--desktop { display: block; }
-  .nav__panel { display: none; }
+  .nav__panel, .nav__backdrop { display: none; }
 
-  /* HOVER/ACTIVE EM CADA LINK: chip/pill com relevo sutil (somente desktop) */
-  .nav__links--desktop a:hover,
-  .nav__links--desktop a.is-active {
-    background: rgba(255,255,255,0.06);
-    box-shadow:
-      inset 0 0 0 1px rgba(255,255,255,0.08),
-      inset 0 10px 18px rgba(255,255,255,0.03),
-      0 4px 12px rgba(0,0,0,0.25);
-  }
-
-  /* Shrink suave do pill ao rolar */
+  /* Pill shrink ao rolar */
   .site-header.is-scrolled .nav__links--desktop ul {
     padding: 8px 16px;
-    box-shadow: 0 4px 16px rgba(0,0,0,0.18);
+    box-shadow: 0 6px 22px rgba(0,0,0,0.24), inset 0 1px 0 rgba(255,255,255,0.06);
+    backdrop-filter: blur(18px) saturate(165%) contrast(110%);
+    -webkit-backdrop-filter: blur(18px) saturate(165%) contrast(110%);
   }
 }
