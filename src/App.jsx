@@ -1,6 +1,7 @@
 import BackgroundSite from "./components/backgroundSite/BackgroundSite";
 import Header from "./components/header/Header";
 import ApresentacaoInicial from "./components/apresentacaoInicial/ApresentacaoInicial";
+import Sobre from "./components/sobre/Sobre";
 
 export default function App() {
   return (
@@ -21,6 +22,7 @@ export default function App() {
       <Header />
       <main>
         <ApresentacaoInicial />
+        <Sobre />
       </main>
     </>
   );

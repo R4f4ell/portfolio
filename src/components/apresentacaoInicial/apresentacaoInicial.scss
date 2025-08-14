@@ -1,9 +1,5 @@
 .apresentacao-inicial {
   padding: 56px 20px 40px;
-  background:
-    radial-gradient(1200px 400px at 80% -10%, rgba(99, 102, 241, 0.18), transparent 60%),
-    linear-gradient(180deg, rgba(0,0,0,0.06), transparent 30%);
-  color: inherit;
 
   .apresentacao-inicial__container {
     margin: 0 auto;
@@ -36,6 +32,11 @@
       font-size: clamp(0.95rem, 1.6vw, 1.05rem);
       opacity: 0.9;
       max-width: 60ch;
+      text-align: justify;
+
+      @media (min-width: 768px){
+        text-align: left;
+      }
     }
 
     .apresentacao-inicial__actions {
@@ -80,23 +81,72 @@
       }
     }
 
-    /* Ícones abaixo dos botões e centralizados */
+    /* Ícones abaixo dos botões – mantém a mesma posição/tamanho */
     .apresentacao-inicial__social {
       display: flex;
-      gap: 14px;
-      margin: 10px 0 0 5px;
+      justify-content: center;
 
-      a {
+      @media (min-width: 768px){
+        justify-content: left;
+      }
+
+      /* Botão circular com animação ::before recolhendo (padrão solicitado) */
+      .social-btn {
+        position: relative;
+        z-index: 0;
+        width: 50px;          
+        height: 50px;         
+        border-radius: 50px;
         display: flex;
         align-items: center;
         justify-content: center;
-        color: inherit;
-        transition: transform 160ms ease, color 160ms ease;
-
-        &:hover {
-          transform: translateY(-1px);
-          color: #22d3ee;
+        text-decoration: none;
+        border: none;
+        cursor: pointer;
+        transition: transform 100ms ease;
+        /* Ícone */
+        svg {
+          color: #fff;
+          width: 25px;
+          height: 25px;
+          z-index: 1;
         }
+
+        /* “anel” que recolhe no hover */
+        &::before {
+          content: "";
+          position: absolute;
+          inset: 50% auto auto 50%;
+          transform: translate(-50%, -50%);
+          width: 55px;
+          height: 55px;
+          border-radius: 50px;
+          z-index: -1;
+          border: 0 solid rgba(255, 255, 255, 0.4);
+          transition: width 0.4s ease, height 0.4s ease;
+        }
+
+        &:hover::before {
+          width: 0;
+          height: 0;
+        }
+
+        &:active {
+          transform: scale(0.92);
+        }
+      }
+
+      /* Paletas específicas (sem alterar posição/layout) */
+      .social-btn--github:hover{
+        background: #161b22; 
+      }
+
+      .social-btn--linkedin:hover {
+        background: #0a66c2;
+      }
+
+      .social-btn--whatsapp:hover {
+        background: linear-gradient(120deg, #02ff2c, #008a12);
       }
     }
   }

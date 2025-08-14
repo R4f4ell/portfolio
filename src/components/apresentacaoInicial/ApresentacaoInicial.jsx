@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react'
 import { Github, Linkedin } from 'lucide-react'
 import { FaWhatsapp } from 'react-icons/fa'
-import './ApresentacaoInicial.scss'
+import './apresentacaoInicial.scss'
 
 const ApresentacaoInicial = () => {
   const scrollToPortfolio = useCallback(() => {
@@ -50,33 +50,38 @@ const ApresentacaoInicial = () => {
           </div>
 
           {/* Ícones abaixo dos botões */}
-          <div className="apresentacao-inicial__social">
+          <div className="apresentacao-inicial__social" aria-label="Redes sociais">
             <a
               href="https://github.com/R4f4ell"
               target="_blank"
               rel="noopener noreferrer"
               aria-label="GitHub"
               title="GitHub"
+              className="social-btn social-btn--github"
             >
-              <Github size={22} />
+              <Github size={22} aria-hidden="true" focusable="false" />
             </a>
+
             <a
               href="https://www.linkedin.com/in/r4f4ellmartinss"
               target="_blank"
               rel="noopener noreferrer"
               aria-label="LinkedIn"
               title="LinkedIn"
+              className="social-btn social-btn--linkedin"
             >
-              <Linkedin size={22} />
+              <Linkedin size={22} aria-hidden="true" focusable="false" />
             </a>
+
             <a
               href="https://wa.me/75981867371"
               target="_blank"
               rel="noopener noreferrer"
               aria-label="WhatsApp"
               title="WhatsApp"
+              className="social-btn social-btn--whatsapp"
             >
-              <FaWhatsapp size={22} />
+              <FaWhatsapp size={22} aria-hidden="true" focusable="false" />
             </a>
           </div>
         </header>
