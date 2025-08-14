@@ -1,125 +1,183 @@
 .sobre-mim {
+  --brand: var(--brand-color, #4f8cff);
+
   padding: 48px 0;
   background: transparent;
   color: var(--text-color, #e7e7e7);
 
   .sobre-mim__container {
-    width: min(1100px, 90%);
+    width: 90%;
     margin: 0 auto;
+    text-align: justify;
+
+    @media (min-width: 768px) { width: 80%; }
   }
 
-  .sobre-mim__header {
-    margin-bottom: 24px;
-    text-align: left;
-  }
+  /* título sempre à esquerda */
+  .sobre-mim__header { margin-bottom: 24px; text-align: left; }
 
   .sobre-mim__title {
     font-size: 1.75rem;
     line-height: 1.2;
     letter-spacing: -0.02em;
     color: var(--title-color, #ffffff);
-    margin: 0 0 8px 0;
-  }
-
-  .sobre-mim__subtitle {
-    font-size: 1rem;
-    opacity: 0.8;
     margin: 0;
   }
 
-  .sobre-mim__content {
-    display: grid;
-    gap: 24px;
-  }
+  /* coluna em todos os dispositivos */
+  .sobre-mim__content { display: flex; flex-direction: column; gap: 20px; }
 
-  .sobre-mim__texto {
-    p + p {
-      margin-top: 14px;
-    }
-  }
-
-  .sobre-mim__stacks {
+  /* Card full width (borda só no primeiro) */
+  .sobre-mim__card {
+    width: 100%;
     background: rgba(255, 255, 255, 0.04);
     border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 16px;
+    border-top: 4px solid var(--brand);
+    border-radius: 14px;
     padding: 16px;
   }
+  .sobre-mim__card--plain { border-top: none; }
 
-  .sobre-mim__stacks-title {
+  .sobre-mim__texto { p + p { margin-top: 14px; } }
+
+  /* Tecnologias */
+  .sobre-mim__tecnologias {
+    padding-top: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: center;
+  }
+
+  .sobre-mim__skills-title {
     font-size: 1rem;
     margin: 0 0 12px 0;
     opacity: 0.9;
+    text-align: center;
+    color: #4f8cff;
+    position: relative;
+    padding-bottom: 6px;
+
+    &::after {
+      content: "";
+      display: block;
+      width: 40px;
+      height: 2px;
+      background-color: currentColor;
+      margin: 6px auto 0 auto;
+      border-radius: 2px;
+    }
   }
 
-  .sobre-mim__lista {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
+  /* Grid 2/4/8 */
+  .tec-grid {
+    --size-icon: 28px;
+    --label-gap: 18px; /* distância entre o ícone e a label no hover */
+
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 28px 32px;
+    width: 100%;
+    justify-items: center;
     margin: 0;
     padding: 0;
     list-style: none;
-  }
 
-  .chip {
-    display: inline-flex;
-    align-items: center;
-    padding: 8px 12px;
-    border-radius: 999px;
-    border: 1px solid rgba(255, 255, 255, 0.12);
-    background: rgba(255, 255, 255, 0.06);
-    font-size: 0.9rem;
-    line-height: 1;
-    white-space: nowrap;
-    transition: transform 160ms ease, background-color 160ms ease, border-color 160ms ease;
+    @media (min-width: 768px) {
+      grid-template-columns: repeat(4, 1fr);
+      --size-icon: 32px;
+      --label-gap: 30px;
+    }
 
-    &:hover,
-    &:focus-visible {
-      transform: translateY(-1px);
-      background: rgba(255, 255, 255, 0.12);
-      border-color: rgba(255, 255, 255, 0.22);
-      outline: none;
+    @media (min-width: 1366px) {
+      grid-template-columns: repeat(8, 1fr);
+      --size-icon: 36px;      
     }
   }
 
-  /* Tablet */
+  /* ITEM: ícone + label animado */
+  .tec-item {
+    position: relative;
+    display: grid;
+    place-items: center;
+    cursor: pointer; /* apenas pointer no hover */
+    user-select: none;
+  }
+
+  /* ícones sem borda/fundo e sem movimento */
+  .tec-icon {
+    display: grid;
+    place-items: center;
+
+    svg {
+      width: var(--size-icon);
+      height: var(--size-icon);
+    }
+  }
+
+  /* Label que “sai” do centro do ícone e sobe com MAIS ESPAÇO */
+  .tec-label {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* começa dentro do ícone */
+    background: #ffffff;
+    color: #0b0b0b;
+    font-size: .78rem;
+    font-weight: 600;
+    padding: 6px 10px;
+    border-radius: 10px;
+    box-shadow: 0 6px 18px rgba(0,0,0,.25);
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: transform .28s cubic-bezier(.22,.8,.26,.98), opacity .2s ease;
+    z-index: 1;
+  }
+
+  /* Trilho fino ligando ao ícone */
+  .tec-item::after {
+    content: "";
+    position: absolute;
+    width: 2px; height: 0;
+    background: #ffffff; opacity: .25;
+    top: calc(50% - 2px); left: 50%;
+    transform: translateX(-50%);
+    transition: height .28s cubic-bezier(.22,.8,.26,.98), top .28s cubic-bezier(.22,.8,.26,.98);
+  }
+
+  /* Hover/focus: somente a label sobe e aparece, com gap maior */
+  .tec-item:hover .tec-label,
+  .tec-item:focus-within .tec-label {
+    opacity: 1;
+    transform: translate(-50%, calc(-100% - var(--label-gap)));
+  }
+
+  .tec-item:hover::after,
+  .tec-item:focus-within::after {
+    height: var(--label-gap);
+    top: calc(50% - var(--label-gap));
+  }
+
+  /* Cores por tecnologia (aplicam no ícone) */
+  .tech--react    .tec-icon { color: #61dafb; }
+  .tech--js       .tec-icon { color: #f7df1e; }
+  .tech--html     .tec-icon { color: #e34f26; }
+  .tech--scss     .tec-icon { color: #c6538c; }
+  .tech--github   .tec-icon { color: #ffffff; }
+  .tech--vscode   .tec-icon { color: #007acc; }
+  .tech--vercel   .tec-icon { color: #ffffff; }
+  .tech--supabase .tec-icon { color: #3ecf8e; }
+
   @media (min-width: 768px) {
     padding: 64px 0;
-
-    .sobre-mim__title {
-      font-size: 2rem;
-    }
-
-    .sobre-mim__content {
-      grid-template-columns: 1.7fr 1fr;
-      gap: 28px;
-    }
-
-    .sobre-mim__stacks {
-      align-self: start;
-      position: sticky;
-      top: 24px;
-    }
+    .sobre-mim__title { font-size: 2rem; }
+    .sobre-mim__card  { padding: 18px; border-radius: 16px; }
   }
 
-  /* Desktop */
   @media (min-width: 1366px) {
     padding: 80px 0;
-
-    .sobre-mim__title {
-      font-size: 2.25rem;
-    }
-
-    .sobre-mim__subtitle {
-      font-size: 1.05rem;
-    }
-
-    .sobre-mim__content {
-      gap: 32px;
-    }
-
-    .chip {
-      font-size: 0.95rem;
-      padding: 10px 14px;
-    }
+    .sobre-mim__title { font-size: 2.25rem; }
+    .sobre-mim__card  { padding: 22px; }
   }
 }
