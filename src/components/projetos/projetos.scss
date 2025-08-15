@@ -1,0 +1,32 @@
+.projetos {
+  display: block;
+
+  .projetos__container {
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 0 16px;
+
+    @media (min-width: 1366px) {
+      padding: 0 20px;
+    }
+  }
+
+  .projetos__header {
+    margin-bottom: 16px;
+
+    @media (min-width: 1366px) {
+      margin-bottom: 20px;
+    }
+  }
+
+  .projetos__title {
+    font-size: 1.5rem;
+    line-height: 1.2;
+    font-weight: 700;
+    color: var(--text-color, #fff);
+  }
+
+  .projetos__grid {
+    /* estilos do grid estão no ChromaGrid.scss */
+  }
+}
