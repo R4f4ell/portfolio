@@ -1,24 +1,25 @@
+/* Grid */
 .chroma-grid {
   position: relative;
   width: 100%;
   max-width: 1200px;
   margin: 0 auto;
+
   padding: 16px;
   display: grid;
   grid-template-columns: 1fr; /* 1 coluna - mobile/tablet */
-  gap: 8px;
+  column-gap: 16px;
+  row-gap: 24px;
 
   @media (min-width: 1366px) {
     padding: 20px;
     grid-template-columns: repeat(2, minmax(0, 1fr)); /* 2 colunas - desktop */
-    gap: 12px;
+    column-gap: 20px;
+    row-gap: 20px;
   }
-
-  --x: 50%;
-  --y: 50%;
-  --r: 300px;
 }
 
+/* Card */
 .chroma-card {
   position: relative;
   display: flex;
@@ -27,35 +28,39 @@
   overflow: hidden;
   border: 1px solid #333;
   background: var(--card-gradient);
-  transition: border-color 0.3s ease, transform 0.3s ease;
 
-  &:hover {
-    border-color: var(--card-border);
-    transform: translateY(-1px);
-  }
+  /* Lantern vars */
+  --cx: 50%;
+  --cy: 40%;
+  --r-base: 280px; /* raio da lanterna quando ativa */
+  --r: 0px;        /* raio atual (0 = sem lanterna) */
 }
 
+/* Link somente na imagem */
 .chroma-img-wrapper {
   position: relative;
+  display: block;
   padding: 10px;
   box-sizing: border-box;
+  cursor: pointer;
 
   img {
     width: 100%;
-    aspect-ratio: 16 / 9; /* largura > altura */
+    aspect-ratio: 16 / 9;
     object-fit: cover;
     border-radius: 12px;
     display: block;
   }
 }
 
+/* Infos */
 .chroma-info {
   position: relative;
   padding: 0.75rem 1rem 1rem;
   color: #fff;
   display: grid;
-  grid-template-columns: 1fr auto; /* título + github */
-  grid-template-rows: auto auto;   /* título / tecnologias */
+  grid-template-columns: 1fr auto;
+  grid-template-rows: auto auto;
   gap: 0.5rem 0.75rem;
 
   .name {
@@ -64,35 +69,32 @@
     font-size: 1rem;
     font-weight: 600;
     line-height: 1.3;
-    white-space: nowrap; /* 1 linha */
+    white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
   }
 
+  /* GitHub: sem mudança de cor no hover, apenas pointer */
   .repo-link {
     grid-column: 2 / 3;
     grid-row: 1;
     align-self: center;
     display: inline-flex;
     font-size: 1.1rem;
-    opacity: 0.9;
+    color: #d0d0d0;
+    cursor: pointer;
 
     &:hover,
-    &:focus {
-      opacity: 1;
-      outline: none;
-    }
+    &:focus { color: #d0d0d0; outline: none; }
 
-    svg {
-      display: block;
-    }
+    svg { display: block; }
   }
 
   .tech-list {
     grid-column: 1 / -1;
     grid-row: 2;
     display: flex;
-    flex-wrap: wrap; /* pode quebrar se precisar */
+    flex-wrap: wrap;
     gap: 8px;
     align-items: center;
 
@@ -100,107 +102,143 @@
       display: inline-flex;
       align-items: center;
       font-size: 0.95rem;
-      opacity: 0.9;
 
-      svg {
-        width: 20px;
-        height: 20px;
-      }
+      svg { width: 20px; height: 20px; }
+      .tech-text { font-size: 0.9rem; }
 
-      .tech-text {
-        font-size: 0.9rem;
-      }
+      /* Caso algum ícone venha dentro de <a>, neutraliza azul padrão */
+      a { color: inherit; text-decoration: none; }
     }
   }
 }
 
 /* =========================
-   Overlays e comportamento
+   Cores dos ícones
    ========================= */
 
-/* Estado inicial: P&B ligado para todos os breakpoints */
-.chroma-overlay,
-.chroma-fade {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  z-index: 3;
-  background: rgba(0, 0, 0, 0.001);
-  transition: opacity 0.45s ease;
-}
-
-.chroma-overlay {
-  backdrop-filter: grayscale(1) brightness(0.82);
-  -webkit-backdrop-filter: grayscale(1) brightness(0.82);
-  /* Desktop usa máscara radial (lanterna); mobile/tablet apenas cobertura */
-  mask-image: radial-gradient(
-    circle var(--r) at var(--x) var(--y),
-    rgba(0, 0, 0, 0) 0%,
-    rgba(0, 0, 0, 0) 15%,
-    rgba(0, 0, 0, 0.10) 30%,
-    rgba(0, 0, 0, 0.22) 45%,
-    rgba(0, 0, 0, 0.35) 60%,
-    rgba(0, 0, 0, 0.50) 75%,
-    rgba(0, 0, 0, 0.68) 88%,
-    rgba(0, 0, 0, 1) 100%
-  );
-  -webkit-mask-image: radial-gradient(
-    circle var(--r) at var(--x) var(--y),
-    rgba(0, 0, 0, 0) 0%,
-    rgba(0, 0, 0, 0) 15%,
-    rgba(0, 0, 0, 0.10) 30%,
-    rgba(0, 0, 0, 0.22) 45%,
-    rgba(0, 0, 0, 0.35) 60%,
-    rgba(0, 0, 0, 0.50) 75%,
-    rgba(0, 0, 0, 0.68) 88%,
-    rgba(0, 0, 0, 1) 100%
-  );
-}
-
-.chroma-fade {
-  z-index: 4;
-  backdrop-filter: grayscale(1) brightness(0.82);
-  -webkit-backdrop-filter: grayscale(1) brightness(0.82);
-  opacity: 1;
-  mask-image: radial-gradient(
-    circle var(--r) at var(--x) var(--y),
-    rgba(255, 255, 255, 1) 0%,
-    rgba(255, 255, 255, 1) 15%,
-    rgba(255, 255, 255, 0.90) 30%,
-    rgba(255, 255, 255, 0.78) 45%,
-    rgba(255, 255, 255, 0.65) 60%,
-    rgba(255, 255, 255, 0.50) 75%,
-    rgba(255, 255, 255, 0.32) 88%,
-    rgba(255, 255, 255, 0) 100%
-  );
-  -webkit-mask-image: radial-gradient(
-    circle var(--r) at var(--x) var(--y),
-    rgba(255, 255, 255, 1) 0%,
-    rgba(255, 255, 255, 1) 15%,
-    rgba(255, 255, 255, 0.90) 30%,
-    rgba(255, 255, 255, 0.78) 45%,
-    rgba(255, 255, 255, 0.65) 60%,
-    rgba(255, 255, 255, 0.50) 75%,
-    rgba(255, 255, 255, 0.32) 88%,
-    rgba(255, 255, 255, 0) 100%
-  );
-}
-
-/* Quando a seção entra no viewport… */
-.chroma-grid.is-visible {
-  /* Em mobile/tablet: remove P&B por completo (sem lanterna) */
-  @media (max-width: 1365px) {
-    .chroma-overlay,
-    .chroma-fade {
-      opacity: 0;
-    }
+/* Desktop: por padrão seguem o tema do card (sem azul de link).
+   Quando a lanterna passar (classe .in-lantern), usam a cor nativa. */
+@media (min-width: 1366px) {
+  .chroma-card .tech-item svg,
+  .chroma-card .tech-item .tech-text {
+    color: var(--theme-color);
+    filter: saturate(1.1) contrast(1.05);
+    transition: color 0.15s linear;
   }
 
-  /* Em desktop: mantém overlays para a lanterna funcionar */
-  @media (min-width: 1366px) {
-    .chroma-overlay,
-    .chroma-fade {
-      opacity: 1; /* mantidos */
-    }
+  .chroma-card .tech-item.tech-github svg,
+  .chroma-card .tech-item.tech-github .tech-text {
+    color: #d0d0d0;
+    filter: none;
   }
+
+  /* Nativas quando a lanterna cobre o ícone */
+  .tech-item.in-lantern[data-key="react"]       { color: #61DAFB; }
+  .tech-item.in-lantern[data-key="vite"]        { color: #646CFF; }
+  .tech-item.in-lantern[data-key="scss"]        { color: #C76494; }
+  .tech-item.in-lantern[data-key="supabase"]    { color: #3ECF8E; }
+  .tech-item.in-lantern[data-key="javascript"],
+  .tech-item.in-lantern[data-key="js"]          { color: #F7DF1E; }
+
+  /* aplica tanto no texto quanto no svg */
+  .tech-item.in-lantern svg,
+  .tech-item.in-lantern .tech-text { color: inherit; }
+}
+
+/* Tablet/Mobile: cores nativas sempre ativas */
+@media (max-width: 1365px) {
+  .tech-item[data-key="react"]       { color: #61DAFB; }
+  .tech-item[data-key="vite"]        { color: #646CFF; }
+  .tech-item[data-key="scss"]        { color: #C76494; }
+  .tech-item[data-key="supabase"]    { color: #3ECF8E; }
+  .tech-item[data-key="javascript"],
+  .tech-item[data-key="js"]          { color: #F7DF1E; }
+  .tech-item.tech-github             { color: #d0d0d0; }
+
+  .tech-item svg,
+  .tech-item .tech-text { color: inherit; }
+}
+
+/* =========================
+   Overlays e comportamento (por CARD)
+   ========================= */
+
+/* Desktop: P&B sempre ativo; lanterna abre o "furo" com fade < 1s */
+@media (min-width: 1366px) {
+  .card-overlay,
+  .card-fade {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 3;
+  }
+
+  /* P&B de base (sempre ligado) com máscara radial.
+     Raio controlado por --r (0px fora do hover, --r-base em hover). */
+  .card-overlay {
+    opacity: 1;
+    transition: none;
+    backdrop-filter: grayscale(1) brightness(0.80);
+    -webkit-backdrop-filter: grayscale(1) brightness(0.80);
+    mask-image: radial-gradient(
+      circle var(--r) at var(--cx) var(--cy),
+      rgba(0,0,0,0) 0%,
+      rgba(0,0,0,0) 18%,
+      rgba(0,0,0,0.12) 30%,
+      rgba(0,0,0,0.28) 45%,
+      rgba(0,0,0,0.46) 60%,
+      rgba(0,0,0,0.70) 80%,
+      rgba(0,0,0,1) 100%
+    );
+    -webkit-mask-image: radial-gradient(
+      circle var(--r) at var(--cx) var(--cy),
+      rgba(0,0,0,0) 0%,
+      rgba(0,0,0,0) 18%,
+      rgba(0,0,0,0.12) 30%,
+      rgba(0,0,0,0.28) 45%,
+      rgba(0,0,0,0.46) 60%,
+      rgba(0,0,0,0.70) 80%,
+      rgba(0,0,0,1) 100%
+    );
+  }
+
+  /* leve clareamento no centro quando a lanterna está ativa */
+  .card-fade {
+    z-index: 4;
+    opacity: 0;
+    transition: opacity 0.6s ease; /* < 1s como pedido */
+    backdrop-filter: saturate(1.08) brightness(1.02) contrast(1.03);
+    -webkit-backdrop-filter: saturate(1.08) brightness(1.02) contrast(1.03);
+    mask-image: radial-gradient(
+      circle calc(var(--r) * 0.6) at var(--cx) var(--cy),
+      rgba(255,255,255,0.85) 0%,
+      rgba(255,255,255,0.55) 40%,
+      rgba(255,255,255,0.18) 75%,
+      rgba(255,255,255,0.00) 100%
+    );
+    -webkit-mask-image: radial-gradient(
+      circle calc(var(--r) * 0.6) at var(--cx) var(--cy),
+      rgba(255,255,255,0.85) 0%,
+      rgba(255,255,255,0.55) 40%,
+      rgba(255,255,255,0.18) 75%,
+      rgba(255,255,255,0.00) 100%
+    );
+  }
+
+  /* Quando card está em hover no desktop:
+     - abre o “furo” (aumenta raio)
+     - ativa clareamento com fade */
+  .chroma-card[data-hover="1"] {
+    --r: var(--r-base);
+  }
+  .chroma-card[data-hover="1"] .card-fade { opacity: 1; }
+
+  /* Fora do hover: fecha o furo (raio=0) e some o fade suavemente */
+  .chroma-card[data-hover="0"] { --r: 0px; }
+}
+
+/* Mobile/Tablet: sem P&B (coloridos ao entrar no viewport) */
+@media (max-width: 1365px) {
+  .card-overlay,
+  .card-fade { display: none; }
 }

@@ -3,128 +3,167 @@ import { FaGithub } from "react-icons/fa";
 import useRevealOnScroll from "../../hooks/projetos/useRevealOnScroll";
 import "./chromaGrid.scss";
 
-const FALLBACK_THEMES = [
-  { borderColor: "#3B82F6", gradient: "linear-gradient(145deg,#3B82F6,#000)" },
-  { borderColor: "#10B981", gradient: "linear-gradient(160deg,#10B981,#000)" },
-  { borderColor: "#F59E0B", gradient: "linear-gradient(165deg,#F59E0B,#000)" },
-  { borderColor: "#EF4444", gradient: "linear-gradient(195deg,#EF4444,#000)" },
-  { borderColor: "#8B5CF6", gradient: "linear-gradient(225deg,#8B5CF6,#000)" },
-  { borderColor: "#06B6D4", gradient: "linear-gradient(135deg,#06B6D4,#000)" },
-];
+// Paleta por tecnologia (predominância)
+const TECH_COLOR = {
+  react: "#61DAFB",
+  vite: "#646CFF",
+  scss: "#C76494",
+  supabase: "#3ECF8E",
+  javascript: "#F7DF1E",
+  js: "#F7DF1E",
+};
+
+function deriveThemeFromTech(tech = []) {
+  const primary = (tech.find((t) => t && t.toLowerCase() !== "github") || "").toLowerCase();
+  const color = TECH_COLOR[primary] || "#3B82F6";
+  const gradient = `linear-gradient(145deg, ${color}, #000)`;
+  return { borderColor: color, gradient, themeColor: color };
+}
 
 export default function ChromaGrid({
   items = [],
   className = "",
   techIconMap = {},
 }) {
-  const rootRef = useRef(null);
-  const target = useRef({ x: 0, y: 0 });
-  const pos = useRef({ x: 0, y: 0 });
-  const rafId = useRef(null);
+  const gridRef = useRef(null);
   const isDesktop = useRef(false);
 
   const { ref: ioRef, isVisible } = useRevealOnScroll({ threshold: 0.25 });
 
-  // Junta os dois refs (IntersectionObserver + root do grid)
-  useEffect(() => {
-    if (ioRef && rootRef && rootRef.current) {
-      // nada extra aqui; só garantimos que ambos existam
-    }
-  }, [ioRef]);
-
   const data = useMemo(
     () =>
-      (items.length
-        ? items
-        : []
-      ).map((it, idx) => ({
-        ...FALLBACK_THEMES[idx % FALLBACK_THEMES.length],
-        ...it,
-      })),
+      (items.length ? items : []).map((it) => {
+        const derived = deriveThemeFromTech(it.tech);
+        return {
+          themeColor: derived.themeColor,
+          borderColor: it.borderColor || derived.borderColor,
+          gradient: it.gradient || derived.gradient,
+          ...it,
+        };
+      }),
     [items]
   );
 
-  // Suavização do cursor (desktop): anima --x/--y com lerp
   useEffect(() => {
-    const el = rootRef.current;
-    if (!el) return;
-
     const mq = window.matchMedia("(min-width: 1366px)");
-    const updateIsDesktop = () => (isDesktop.current = mq.matches);
-    updateIsDesktop();
-    mq.addEventListener?.("change", updateIsDesktop);
+    const update = () => (isDesktop.current = mq.matches);
+    update();
+    mq.addEventListener?.("change", update);
+    return () => mq.removeEventListener?.("change", update);
+  }, []);
 
-    const { width, height } = el.getBoundingClientRect();
-    pos.current = { x: width / 2, y: height / 2 };
-    target.current = { ...pos.current };
-    el.style.setProperty("--x", `${pos.current.x}px`);
-    el.style.setProperty("--y", `${pos.current.y}px`);
+  // --- Lantern helpers (marca ícones "dentro da lanterna" pra receber cor nativa)
+  const rafMap = useRef(new WeakMap()); // por card
 
-    const animate = () => {
-      const ease = 0.15; // damping leve
-      pos.current.x += (target.current.x - pos.current.x) * ease;
-      pos.current.y += (target.current.y - pos.current.y) * ease;
-      el.style.setProperty("--x", `${pos.current.x}px`);
-      el.style.setProperty("--y", `${pos.current.y}px`);
-      rafId.current = requestAnimationFrame(animate);
+  const updateIconInLantern = (cardEl, x, y, r) => {
+    const items = cardEl.querySelectorAll(".tech-item");
+    items.forEach((li) => {
+      const rect = li.getBoundingClientRect();
+      const cardRect = cardEl.getBoundingClientRect();
+      const cx = rect.left - cardRect.left + rect.width / 2;
+      const cy = rect.top - cardRect.top + rect.height / 2;
+      const dx = cx - x;
+      const dy = cy - y;
+      const dist = Math.hypot(dx, dy);
+      // margem de tolerância pra ficar agradável
+      const threshold = r * 0.75;
+      if (dist <= threshold) li.classList.add("in-lantern");
+      else li.classList.remove("in-lantern");
+    });
+  };
+
+  const bindLanternHandlers = useCallback((cardEl) => {
+    if (!cardEl) return;
+
+    // posição inicial (sem lanterna visível)
+    const r = parseFloat(getComputedStyle(cardEl).getPropertyValue("--r-base")) || 280;
+    const rect = cardEl.getBoundingClientRect();
+    const startX = rect.width * 0.5;
+    const startY = rect.height * 0.4;
+    cardEl.style.setProperty("--cx", `${startX}px`);
+    cardEl.style.setProperty("--cy", `${startY}px`);
+    cardEl.dataset.hover = "0"; // P&B total
+
+    const onEnter = () => {
+      if (!isDesktop.current) return;
+      cardEl.dataset.hover = "1"; // ativa lanterna (raio > 0)
     };
-    rafId.current = requestAnimationFrame(animate);
+
+    const onLeave = () => {
+      if (!isDesktop.current) return;
+      cardEl.dataset.hover = "0"; // volta ao P&B total
+      // sumiço suave: zera a marcação dos ícones após o fade
+      const clearIcons = () => {
+        const items = cardEl.querySelectorAll(".tech-item.in-lantern");
+        items.forEach((li) => li.classList.remove("in-lantern"));
+      };
+      // aguarda o fim do fade (<= 600ms definido no SCSS)
+      setTimeout(clearIcons, 600);
+    };
+
+    const onMove = (e) => {
+      if (!isDesktop.current) return;
+      const cardRect = cardEl.getBoundingClientRect();
+      const x = e.clientX - cardRect.left;
+      const y = e.clientY - cardRect.top;
+
+      cardEl.style.setProperty("--cx", `${x}px`);
+      cardEl.style.setProperty("--cy", `${y}px`);
+
+      // throttle por rAF por card
+      if (rafMap.current.get(cardEl)) return;
+      const rafId = requestAnimationFrame(() => {
+        updateIconInLantern(cardEl, x, y, r);
+        rafMap.current.delete(cardEl);
+      });
+      rafMap.current.set(cardEl, rafId);
+    };
+
+    cardEl.addEventListener("pointerenter", onEnter);
+    cardEl.addEventListener("pointerleave", onLeave);
+    cardEl.addEventListener("pointermove", onMove);
 
     return () => {
-      mq.removeEventListener?.("change", updateIsDesktop);
-      if (rafId.current) cancelAnimationFrame(rafId.current);
+      cardEl.removeEventListener("pointerenter", onEnter);
+      cardEl.removeEventListener("pointerleave", onLeave);
+      cardEl.removeEventListener("pointermove", onMove);
+      const rafId = rafMap.current.get(cardEl);
+      if (rafId) cancelAnimationFrame(rafId);
+      rafMap.current.delete(cardEl);
     };
-  }, []);
-
-  const onPointerMove = useCallback((e) => {
-    if (!isDesktop.current) return; // só desktop tem lanterna
-    const el = rootRef.current;
-    if (!el) return;
-    const r = el.getBoundingClientRect();
-    target.current.x = e.clientX - r.left;
-    target.current.y = e.clientY - r.top;
-  }, []);
-
-  const openOnline = useCallback((url) => {
-    if (url) window.open(url, "_blank", "noopener,noreferrer");
-  }, []);
-
-  const onKeyGo = useCallback((e, url) => {
-    if (!url) return;
-    if (e.key === "Enter" || e.key === " ") {
-      e.preventDefault();
-      window.open(url, "_blank", "noopener,noreferrer");
-    }
   }, []);
 
   return (
     <div
       ref={(node) => {
-        rootRef.current = node;
+        gridRef.current = node;
         if (typeof ioRef === "function") ioRef(node);
         else if (ioRef && "current" in ioRef) ioRef.current = node;
       }}
       className={`chroma-grid ${className} ${isVisible ? "is-visible" : ""}`}
-      style={{ "--r": "300px" }}
-      onPointerMove={onPointerMove}
     >
       {data.map((c, i) => (
         <article
           key={i}
           className="chroma-card"
+          ref={bindLanternHandlers}
           style={{
             "--card-border": c.borderColor || "transparent",
             "--card-gradient": c.gradient,
+            "--theme-color": c.themeColor || c.borderColor || "#3B82F6",
           }}
-          role="link"
-          tabIndex={0}
-          aria-label={`Abrir projeto: ${c.title}`}
-          onClick={() => openOnline(c.onlineUrl)}
-          onKeyDown={(e) => onKeyGo(e, c.onlineUrl)}
+          aria-label={`Projeto: ${c.title}`}
         >
-          <div className="chroma-img-wrapper" aria-hidden="true">
+          {/* SOMENTE a imagem é link */}
+          <a
+            href={c.onlineUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="chroma-img-wrapper"
+            aria-label={`Abrir projeto online: ${c.title}`}
+          >
             <img src={c.image} alt={c.alt || c.title} loading="lazy" />
-          </div>
+          </a>
 
           <footer className="chroma-info">
             <h3 className="name" title={c.title}>{c.title}</h3>
@@ -146,8 +185,14 @@ export default function ChromaGrid({
               {(c.tech || []).map((t, idx) => {
                 const key = String(t).toLowerCase().trim();
                 const Icon = techIconMap[key];
+                const isGithub = key === "github";
                 return (
-                  <li key={`${key}-${idx}`} className="tech-item">
+                  <li
+                    key={`${key}-${idx}`}
+                    className={`tech-item${isGithub ? " tech-github" : ""}`}
+                    data-key={key}
+                    title={key}
+                  >
                     {Icon ? (
                       <Icon aria-label={`Tecnologia: ${key}`} />
                     ) : (
@@ -160,12 +205,12 @@ export default function ChromaGrid({
               })}
             </ul>
           </footer>
+
+          {/* Overlays P&B e clareamento — por card */}
+          <div className="card-overlay" aria-hidden="true" />
+          <div className="card-fade" aria-hidden="true" />
         </article>
       ))}
-
-      {/* Overlays controlam P&B / cor; comportamento difere por breakpoint */}
-      <div className="chroma-overlay" />
-      <div className="chroma-fade" />
     </div>
   );
 }

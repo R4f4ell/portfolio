@@ -4,7 +4,7 @@ import { SiVite, SiSupabase } from "react-icons/si";
 import ChromaGrid from "./ChromaGrid";
 import "./projetos.scss";
 
-// Imagens locais (ajuste os nomes se preferir)
+// Imagens
 import imgGolf from "../../assets/images/projetos/golfclub.png";
 import imgImc from "../../assets/images/projetos/calculatorimc.png";
 
@@ -15,6 +15,7 @@ const TECH_ICON_MAP = {
   supabase: SiSupabase,
   javascript: FaJs,
   js: FaJs,
+  github: FaGithub,
 };
 
 const ITEMS = [
@@ -25,8 +26,6 @@ const ITEMS = [
     tech: ["react", "vite", "scss", "javascript"],
     onlineUrl: "https://golfclub.rafaelldev.com",
     repoUrl: "https://github.com/rafaelldev/golfclub",
-    borderColor: "#3B82F6",
-    gradient: "linear-gradient(145deg,#3B82F6,#000)",
   },
   {
     image: imgImc,
@@ -35,8 +34,6 @@ const ITEMS = [
     tech: ["react", "vite", "scss", "supabase"],
     onlineUrl: "https://calculatorimc.rafaelldev.com",
     repoUrl: "https://github.com/rafaelldev/calculatorimc",
-    borderColor: "#10B981",
-    gradient: "linear-gradient(160deg,#10B981,#000)",
   },
 ];
 
