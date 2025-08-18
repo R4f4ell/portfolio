@@ -133,6 +133,9 @@ export default function ChromaGrid({
     };
   }, []);
 
+  const IMG_W = 600; // tamanhos padrão dos cards (salvos)
+  const IMG_H = 400;
+
   return (
     <div
       ref={(node) => {
@@ -162,7 +165,27 @@ export default function ChromaGrid({
             className="chroma-img-wrapper"
             aria-label={`Abrir projeto online: ${c.title}`}
           >
-            <img src={c.image} alt={c.alt || c.title} loading="lazy" />
+            {c.picture ? (
+              <picture>
+                <source srcSet={c.picture.desktop} media="(min-width: 1024px)" />
+                <source srcSet={c.picture.tablet} media="(min-width: 768px)" />
+                <img
+                  src={c.picture.mobile}
+                  alt={c.alt || c.title}
+                  width={IMG_W}
+                  height={IMG_H}
+                  loading="lazy"
+                />
+              </picture>
+            ) : (
+              <img
+                src={c.image}
+                alt={c.alt || c.title}
+                width={IMG_W}
+                height={IMG_H}
+                loading="lazy"
+              />
+            )}
           </a>
 
           <footer className="chroma-info">
