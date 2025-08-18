@@ -1,24 +1,35 @@
 .apresentacao-inicial {
+  min-height: 100vh;
   padding: 56px 20px 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start; 
+  width: 100%;
 
   .apresentacao-inicial__container {
     margin: 0 auto;
     max-width: 1200px;
+    width: 100%;
     display: grid;
     grid-template-columns: 1fr;
-    align-items: center;
-    gap: 28px;
+    gap: 24px; 
+    align-content: start; 
+    min-height: inherit;
   }
 
+  /* CONTEÚDO (texto, botões, ícones) */
   .apresentacao-inicial__content {
     display: grid;
     gap: 14px;
     animation: ai-fade-up 500ms ease-out both;
+    order: 1; /* mobile: texto antes da foto */
+    text-align: center;
 
     .apresentacao-inicial__title {
       font-weight: 800;
       line-height: 1.1;
       font-size: clamp(1.8rem, 4vw, 3rem);
+      margin: 0;
 
       span {
         background: linear-gradient(90deg, #6366f1, #22d3ee);
@@ -32,15 +43,14 @@
       font-size: clamp(0.95rem, 1.6vw, 1.05rem);
       opacity: 0.9;
       max-width: 60ch;
-      text-align: justify;
-
-      @media (min-width: 768px){
-        text-align: left;
-      }
+      margin: 0 auto;
+      text-align: center;
     }
 
     .apresentacao-inicial__actions {
       display: flex;
+      justify-content: center; 
+      align-items: center;
       gap: 12px;
       flex-wrap: wrap;
       margin-top: 6px;
@@ -57,8 +67,10 @@
         color: #fff;
         transition: transform 160ms ease, filter 160ms ease, box-shadow 160ms ease;
 
-        &:hover { transform: translateY(-1px); filter: brightness(1.05); box-shadow: 0 8px 22px rgba(0,0,0,0.12); }
-        &:active { transform: translateY(0); filter: brightness(0.98); box-shadow: 0 4px 14px rgba(0,0,0,0.12); }
+        @media (hover: hover) and (pointer: fine) {
+          &:hover { transform: translateY(-1px); filter: brightness(1.05); box-shadow: 0 8px 22px rgba(0,0,0,0.12); }
+          &:active { transform: translateY(0); filter: brightness(0.98); box-shadow: 0 4px 14px rgba(0,0,0,0.12); }
+        }
       }
 
       .apresentacao-inicial__link {
@@ -76,116 +88,121 @@
         backdrop-filter: blur(2px);
         transition: background 160ms ease, border-color 160ms ease, transform 160ms ease;
 
-        &:hover { background: rgba(99, 102, 241, 0.1); border-color: rgba(99, 102, 241, 0.7); transform: translateY(-1px); }
-        &:active { transform: translateY(0); }
+        @media (hover: hover) and (pointer: fine) {
+          &:hover { background: rgba(99, 102, 241, 0.1); border-color: rgba(99, 102, 241, 0.7); transform: translateY(-1px); }
+          &:active { transform: translateY(0); }
+        }
       }
     }
 
-    /* Ícones abaixo dos botões – mantém a mesma posição/tamanho */
+    /* Ícones SEM FUNDO, centralizados em todos os dispositivos */
     .apresentacao-inicial__social {
       display: flex;
       justify-content: center;
+      align-items: center;
+      gap: 16px;
 
-      @media (min-width: 768px){
-        justify-content: left;
-      }
-
-      /* Botão circular com animação ::before recolhendo (padrão solicitado) */
       .social-btn {
-        position: relative;
-        z-index: 0;
-        width: 50px;          
-        height: 50px;         
-        border-radius: 50px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        text-decoration: none;
-        border: none;
+        width: 42px;
+        height: 42px;
+        display: grid;
+        place-items: center;
+        background: transparent;
+        border: 0;
+        box-shadow: none;
         cursor: pointer;
-        transition: transform 100ms ease;
-        /* Ícone */
-        svg {
-          color: #fff;
-          width: 25px;
-          height: 25px;
-          z-index: 1;
-        }
+        transition: transform .22s ease;
 
-        /* “anel” que recolhe no hover */
-        &::before {
-          content: "";
-          position: absolute;
-          inset: 50% auto auto 50%;
-          transform: translate(-50%, -50%);
-          width: 55px;
-          height: 55px;
-          border-radius: 50px;
-          z-index: -1;
-          border: 0 solid rgba(255, 255, 255, 0.4);
-          transition: width 0.4s ease, height 0.4s ease;
-        }
+        svg { width: 22px; height: 22px; color: #ffffff; }
 
-        &:hover::before {
-          width: 0;
-          height: 0;
-        }
-
-        &:active {
-          transform: scale(0.92);
+        @media (hover: hover) and (pointer: fine) {
+          &:hover { transform: translateY(-2px); }
+          &:active { transform: translateY(-1px) scale(.98); }
         }
       }
 
-      /* Paletas específicas (sem alterar posição/layout) */
-      .social-btn--github:hover{
-        background: #161b22; 
-      }
-
-      .social-btn--linkedin:hover {
-        background: #0a66c2;
-      }
-
-      .social-btn--whatsapp:hover {
-        background: linear-gradient(120deg, #02ff2c, #008a12);
+      @media (hover: hover) and (pointer: fine) {
+        .social-btn--github:hover   svg { color: #c9d1d9; }
+        .social-btn--linkedin:hover svg { color: #0a66c2; }
+        .social-btn--whatsapp:hover svg { color: #1fa855; }
       }
     }
   }
 
+  /* ===== VISUAL (FOTO) ===== */
   .apresentacao-inicial__visual {
-    width: 100%;
-    height: 220px;
-    border-radius: 18px;
-    background:
-      radial-gradient(120px 120px at 20% 30%, rgba(99, 102, 241, 0.55), transparent 60%),
-      radial-gradient(180px 180px at 80% 60%, rgba(34, 211, 238, 0.55), transparent 60%),
-      linear-gradient(135deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
-    box-shadow: inset 0 0 0 1px rgba(255,255,255,0.06), 0 10px 30px rgba(0,0,0,0.12);
-    animation: ai-pop 600ms ease-out 80ms both;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 200px;
+    order: 2; /* mobile: foto depois do conteúdo */
   }
 
+  .apresentacao-inicial__foto {
+    width: 100%;
+    max-width: 220px; /* mobile menor */
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    border-radius: 50%;
+    box-shadow: 0 0 0 4px rgba(99,102,241,0.30), 0 8px 28px rgba(0,0,0,0.25);
+    animation: foto-pop 800ms ease-out both, foto-glow 4s ease-in-out infinite;
+    transition: transform .4s ease, box-shadow .4s ease, filter .4s ease;
+
+    @media (hover: hover) and (pointer: fine) {
+      &:hover {
+        transform: scale(1.05) rotate(-2deg);
+        box-shadow: 0 0 0 6px rgba(34,211,238,0.38), 0 12px 36px rgba(0,0,0,0.30);
+        filter: saturate(1.05);
+      }
+      &:active { transform: scale(1.02) rotate(-1deg); }
+    }
+  }
+
+  /* ===== Tablets: foto primeiro, depois textos/botões/ícones ===== */
   @media (min-width: 768px) {
     padding: 72px 28px 56px;
 
     .apresentacao-inicial__container {
-      grid-template-columns: 1.1fr 0.9fr;
-      gap: 36px;
+      grid-template-columns: 1fr;
+      gap: 24px; /* mantém tudo junto */
     }
 
-    .apresentacao-inicial__visual { height: 300px; }
+    .apresentacao-inicial__visual  { order: 1; min-height: 240px; }
+    .apresentacao-inicial__content { order: 2; }
+    .apresentacao-inicial__foto    { max-width: 260px; }
   }
 
+  /* ===== Desktops: mesma estrutura do tablet + tamanhos maiores ===== */
   @media (min-width: 1200px) {
     padding: 88px 32px 72px;
-    .apresentacao-inicial__visual { height: 360px; }
+
+    .apresentacao-inicial__visual  { order: 1; min-height: 280px; }
+    .apresentacao-inicial__content { order: 2; }
+    .apresentacao-inicial__foto    { max-width: 300px; }
   }
 }
 
+/* Desabilita “hover” em dispositivos touch */
+@media (hover: none), (pointer: coarse) {
+  .apresentacao-inicial {
+    .social-btn { transition: none !important; &:hover, &:active { transform: none !important; } }
+    .apresentacao-inicial__foto { transition: none !important; &:hover, &:active { transform: none !important; } }
+  }
+}
+
+/* ===== Keyframes ===== */
 @keyframes ai-fade-up {
   from { opacity: 0; transform: translateY(12px); }
   to { opacity: 1; transform: translateY(0); }
 }
 
-@keyframes ai-pop {
-  from { opacity: 0; transform: scale(0.98); }
-  to { opacity: 1; transform: scale(1); }
+@keyframes foto-pop {
+  0%   { opacity: 0; transform: scale(0.92); }
+  60%  { opacity: 1; transform: scale(1.03); }
+  100% { transform: scale(1); }
+}
+
+@keyframes foto-glow {
+  0%, 100% { box-shadow: 0 0 0 4px rgba(99,102,241,0.30), 0 8px 28px rgba(0,0,0,0.25); }
+  50%      { box-shadow: 0 0 0 8px rgba(34,211,238,0.35), 0 12px 36px rgba(0,0,0,0.35); }
 }

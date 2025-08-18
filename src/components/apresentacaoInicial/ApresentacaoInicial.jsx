@@ -2,6 +2,7 @@ import React, { useCallback } from 'react'
 import { Github, Linkedin } from 'lucide-react'
 import { FaWhatsapp } from 'react-icons/fa'
 import './apresentacaoInicial.scss'
+import imgPerfil from '../../assets/images/apresentacaoInicial/imgPerfil.jpg'
 
 const ApresentacaoInicial = () => {
   const scrollToPortfolio = useCallback(() => {
@@ -26,10 +27,10 @@ const ApresentacaoInicial = () => {
           </h1>
 
           <p className="apresentacao-inicial__desc">
-            Experiente no desenvolvimento web, entregando projetos responsivos e aplicáveis, design funcional, usabilidade intuitiva e resultados reais.
+            Experiente no desenvolvimento web, entregando projetos responsivos e aplicáveis,
+            design funcional, usabilidade intuitiva e resultados reais.
           </p>
 
-          {/* Botões na posição original */}
           <div className="apresentacao-inicial__actions">
             <button
               type="button"
@@ -49,7 +50,6 @@ const ApresentacaoInicial = () => {
             </a>
           </div>
 
-          {/* Ícones abaixo dos botões */}
           <div className="apresentacao-inicial__social" aria-label="Redes sociais">
             <a
               href="https://github.com/R4f4ell"
@@ -86,11 +86,14 @@ const ApresentacaoInicial = () => {
           </div>
         </header>
 
-        <div
-          className="apresentacao-inicial__visual"
-          aria-hidden="true"
-          role="img"
-        />
+        <div className="apresentacao-inicial__visual">
+          <img
+            src={imgPerfil}
+            alt="Foto de Rafael"
+            className="apresentacao-inicial__foto"
+            loading="lazy"
+          />
+        </div>
       </div>
     </section>
   )
