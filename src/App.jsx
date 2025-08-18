@@ -3,6 +3,7 @@ import Header from "./components/header/Header";
 import ApresentacaoInicial from "./components/apresentacaoInicial/ApresentacaoInicial";
 import Sobre from "./components/sobre/Sobre";
 import Projetos from "./components/projetos/Projetos";
+import Frases from "./components/frases/Frases";
 
 export default function App() {
   return (
@@ -25,6 +26,7 @@ export default function App() {
         <ApresentacaoInicial />
         <Sobre />
         <Projetos />
+        <Frases />
       </main>
     </>
   );
