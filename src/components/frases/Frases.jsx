@@ -11,7 +11,7 @@ import visaoDeProduto from "../../assets/images/frases/visaoDeProduto.webp";
 
 export default function Frases() {
   return (
-    <section id="frases" className="frases" aria-label="Frases que me definem" role="region">
+    <section id="quotes" className="frases" aria-label="Frases que me definem" role="region">
       <div className="frases__container">
         <div className="cards">
           {/* 1 */}

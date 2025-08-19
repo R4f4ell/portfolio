@@ -16,12 +16,12 @@ const ApresentacaoInicial = () => {
 
   return (
     <section
-      id="apresentacao-inicial"
+      id="home"
       className="apresentacao-inicial"
       aria-label="Apresentação inicial do portfólio"
     >
       <div className="apresentacao-inicial__container">
-        <header className="apresentacao-inicial__content" role="presentation">
+        <div className="apresentacao-inicial__content" role="presentation">
           <h1 className="apresentacao-inicial__title">
             Rafael <span>Martins</span>
           </h1>
@@ -84,7 +84,7 @@ const ApresentacaoInicial = () => {
               <FaWhatsapp size={22} aria-hidden="true" focusable="false" />
             </a>
           </div>
-        </header>
+        </div>
 
         <div className="apresentacao-inicial__visual">
           <img
