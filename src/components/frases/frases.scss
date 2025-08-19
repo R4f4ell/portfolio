@@ -1,3 +1,4 @@
+/* Seção ocupa 100% da largura e altura do viewport */
 .frases {
   width: 100%;
   min-height: 100svh;
@@ -14,10 +15,7 @@
 }
 
 /* Variáveis e resets locais */
-*, ::before, ::after {
-  margin: 0;
-  box-sizing: border-box;
-}
+*, ::before, ::after { margin: 0; box-sizing: border-box; }
 
 @property --angle {
   syntax: "<angle>";
@@ -25,7 +23,7 @@
   inherits: true;
 }
 
-/* Esconde os radios mantendo acessibilidade */
+/* Esconde radios mantendo acessibilidade */
 .cards input[type="radio"] {
   position: absolute;
   width: 1px;
@@ -46,18 +44,15 @@
   width: min(100% - 2rem, 880px);
   margin-inline: auto;
   display: grid;
-  counter-reset: frases-counter;
-
-  /* NOVO: vira referência para posicionar a navegação absoluta */
   position: relative;
-  min-height: clamp(420px, 70vh, 720px); /* evita “pulos” em textos de alturas diferentes */
+  min-height: clamp(420px, 70vh, 720px);
 }
 
 /* Cada card ocupa a mesma área (empilhados) */
 .card {
   --cards-grid-cols: auto;
   --cards-grid-rows: var(--img-w) auto;
-  --cards-grid-gap: 1.75rem;
+  --cards-grid-gap: 0.75rem;
 
   grid-area: 1 / 1;
   display: grid;
@@ -68,8 +63,8 @@
   padding: 0.25rem;
 }
 
-/* Em telas maiores, imagem à esquerda, texto à direita */
-@media (600px < width) {
+/* Desktop ≥ 1024px: imagem à esquerda, texto à direita */
+@media (min-width: 1024px) {
   .card {
     --cards-grid-cols: var(--img-w) auto;
     --cards-grid-rows: auto;
@@ -77,38 +72,38 @@
   }
 }
 
-/* Placeholder da imagem */
+/* ===== IMAGEM ===== */
 .card-img {
   width: var(--img-w);
   height: var(--img-w);
   aspect-ratio: 1 / 1;
   rotate: var(--angle, 0deg);
   border-radius: 12px;
-  border: 3px dashed #9aa4b2;
-  background: repeating-linear-gradient(
-    45deg,
-    transparent 0 10px,
-    rgba(154, 164, 178, 0.15) 10px 20px
-  );
+  border: 3px solid #fff;
+  object-fit: cover;
+  object-position: center;
+  display: block;
   transform-origin: center;
   box-shadow: 0 0 5px 3px rgba(0 0 0 / 0.05);
 }
 
-/* Conteúdo textual do card */
+/* ===== CONTEÚDO ===== */
 .card-data {
+  position: relative;
   display: grid;
   align-content: start;
   gap: 0.9rem;
   max-width: 52ch;
 
-  /* cria “respiro” para a navegação absoluta no fundo */
-  padding-bottom: 80px;
-}
+  /* NÃO precisamos mais reservar espaço para nav fixa */
+  padding-bottom: 0;
 
-.card-data > .card-num {
-  opacity: var(--data-opacity, 0);
-  font-size: 0.8rem;
-  color: #7a8699;
+  /* Ordem vertical semântica */
+  grid-template-areas:
+    "num"
+    "title"
+    "desc"
+    "nav";
 }
 
 .card-data > h3,
@@ -120,40 +115,50 @@
 }
 
 .card-data > h3 {
+  grid-area: title;
   font-size: clamp(1.1rem, 0.95rem + 0.5vw, 1.4rem);
   line-height: 1.2;
 }
 
 .card-data > p {
+  grid-area: desc;
   font-size: clamp(0.95rem, 0.9rem + 0.2vw, 1rem);
   color: #e6e9ed;
 }
 
-/* ===========================
-   NAVEGAÇÃO FIXA (ajuste-chave)
-   =========================== */
+/* Número acima do título */
+.card-data > .card-num {
+  grid-area: num;
+  justify-self: center;
+  font-size: 0.9rem;
+  color: #cfd6e1;
+  background: rgba(0, 0, 0, 0.35);
+  padding: 0.3rem 0.8rem;
+  border-radius: 999px;
+  backdrop-filter: blur(4px);
+  opacity: var(--data-opacity, 0);
+  pointer-events: none;
+}
 
-/* 1) Footer agora é ABSOLUTE e centralizado no fundo do .cards */
-.card-data > footer {
-  position: absolute;
-  left: 50%;
-  bottom: clamp(1rem, 2vh, 2rem);
-  transform: translateX(-50%);
+/* ===== NAVEGAÇÃO (setas) — SEM position absolute ===== */
+.card-data > .card-nav {
+  grid-area: nav;
   display: flex;
-  gap: 2rem;
+  gap: 1.2rem;
   justify-content: center;
+  margin-top: 0.5rem;
+
   pointer-events: var(--card-events, none);
   opacity: var(--data-opacity, 0);
 }
 
-/* 2) Botões com tamanho fixo */
-.card-data > footer label {
+.card-data > .card-nav label {
   cursor: pointer;
   color: var(--label-clr-txt, #0b1220);
   background-color: var(--label-clr-bg, #dbe1ea);
   border-radius: 50%;
-  width: 50px;
-  height: 50px;
+  width: 44px;
+  height: 44px;
   display: grid;
   place-content: center;
   transition: background-color 240ms ease, color 240ms ease, transform 150ms ease;
@@ -161,21 +166,21 @@
   outline: none;
 }
 
-.card-data > footer label:hover,
-input:checked:focus-visible + .card > .card-data > footer label {
+.card-data > .card-nav label:hover,
+input:checked:focus-visible + .card > .card-data > .card-nav label {
   --label-clr-txt: #ffffff;
   --label-clr-bg: #3b82f6;
 }
 
-.card-data > footer label:active {
-  transform: scale(0.96);
+.card-data > .card-nav label:active { transform: scale(0.96); }
+
+.card-data > .card-nav label:focus-visible {
+  outline: 3px solid #93c5fd;
+  outline-offset: 2px;
 }
 
-/* Animações */
-@keyframes reveal-img {
-  50% { translate: -150% 0; --angle: 0deg; }
-}
-
+/* ===== ANIMAÇÕES ===== */
+@keyframes reveal-img { 50% { translate: -150% 0; --angle: 0deg; } }
 @keyframes straighten-img-1 { 50% { --angle: 0deg; } }
 @keyframes straighten-img-2 { 50% { --angle: 0deg; } }
 @keyframes straighten-img-3 { 50% { --angle: 0deg; } }
@@ -209,9 +214,7 @@ input:checked + .card {
   transition-delay: 300ms;
 }
 
-input:checked + .card > .card-img {
-  animation: reveal-img calc(var(--duration) * 2) forwards;
-}
+input:checked + .card > .card-img { animation: reveal-img calc(var(--duration) * 2) forwards; }
 
 /* Ordem de empilhamento */
 .card { z-index: -1; }
@@ -227,10 +230,4 @@ input:checked + .card { z-index: 10 !important; }
 /* Ajuste para telas muito altas */
 @media (min-height: 900px) {
   .cards { transform: translateY(-1vh); }
-}
-
-/* Acessibilidade: foco visível */
-.card-data > footer label:focus-visible {
-  outline: 3px solid #93c5fd;
-  outline-offset: 2px;
 }
