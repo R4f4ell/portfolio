@@ -117,10 +117,6 @@
   transition: transform 300ms cubic-bezier(0.22, 1, 0.36, 1), width 300ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-/* Links (sem hover; o destaque é só o pill do ativo) */
-/* >>> FIX: não usar position: relative no li, senão offsetLeft do <a> vira 0 e o pill trava */
-.nav-pills li { /* nada aqui de position/z-index */ }
-
 .nav-pills a {
   position: relative; /* traz z-index pro <a> */
   z-index: 1;
@@ -138,7 +134,6 @@
   &::after,
   &::before { content: none; }
   &:hover { color: #fff; opacity: 0.95; }
-  &.is-active { /* visual de ativo vem do .nav__active-pill */ }
 }
 
 /* ================== BURGER ================== */
@@ -224,7 +219,6 @@
       /* sem hover e sem fundo por clique no painel */
       &::after, &::before { content: none; }
       &:hover { color: #fff; opacity: 0.95; }
-      &.is-active { /* sem destaque especial no painel */ }
     }
 
     @media (prefers-reduced-motion: reduce) {
