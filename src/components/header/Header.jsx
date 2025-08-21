@@ -122,18 +122,7 @@ export default function Header() {
 
     lastClickAt.current = performance.now()
     setActiveId(id)
-    // animação de clique opcional (se ainda tiver no CSS)
-    const a = linkRefs.current[id]?.current
-    if (a) {
-      const rect = a.getBoundingClientRect()
-      const x = (e.nativeEvent.offsetX ?? (rect.width / 2))
-      const start = Math.max(0, Math.min(1, x / rect.width))
-      a.style.setProperty('--click-start', String(start))
-      a.classList.add('is-clicking')
-      window.setTimeout(() => a.classList.remove('is-clicking'), 500)
-    }
     scrollToId(id)
-    // garante atualização imediata do pill
     requestAnimationFrame(updatePill)
   }
 
@@ -152,7 +141,6 @@ export default function Header() {
     const link = linkRefs.current[activeId]?.current
     if (!ul || !pill || !link) return
 
-    // usa offsetLeft/offsetWidth — mais estável que getBoundingClientRect com transforms
     const left = link.offsetLeft - ul.scrollLeft - 6
     const width = link.offsetWidth + 12
 
@@ -165,7 +153,6 @@ export default function Header() {
   }, [activeId])
 
   useEffect(() => {
-    // quando as fontes carregam (evita “salto” e travar no primeiro item)
     if (document.fonts && document.fonts.ready) {
       document.fonts.ready.then(() => updatePill())
     }
@@ -174,7 +161,6 @@ export default function Header() {
     window.addEventListener('scroll', onResize, { passive: true })
     const ro = new ResizeObserver(() => updatePill())
     if (navListRef.current) ro.observe(navListRef.current)
-    // observa também o link ativo (quando muda largura por quebra)
     if (linkRefs.current[activeId]?.current) ro.observe(linkRefs.current[activeId].current)
 
     return () => {
@@ -184,7 +170,6 @@ export default function Header() {
     }
   }, [activeId])
 
-  // animações painel mobile (sem mudanças)
   const panelVariants = {
     hidden: { opacity: 0, x: 18, scale: 0.98 },
     show: { opacity: 1, x: 0, scale: 1, transition: { type: 'spring', stiffness: 520, damping: 36, mass: 0.6 } },
@@ -196,7 +181,6 @@ export default function Header() {
   return (
     <header ref={headerRef} className={`site-header${isScrolled ? ' is-scrolled' : ''}`} role="banner">
       <div className="header__inner" role="navigation" aria-label="Navegação principal">
-        {/* BRAND com mesmo fundo dos links; clique = F5/topo */}
         <button
           type="button"
           className="brand-plate"
@@ -206,10 +190,8 @@ export default function Header() {
           <span className="brand-text">Portfólio</span>
         </button>
 
-        {/* DESKTOP NAV */}
         <nav className="nav__links--desktop" aria-hidden="false">
           <ul ref={navListRef} className="nav-pills">
-            {/* PILL móvel */}
             <span ref={pillRef} className="nav__active-pill" aria-hidden="true" />
             {LINKS.map(link => (
               <li key={link.id}>
@@ -227,13 +209,8 @@ export default function Header() {
           </ul>
         </nav>
 
-        {/* BURGER */}
-        <label
-          ref={burgerRef}
-          className="burger"
-          htmlFor="burger"
-          aria-label={open ? 'Fechar menu' : 'Abrir menu'}
-        >
+        {/* HAMBURGER NOVO */}
+        <label ref={burgerRef} className="hamburger" htmlFor="burger" aria-label={open ? 'Fechar menu' : 'Abrir menu'}>
           <input
             type="checkbox"
             id="burger"
@@ -242,10 +219,15 @@ export default function Header() {
             aria-controls="primary-navigation"
             aria-expanded={open ? 'true' : 'false'}
           />
-          <span></span><span></span><span></span>
+          <svg viewBox="0 0 32 32">
+            <path
+              className="line line-top-bottom"
+              d="M27 10 13 10C10.8 10 9 8.2 9 6 9 3.5 10.8 2 13 2 15.2 2 17 3.8 17 6L17 26C17 28.2 18.8 30 21 30 23.2 30 25 28.2 25 26 25 23.8 23.2 22 21 22L7 22"
+            />
+            <path className="line" d="M7 16 27 16" />
+          </svg>
         </label>
 
-        {/* BACKDROP */}
         <AnimatePresence>
           {open && (
             <motion.button
@@ -261,7 +243,6 @@ export default function Header() {
           )}
         </AnimatePresence>
 
-        {/* PAINEL MOBILE/TABLET (só navega, sem hover/fundo) */}
         <AnimatePresence>
           {open && (
             <motion.div

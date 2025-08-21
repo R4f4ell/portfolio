@@ -3,7 +3,7 @@
   padding: 56px 20px 40px;
   display: flex;
   flex-direction: column;
-  justify-content: flex-start; 
+  justify-content: center; 
   width: 100%;
 
   .apresentacao-inicial__container {
@@ -135,12 +135,12 @@
     align-items: center;
     justify-content: center;
     min-height: 200px;
-    order: 2; /* mobile: foto depois do conteúdo */
+    order: 2; 
   }
 
   .apresentacao-inicial__foto {
     width: 100%;
-    max-width: 220px; /* mobile menor */
+    max-width: 190px; 
     aspect-ratio: 1 / 1;
     object-fit: cover;
     border-radius: 50%;
@@ -169,7 +169,7 @@
 
     .apresentacao-inicial__visual  { order: 1; min-height: 240px; }
     .apresentacao-inicial__content { order: 2; }
-    .apresentacao-inicial__foto    { max-width: 260px; }
+    .apresentacao-inicial__foto    { max-width: 240px; }
   }
 
   /* ===== Desktops: mesma estrutura do tablet + tamanhos maiores ===== */
@@ -178,7 +178,7 @@
 
     .apresentacao-inicial__visual  { order: 1; min-height: 280px; }
     .apresentacao-inicial__content { order: 2; }
-    .apresentacao-inicial__foto    { max-width: 300px; }
+    .apresentacao-inicial__foto    { max-width: 250px; }
   }
 }
 
