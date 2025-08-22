@@ -4,18 +4,22 @@
   width: 100%;
   max-width: 1200px;
   margin: 0 auto;
-
   padding: 16px;
   display: grid;
-  grid-template-columns: 1fr; /* 1 coluna - mobile/tablet */
-  column-gap: 16px;
+  grid-template-columns: 1fr;
   row-gap: 24px;
 
+  /* Tablet: 1 card por linha */
+  @media (min-width: 768px) and (max-width: 1365px) {
+    grid-template-columns: 1fr;
+    row-gap: 28px;
+  }
+
+  /* Desktop: 2 colunas */
   @media (min-width: 1366px) {
-    padding: 20px;
-    grid-template-columns: repeat(2, minmax(0, 1fr)); /* 2 colunas - desktop */
-    column-gap: 20px;
-    row-gap: 20px;
+    grid-template-columns: repeat(2, 1fr);
+    column-gap: 32px;
+    row-gap: 32px;
   }
 }
 
@@ -27,13 +31,20 @@
   border-radius: 20px;
   overflow: hidden;
   border: 1px solid #333;
-  background: var(--card-gradient);
-
-  /* Lantern vars */
+  background: rgba(255, 255, 255, 0.04); /* cor fixa no mobile/tablet */
   --cx: 50%;
   --cy: 40%;
-  --r-base: 280px; /* raio da lanterna quando ativa */
-  --r: 0px;        /* raio atual (0 = sem lanterna) */
+  --r-base: 280px;
+  --r: 0px;
+
+  @media (min-width: 1366px) {
+    max-width: 520px; /* menor no desktop */
+    min-height: 320px; /* altura reduzida */
+  }
+
+  @media (min-width: 768px) and (max-width: 1365px) {
+    max-width: 100%;
+  }
 }
 
 /* Link somente na imagem */
@@ -74,7 +85,6 @@
     text-overflow: ellipsis;
   }
 
-  /* GitHub: sem mudança de cor no hover, apenas pointer */
   .repo-link {
     grid-column: 2 / 3;
     grid-row: 1;
@@ -86,7 +96,6 @@
 
     &:hover,
     &:focus { color: #d0d0d0; outline: none; }
-
     svg { display: block; }
   }
 
@@ -106,7 +115,6 @@
       svg { width: 20px; height: 20px; }
       .tech-text { font-size: 0.9rem; }
 
-      /* Caso algum ícone venha dentro de <a>, neutraliza azul padrão */
       a { color: inherit; text-decoration: none; }
     }
   }
@@ -115,9 +123,6 @@
 /* =========================
    Cores dos ícones
    ========================= */
-
-/* Desktop: por padrão seguem o tema do card (sem azul de link).
-   Quando a lanterna passar (classe .in-lantern), usam a cor nativa. */
 @media (min-width: 1366px) {
   .chroma-card .tech-item svg,
   .chroma-card .tech-item .tech-text {
@@ -132,7 +137,6 @@
     filter: none;
   }
 
-  /* Nativas quando a lanterna cobre o ícone */
   .tech-item.in-lantern[data-key="react"]       { color: #61DAFB; }
   .tech-item.in-lantern[data-key="vite"]        { color: #646CFF; }
   .tech-item.in-lantern[data-key="scss"]        { color: #C76494; }
@@ -140,12 +144,10 @@
   .tech-item.in-lantern[data-key="javascript"],
   .tech-item.in-lantern[data-key="js"]          { color: #F7DF1E; }
 
-  /* aplica tanto no texto quanto no svg */
   .tech-item.in-lantern svg,
   .tech-item.in-lantern .tech-text { color: inherit; }
 }
 
-/* Tablet/Mobile: cores nativas sempre ativas */
 @media (max-width: 1365px) {
   .tech-item[data-key="react"]       { color: #61DAFB; }
   .tech-item[data-key="vite"]        { color: #646CFF; }
@@ -160,10 +162,8 @@
 }
 
 /* =========================
-   Overlays e comportamento (por CARD)
+   Overlays e comportamento
    ========================= */
-
-/* Desktop: P&B sempre ativo; lanterna abre o "furo" com fade < 1s */
 @media (min-width: 1366px) {
   .card-overlay,
   .card-fade {
@@ -173,8 +173,6 @@
     z-index: 3;
   }
 
-  /* P&B de base (sempre ligado) com máscara radial.
-     Raio controlado por --r (0px fora do hover, --r-base em hover). */
   .card-overlay {
     opacity: 1;
     transition: none;
@@ -202,11 +200,10 @@
     );
   }
 
-  /* leve clareamento no centro quando a lanterna está ativa */
   .card-fade {
     z-index: 4;
     opacity: 0;
-    transition: opacity 0.6s ease; /* < 1s como pedido */
+    transition: opacity 0.6s ease;
     backdrop-filter: saturate(1.08) brightness(1.02) contrast(1.03);
     -webkit-backdrop-filter: saturate(1.08) brightness(1.02) contrast(1.03);
     mask-image: radial-gradient(
@@ -225,19 +222,11 @@
     );
   }
 
-  /* Quando card está em hover no desktop:
-     - abre o “furo” (aumenta raio)
-     - ativa clareamento com fade */
-  .chroma-card[data-hover="1"] {
-    --r: var(--r-base);
-  }
+  .chroma-card[data-hover="1"] { --r: var(--r-base); }
   .chroma-card[data-hover="1"] .card-fade { opacity: 1; }
-
-  /* Fora do hover: fecha o furo (raio=0) e some o fade suavemente */
   .chroma-card[data-hover="0"] { --r: 0px; }
 }
 
-/* Mobile/Tablet: sem P&B (coloridos ao entrar no viewport) */
 @media (max-width: 1365px) {
   .card-overlay,
   .card-fade { display: none; }

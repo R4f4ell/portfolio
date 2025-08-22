@@ -4,10 +4,8 @@ import { SiVite, SiSupabase } from "react-icons/si";
 import ChromaGrid from "./ChromaGrid";
 import "./projetos.scss";
 
-// Imagens (manter o nome da variável igual ao arquivo, em camelCase)
+// Imagens
 import golfclub from "../../assets/images/projetos/golfclub.png";
-
-// Imagens responsivas — Calculadora IMC
 import calculatorImcMobile from "../../assets/images/projetos/calculatorImc/calculatorImc-mobile.webp";
 import calculatorImcTablet from "../../assets/images/projetos/calculatorImc/calculatorImc-tablet.webp";
 import calculatorImcDesktop from "../../assets/images/projetos/calculatorImc/calculatorImc-desktop.webp";
@@ -43,15 +41,46 @@ const ITEMS = [
     onlineUrl: "https://calculadoradeimc.rafaelldev.com",
     repoUrl: "https://github.com/R4f4ell/calculatorIMC",
   },
+  {
+    title: "Cronômetro",
+    alt: "Screenshot do projeto Cronômetro",
+    tech: ["react", "vite", "scss"],
+    onlineUrl: "",
+    repoUrl: "",
+  },
+  {
+    title: "Clima de Cidades",
+    alt: "Screenshot do projeto Clima de Cidades",
+    tech: ["react", "vite", "scss", "javascript"],
+    onlineUrl: "",
+    repoUrl: "",
+  },
+  {
+    title: "Álbum de Fotos",
+    alt: "Screenshot do projeto Álbum de Fotos",
+    tech: ["react", "vite", "scss", "supabase"],
+    onlineUrl: "",
+    repoUrl: "",
+  },
+  {
+    title: "Citações",
+    alt: "Screenshot do projeto Citações",
+    tech: ["react", "vite", "scss"],
+    onlineUrl: "",
+    repoUrl: "",
+  },
+  {
+    title: "Tela de Login",
+    alt: "Screenshot do projeto Tela de Login",
+    tech: ["react", "vite", "scss"],
+    onlineUrl: "",
+    repoUrl: "",
+  },
 ];
 
 export default function Projetos() {
   const items = useMemo(
-    () =>
-      ITEMS.map((it) => ({
-        ...it,
-        tech: Array.isArray(it.tech) ? it.tech.slice(0, 4) : [],
-      })),
+    () => ITEMS.map((it) => ({ ...it, tech: Array.isArray(it.tech) ? it.tech.slice(0, 4) : [] })),
     []
   );
 
@@ -61,12 +90,7 @@ export default function Projetos() {
         <header className="projetos__header">
           <h2 id="projetos-titulo" className="projetos__title">Meus Projetos</h2>
         </header>
-
-        <ChromaGrid
-          items={items}
-          techIconMap={TECH_ICON_MAP}
-          className="projetos__grid"
-        />
+        <ChromaGrid items={items} techIconMap={TECH_ICON_MAP} className="projetos__grid" />
       </div>
     </section>
   );

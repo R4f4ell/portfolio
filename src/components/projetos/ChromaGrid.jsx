@@ -52,8 +52,8 @@ export default function ChromaGrid({
     return () => mq.removeEventListener?.("change", update);
   }, []);
 
-  // --- Lantern helpers (marca ícones "dentro da lanterna" pra receber cor nativa)
-  const rafMap = useRef(new WeakMap()); // por card
+  // Lantern helpers
+  const rafMap = useRef(new WeakMap());
 
   const updateIconInLantern = (cardEl, x, y, r) => {
     const items = cardEl.querySelectorAll(".tech-item");
@@ -65,7 +65,6 @@ export default function ChromaGrid({
       const dx = cx - x;
       const dy = cy - y;
       const dist = Math.hypot(dx, dy);
-      // margem de tolerância pra ficar agradável
       const threshold = r * 0.75;
       if (dist <= threshold) li.classList.add("in-lantern");
       else li.classList.remove("in-lantern");
@@ -74,43 +73,30 @@ export default function ChromaGrid({
 
   const bindLanternHandlers = useCallback((cardEl) => {
     if (!cardEl) return;
-
-    // posição inicial (sem lanterna visível)
     const r = parseFloat(getComputedStyle(cardEl).getPropertyValue("--r-base")) || 280;
     const rect = cardEl.getBoundingClientRect();
     const startX = rect.width * 0.5;
     const startY = rect.height * 0.4;
     cardEl.style.setProperty("--cx", `${startX}px`);
     cardEl.style.setProperty("--cy", `${startY}px`);
-    cardEl.dataset.hover = "0"; // P&B total
+    cardEl.dataset.hover = "0";
 
-    const onEnter = () => {
-      if (!isDesktop.current) return;
-      cardEl.dataset.hover = "1"; // ativa lanterna (raio > 0)
-    };
-
+    const onEnter = () => { if (isDesktop.current) cardEl.dataset.hover = "1"; };
     const onLeave = () => {
       if (!isDesktop.current) return;
-      cardEl.dataset.hover = "0"; // volta ao P&B total
-      // sumiço suave: zera a marcação dos ícones após o fade
-      const clearIcons = () => {
+      cardEl.dataset.hover = "0";
+      setTimeout(() => {
         const items = cardEl.querySelectorAll(".tech-item.in-lantern");
         items.forEach((li) => li.classList.remove("in-lantern"));
-      };
-      // aguarda o fim do fade (<= 600ms definido no SCSS)
-      setTimeout(clearIcons, 600);
+      }, 600);
     };
-
     const onMove = (e) => {
       if (!isDesktop.current) return;
       const cardRect = cardEl.getBoundingClientRect();
       const x = e.clientX - cardRect.left;
       const y = e.clientY - cardRect.top;
-
       cardEl.style.setProperty("--cx", `${x}px`);
       cardEl.style.setProperty("--cy", `${y}px`);
-
-      // throttle por rAF por card
       if (rafMap.current.get(cardEl)) return;
       const rafId = requestAnimationFrame(() => {
         updateIconInLantern(cardEl, x, y, r);
@@ -133,7 +119,7 @@ export default function ChromaGrid({
     };
   }, []);
 
-  const IMG_W = 600; // tamanhos padrão dos cards (salvos)
+  const IMG_W = 600;
   const IMG_H = 400;
 
   return (
@@ -157,7 +143,6 @@ export default function ChromaGrid({
           }}
           aria-label={`Projeto: ${c.title}`}
         >
-          {/* SOMENTE a imagem é link */}
           <a
             href={c.onlineUrl}
             target="_blank"
@@ -190,7 +175,6 @@ export default function ChromaGrid({
 
           <footer className="chroma-info">
             <h3 className="name" title={c.title}>{c.title}</h3>
-
             {c.repoUrl && (
               <a
                 href={c.repoUrl}
@@ -203,7 +187,6 @@ export default function ChromaGrid({
                 <FaGithub aria-hidden="true" />
               </a>
             )}
-
             <ul className="tech-list" aria-label="Tecnologias usadas">
               {(c.tech || []).map((t, idx) => {
                 const key = String(t).toLowerCase().trim();
@@ -216,20 +199,13 @@ export default function ChromaGrid({
                     data-key={key}
                     title={key}
                   >
-                    {Icon ? (
-                      <Icon aria-label={`Tecnologia: ${key}`} />
-                    ) : (
-                      <span className="tech-text" aria-label={`Tecnologia: ${key}`}>
-                        {key}
-                      </span>
-                    )}
+                    {Icon ? <Icon aria-label={`Tecnologia: ${key}`} /> : <span className="tech-text">{key}</span>}
                   </li>
                 );
               })}
             </ul>
           </footer>
 
-          {/* Overlays P&B e clareamento — por card */}
           <div className="card-overlay" aria-hidden="true" />
           <div className="card-fade" aria-hidden="true" />
         </article>
