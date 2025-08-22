@@ -12,6 +12,11 @@
   height: 100%;
   display: grid;
   place-items: center;
+  margin-top: 130px;
+
+  @media (min-width: 1024px){
+    margin-top: 0;
+  }
 }
 
 /* Variáveis e resets locais */

@@ -13,15 +13,30 @@
     @media (min-width: 1366px) { width: 70%; }
   }
 
-  /* título sempre à esquerda */
+  /* título */
   .sobre-mim__header { margin-bottom: 24px; text-align: left; }
 
   .sobre-mim__title {
-    font-size: 1.75rem;
-    line-height: 1.2;
-    letter-spacing: -0.02em;
-    color: var(--title-color, #ffffff);
+    font-size: clamp(1.6rem, 3vw, 2.5rem);
+    font-weight: 800;
     margin: 0;
+    display: inline-block;
+
+    /* gradiente animado */
+    background: linear-gradient(
+      to right,
+      #6366f1 0%,
+      #22d3ee 35%,
+      #22d3ee 75%,
+      #6366f1 100%
+    );
+    background-size: 200% auto;
+    background-position: 0;
+    background-clip: text;
+    color: transparent;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: shine 4s linear infinite;
   }
 
   /* coluna em todos os dispositivos */
@@ -72,7 +87,7 @@
   /* Grid 2/4/8 */
   .tec-grid {
     --size-icon: 28px;
-    --label-gap: 18px; /* distância entre o ícone e a label no hover */
+    --label-gap: 18px;
 
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -95,16 +110,14 @@
     }
   }
 
-  /* ITEM: ícone + label animado */
   .tec-item {
     position: relative;
     display: grid;
     place-items: center;
-    cursor: pointer; /* apenas pointer no hover */
+    cursor: pointer;
     user-select: none;
   }
 
-  /* ícones sem borda/fundo e sem movimento */
   .tec-icon {
     display: grid;
     place-items: center;
@@ -115,12 +128,11 @@
     }
   }
 
-  /* Label que “sai” do centro do ícone e sobe com MAIS ESPAÇO */
   .tec-label {
     position: absolute;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%); /* começa dentro do ícone */
+    transform: translate(-50%, -50%);
     background: #ffffff;
     color: #0b0b0b;
     font-size: .78rem;
@@ -135,7 +147,6 @@
     z-index: 1;
   }
 
-  /* Trilho fino ligando ao ícone */
   .tec-item::after {
     content: "";
     position: absolute;
@@ -146,7 +157,6 @@
     transition: height .28s cubic-bezier(.22,.8,.26,.98), top .28s cubic-bezier(.22,.8,.26,.98);
   }
 
-  /* Hover/focus: somente a label sobe e aparece, com gap maior */
   .tec-item:hover .tec-label,
   .tec-item:focus-within .tec-label {
     opacity: 1;
@@ -159,7 +169,6 @@
     top: calc(50% - var(--label-gap));
   }
 
-  /* Cores por tecnologia (aplicam no ícone) */
   .tech--react    .tec-icon { color: #61dafb; }
   .tech--js       .tec-icon { color: #f7df1e; }
   .tech--html     .tec-icon { color: #e34f26; }
@@ -170,12 +179,16 @@
   .tech--supabase .tec-icon { color: #3ecf8e; }
 
   @media (min-width: 768px) {
-    .sobre-mim__title { font-size: 2rem; }
     .sobre-mim__card  { padding: 18px; border-radius: 16px; }
   }
 
   @media (min-width: 1366px) {
-    .sobre-mim__title { font-size: 2.25rem; }
     .sobre-mim__card  { padding: 22px; }
   }
+}
+
+/* Keyframes para o shine */
+@keyframes shine {
+  0%   { background-position: 0% center; }
+  100% { background-position: 200% center; }
 }

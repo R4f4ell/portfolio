@@ -1,6 +1,7 @@
 import React, { useCallback } from 'react'
 import { Github, Linkedin } from 'lucide-react'
 import { FaWhatsapp } from 'react-icons/fa'
+import { motion } from 'framer-motion'
 import './apresentacaoInicial.scss'
 import imgPerfil from '../../assets/images/apresentacaoInicial/imgPerfil.jpg'
 
@@ -94,6 +95,33 @@ const ApresentacaoInicial = () => {
             loading="lazy"
           />
         </div>
+
+        {/* 🔽 Seta agora independente no grid */}
+        <motion.div
+          className="apresentacao-inicial__arrow"
+          aria-hidden="true"
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: [0, 10, 0] }}
+          transition={{ repeat: Infinity, duration: 2, ease: 'easeInOut' }}
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="38"
+            height="38"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="url(#arrow-gradient)"
+            strokeWidth={2}
+          >
+            <defs>
+              <linearGradient id="arrow-gradient" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stopColor="#6366f1" />
+                <stop offset="100%" stopColor="#22d3ee" />
+              </linearGradient>
+            </defs>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+          </svg>
+        </motion.div>
       </div>
     </section>
   )

@@ -17,12 +17,12 @@
     min-height: inherit;
   }
 
-  /* CONTEÚDO (texto, botões, ícones) */
+  /* ================== CONTEÚDO ================== */
   .apresentacao-inicial__content {
     display: grid;
     gap: 14px;
     animation: ai-fade-up 500ms ease-out both;
-    order: 1; /* mobile: texto antes da foto */
+    order: 1;
     text-align: center;
 
     .apresentacao-inicial__title {
@@ -95,7 +95,6 @@
       }
     }
 
-    /* Ícones SEM FUNDO, centralizados em todos os dispositivos */
     .apresentacao-inicial__social {
       display: flex;
       justify-content: center;
@@ -129,7 +128,7 @@
     }
   }
 
-  /* ===== VISUAL (FOTO) ===== */
+  /* ================== FOTO ================== */
   .apresentacao-inicial__visual {
     display: flex;
     align-items: center;
@@ -140,7 +139,7 @@
 
   .apresentacao-inicial__foto {
     width: 100%;
-    max-width: 190px; 
+    max-width: 200px; 
     aspect-ratio: 1 / 1;
     object-fit: cover;
     border-radius: 50%;
@@ -158,31 +157,50 @@
     }
   }
 
-  /* ===== Tablets: foto primeiro, depois textos/botões/ícones ===== */
+  /* ================== SETA ================== */
+  .apresentacao-inicial__arrow {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    order: 3;
+
+    svg {
+      width: 38px;
+      height: 38px;
+      animation: arrow-glow 2.5s infinite ease-in-out;
+    }
+  }
+
+  /* ================== Tablets ================== */
   @media (min-width: 768px) {
     padding: 72px 28px 56px;
 
-    .apresentacao-inicial__container {
-      grid-template-columns: 1fr;
-      gap: 24px; /* mantém tudo junto */
-    }
-
     .apresentacao-inicial__visual  { order: 1; min-height: 240px; }
     .apresentacao-inicial__content { order: 2; }
-    .apresentacao-inicial__foto    { max-width: 240px; }
+    .apresentacao-inicial__arrow   { order: 3; margin-top: 40px; }
+    .apresentacao-inicial__foto    { max-width: 230px; } /* 🔽 Tablet menor */
   }
 
-  /* ===== Desktops: mesma estrutura do tablet + tamanhos maiores ===== */
+  /* ================== Desktops ================== */
   @media (min-width: 1200px) {
     padding: 88px 32px 72px;
 
     .apresentacao-inicial__visual  { order: 1; min-height: 280px; }
     .apresentacao-inicial__content { order: 2; }
-    .apresentacao-inicial__foto    { max-width: 250px; }
+    .apresentacao-inicial__arrow   { order: 3; margin-top: 28px; }
+    .apresentacao-inicial__foto    { max-width: 200px; margin-top: 30px;} /* 🔽 Desktop menor ainda */
+  }
+
+  /* ================== Mobile ================== */
+  @media (max-width: 767px) {
+    .apresentacao-inicial__content { order: 1; }
+    .apresentacao-inicial__visual  { order: 2; }
+    .apresentacao-inicial__arrow   { order: 3; margin-top: 12px; }
   }
 }
 
-/* Desabilita “hover” em dispositivos touch */
+/* ================== Touch sem hover ================== */
 @media (hover: none), (pointer: coarse) {
   .apresentacao-inicial {
     .social-btn { transition: none !important; &:hover, &:active { transform: none !important; } }
@@ -190,7 +208,7 @@
   }
 }
 
-/* ===== Keyframes ===== */
+/* ================== Keyframes ================== */
 @keyframes ai-fade-up {
   from { opacity: 0; transform: translateY(12px); }
   to { opacity: 1; transform: translateY(0); }
@@ -205,4 +223,9 @@
 @keyframes foto-glow {
   0%, 100% { box-shadow: 0 0 0 4px rgba(99,102,241,0.30), 0 8px 28px rgba(0,0,0,0.25); }
   50%      { box-shadow: 0 0 0 8px rgba(34,211,238,0.35), 0 12px 36px rgba(0,0,0,0.35); }
+}
+
+@keyframes arrow-glow {
+  0%, 100% { filter: drop-shadow(0 0 6px #6366f1) drop-shadow(0 0 12px #22d3ee); }
+  50%      { filter: drop-shadow(0 0 12px #22d3ee) drop-shadow(0 0 20px #6366f1); }
 }
