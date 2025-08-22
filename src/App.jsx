@@ -4,6 +4,7 @@ import ApresentacaoInicial from "./components/apresentacaoInicial/ApresentacaoIn
 import Sobre from "./components/sobre/Sobre";
 import Projetos from "./components/projetos/Projetos";
 import Frases from "./components/frases/Frases";
+import Certificados from "./components/certificados/Certificados";
 
 export default function App() {
   return (
@@ -27,6 +28,7 @@ export default function App() {
         <Sobre />
         <Projetos />
         <Frases />
+        <Certificados />
       </main>
     </>
   );

@@ -1,0 +1,52 @@
+@use "../../styles/breakpoints" as bp;
+
+.certificados {
+  width: 100%;
+  height: 70vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+
+  &__container {
+    width: 100%;
+    height: 100%;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  &__title {
+    font-size: 1.6rem;
+    font-weight: 700;
+    text-align: center;
+  }
+
+  &__carousel {
+    flex: 1;
+    width: 100%;
+    height: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .circular-gallery {
+      width: 100%;
+      height: auto;
+    }
+  }
+}
+
+@include bp.tablet {
+  .certificados__title {
+    font-size: 1.8rem;
+  }
+}
+
+@include bp.desktop {
+  .certificados__title {
+    font-size: 2rem;
+  }
+}

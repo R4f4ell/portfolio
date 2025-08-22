@@ -1,0 +1,73 @@
+@use "../../styles/breakpoints" as bp;
+
+.circular-gallery {
+  width: 100%;
+  height: auto;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &__track {
+    display: flex;
+    gap: 1rem;
+    animation: scroll 25s linear infinite;
+  }
+
+  &__item {
+    flex: 0 0 auto;
+    border-radius: 12px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .circular-gallery__image {
+      width: 100%;
+      img {
+        width: 100%;
+        height: auto;
+        display: block;
+        border-radius: 8px;
+      }
+    }
+
+    .circular-gallery__label {
+      margin-top: 0.5rem;
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: #fff;
+      text-align: center;
+    }
+  }
+}
+
+/* ==================== MOBILE-FIRST ==================== */
+.circular-gallery__item {
+  width: 300px;
+  height: auto;
+}
+
+@include bp.tablet {
+  .circular-gallery__item {
+    width: 500px;
+    height: auto;
+  }
+}
+
+@include bp.desktop {
+  .circular-gallery__item {
+    width: 550px; 
+    height: auto;
+  }
+}
+
+/* ==================== ANIMAÇÃO ==================== */
+@keyframes scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
