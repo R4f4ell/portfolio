@@ -1,6 +1,7 @@
-import React, { useEffect, useMemo, useRef, useCallback } from "react";
+import React, { useEffect, useMemo, useRef, useCallback, useState } from "react";
 import { FaGithub } from "react-icons/fa";
 import useRevealOnScroll from "../../hooks/projetos/useRevealOnScroll";
+import Modais from "../performanceModal/Modais";
 import "./chromaGrid.scss";
 
 // Paleta por tecnologia (predominância)
@@ -27,8 +28,24 @@ export default function ChromaGrid({
 }) {
   const gridRef = useRef(null);
   const isDesktop = useRef(false);
-
   const { ref: ioRef, isVisible } = useRevealOnScroll({ threshold: 0.25 });
+
+  // Modal único
+  const [perfOpen, setPerfOpen] = useState(false);
+  const [selectedPerf, setSelectedPerf] = useState(null);
+  const [selectedTitle, setSelectedTitle] = useState("");
+
+  const openPerf = useCallback((project) => {
+    setSelectedPerf(project?.performance || null);
+    setSelectedTitle(project?.title || "");
+    setPerfOpen(true);
+  }, []);
+
+  const closePerf = useCallback(() => {
+    setPerfOpen(false);
+    setSelectedPerf(null);
+    setSelectedTitle("");
+  }, []);
 
   const data = useMemo(
     () =>
@@ -52,9 +69,8 @@ export default function ChromaGrid({
     return () => mq.removeEventListener?.("change", update);
   }, []);
 
-  // Lantern helpers
+  // Efeito “lanterna”
   const rafMap = useRef(new WeakMap());
-
   const updateIconInLantern = (cardEl, x, y, r) => {
     const items = cardEl.querySelectorAll(".tech-item");
     items.forEach((li) => {
@@ -143,6 +159,28 @@ export default function ChromaGrid({
           }}
           aria-label={`Projeto: ${c.title}`}
         >
+          {/* TECNOLOGIAS NO TOPO */}
+          <div className="tech-top" aria-hidden="false">
+            <ul className="tech-top__list" aria-label="Tecnologias usadas">
+              {(c.tech || []).map((t, idx) => {
+                const key = String(t).toLowerCase().trim();
+                const Icon = techIconMap[key];
+                const isGithub = key === "github";
+                return (
+                  <li
+                    key={`${key}-${idx}`}
+                    className={`tech-item tech-top__item${isGithub ? " tech-github" : ""}`}
+                    data-key={key}
+                    title={key}
+                  >
+                    {Icon ? <Icon aria-label={`Tecnologia: ${key}`} /> : <span className="tech-text">{key}</span>}
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
+
+          {/* IMAGEM (link para o projeto online) */}
           <a
             href={c.onlineUrl}
             target="_blank"
@@ -173,43 +211,52 @@ export default function ChromaGrid({
             )}
           </a>
 
+          {/* FOOTER */}
           <footer className="chroma-info">
-            <h3 className="name" title={c.title}>{c.title}</h3>
-            {c.repoUrl && (
-              <a
-                href={c.repoUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="repo-link"
-                aria-label={`Código no GitHub: ${c.title}`}
-                onClick={(e) => e.stopPropagation()}
+            {/* Linha 1: título + GitHub (alinhados na mesma altura) */}
+            <div className="info-row">
+              <h3 className="name" title={c.title}>{c.title}</h3>
+
+              {c.repoUrl && (
+                <a
+                  href={c.repoUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="repo-link"
+                  aria-label={`Código no GitHub: ${c.title}`}
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  <FaGithub aria-hidden="true" />
+                </a>
+              )}
+            </div>
+
+            {/* Linha 2: Desempenho (à esquerda, abaixo do título) */}
+            <div className="info-subrow">
+              <button
+                type="button"
+                className="perf-link"
+                onClick={() => openPerf(c)}
+                aria-label="Ver desempenho do projeto"
               >
-                <FaGithub aria-hidden="true" />
-              </a>
-            )}
-            <ul className="tech-list" aria-label="Tecnologias usadas">
-              {(c.tech || []).map((t, idx) => {
-                const key = String(t).toLowerCase().trim();
-                const Icon = techIconMap[key];
-                const isGithub = key === "github";
-                return (
-                  <li
-                    key={`${key}-${idx}`}
-                    className={`tech-item${isGithub ? " tech-github" : ""}`}
-                    data-key={key}
-                    title={key}
-                  >
-                    {Icon ? <Icon aria-label={`Tecnologia: ${key}`} /> : <span className="tech-text">{key}</span>}
-                  </li>
-                );
-              })}
-            </ul>
+                Desempenho
+              </button>
+            </div>
           </footer>
 
+          {/* Iluminação */}
           <div className="card-overlay" aria-hidden="true" />
           <div className="card-fade" aria-hidden="true" />
         </article>
       ))}
+
+      {/* Modal */}
+      <Modais
+        open={perfOpen}
+        onClose={closePerf}
+        projectTitle={selectedTitle}
+        performance={selectedPerf}
+      />
     </div>
   );
 }

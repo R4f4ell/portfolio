@@ -1,0 +1,60 @@
+.perf-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  display: grid;
+  place-items: center;
+  padding: 16px;
+
+  &__backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,.6);
+    border: 0;
+  }
+
+  &__content {
+    position: relative;
+    z-index: 1;
+    width: min(100%, 980px);
+    max-height: 88svh;
+    background: #111;
+    border: 1px solid rgba(255,255,255,.08);
+    border-radius: 16px;
+    box-shadow: 0 12px 40px rgba(0,0,0,.55);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  &__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 12px 16px;
+    border-bottom: 1px solid rgba(255,255,255,.06);
+  }
+
+  &__title {
+    font-size: 16px;
+    font-weight: 700;
+  }
+
+  &__close {
+    appearance: none;
+    background: transparent;
+    border: 0;
+    color: #fff;
+    font-size: 22px;
+    line-height: 1;
+    cursor: pointer;
+
+    &:hover { opacity: .85; }
+    &:active { transform: scale(.98); }
+  }
+
+  &__body { padding: 12px; overflow: auto; }
+  &__img  { width: 100%; height: auto; display: block; border-radius: 10px; }
+  &__empty { padding: 24px; color: #cfcfcf; text-align: center; }
+}

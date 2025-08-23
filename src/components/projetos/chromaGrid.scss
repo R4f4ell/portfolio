@@ -1,4 +1,4 @@
-/* Grid */
+/* GRID */
 .chroma-grid {
   position: relative;
   width: 100%;
@@ -9,13 +9,11 @@
   grid-template-columns: 1fr;
   row-gap: 24px;
 
-  /* Tablet: 1 card por linha */
   @media (min-width: 768px) and (max-width: 1365px) {
     grid-template-columns: 1fr;
     row-gap: 28px;
   }
 
-  /* Desktop: 2 colunas */
   @media (min-width: 1366px) {
     grid-template-columns: repeat(2, 1fr);
     column-gap: 32px;
@@ -23,7 +21,7 @@
   }
 }
 
-/* Card */
+/* CARD */
 .chroma-card {
   position: relative;
   display: flex;
@@ -31,23 +29,48 @@
   border-radius: 20px;
   overflow: hidden;
   border: 1px solid #333;
-  background: rgba(255, 255, 255, 0.04); /* cor fixa no mobile/tablet */
+  background: rgba(255, 255, 255, 0.04);
   --cx: 50%;
   --cy: 40%;
   --r-base: 280px;
   --r: 0px;
 
   @media (min-width: 1366px) {
-    max-width: 520px; /* menor no desktop */
-    min-height: 320px; /* altura reduzida */
-  }
-
-  @media (min-width: 768px) and (max-width: 1365px) {
-    max-width: 100%;
+    max-width: 520px;
+    min-height: 320px;
   }
 }
 
-/* Link somente na imagem */
+/* TECNOLOGIAS NO TOPO (centralizadas, sobre a borda superior) */
+.tech-top {
+  position: relative;
+  z-index: 5; /* acima das máscaras de iluminação */
+  display: grid;
+  place-items: center;
+  padding-top: 8px;
+
+  &__list {
+    display: inline-flex;
+    gap: 10px;
+    padding: 6px 12px;
+    border-radius: 999px;
+    border: 1px solid rgba(255,255,255,0.16);
+    background: rgba(14,14,16,0.55);
+    -webkit-backdrop-filter: blur(6px);
+    backdrop-filter: blur(6px);
+  }
+
+  &__item {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    svg { width: 18px; height: 18px; }
+    .tech-text { font-size: 12px; }
+  }
+}
+
+/* IMAGEM (link) */
 .chroma-img-wrapper {
   position: relative;
   display: block;
@@ -64,71 +87,74 @@
   }
 }
 
-/* Infos */
+/* FOOTER */
 .chroma-info {
   position: relative;
-  padding: 0.75rem 1rem 1rem;
+  padding: 0.9rem 1rem 1.1rem;
   color: #fff;
   display: grid;
-  grid-template-columns: 1fr auto;
   grid-template-rows: auto auto;
-  gap: 0.5rem 0.75rem;
+  gap: 8px;
+
+  /* Linha 1 = título + GitHub */
+  .info-row {
+    display: flex;
+    align-items: center;        /* alinha na MESMA ALTURA */
+    justify-content: space-between;
+    min-height: 28px;
+  }
 
   .name {
-    grid-column: 1 / 2;
-    grid-row: 1;
+    margin: 0;
     font-size: 1rem;
     font-weight: 600;
-    line-height: 1.3;
+    line-height: 1.2;          /* mesma altura visual do ícone */
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
   }
 
   .repo-link {
-    grid-column: 2 / 3;
-    grid-row: 1;
-    align-self: center;
     display: inline-flex;
-    font-size: 1.1rem;
+    align-items: center;
+    justify-content: center;
     color: #d0d0d0;
-    cursor: pointer;
 
-    &:hover,
-    &:focus { color: #d0d0d0; outline: none; }
-    svg { display: block; }
+    svg { width: 20px; height: 20px; display: block; }
   }
 
-  .tech-list {
-    grid-column: 1 / -1;
-    grid-row: 2;
+  /* Linha 2 = Desempenho (esquerda) */
+  .info-subrow {
     display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
     align-items: center;
+    gap: 10px;
+  }
 
-    .tech-item {
-      display: inline-flex;
-      align-items: center;
-      font-size: 0.95rem;
-
-      svg { width: 20px; height: 20px; }
-      .tech-text { font-size: 0.9rem; }
-
-      a { color: inherit; text-decoration: none; }
-    }
+  .perf-link {
+    appearance: none;
+    background: transparent;
+    color: #e6e6e6;
+    border: 1px solid rgba(255,255,255,0.28);
+    border-radius: 999px;
+    padding: 6px 10px;
+    font-size: 12px;
+    line-height: 1;
+    cursor: pointer;
+    text-decoration: none;  /* sem animação/transição */
   }
 }
 
-/* =========================
-   Cores dos ícones
-   ========================= */
+/* GitHub maior no mobile */
+@media (max-width: 767px) {
+  .chroma-info .repo-link svg { width: 24px; height: 24px; }
+}
+
+/* CORES POR TECNOLOGIA (mantidas) */
 @media (min-width: 1366px) {
   .chroma-card .tech-item svg,
   .chroma-card .tech-item .tech-text {
     color: var(--theme-color);
     filter: saturate(1.1) contrast(1.05);
-    transition: color 0.15s linear;
   }
 
   .chroma-card .tech-item.tech-github svg,
@@ -161,9 +187,7 @@
   .tech-item .tech-text { color: inherit; }
 }
 
-/* =========================
-   Overlays e comportamento
-   ========================= */
+/* ILUMINAÇÃO (inalterada) */
 @media (min-width: 1366px) {
   .card-overlay,
   .card-fade {
@@ -175,7 +199,6 @@
 
   .card-overlay {
     opacity: 1;
-    transition: none;
     backdrop-filter: grayscale(1) brightness(0.80);
     -webkit-backdrop-filter: grayscale(1) brightness(0.80);
     mask-image: radial-gradient(
@@ -203,17 +226,9 @@
   .card-fade {
     z-index: 4;
     opacity: 0;
-    transition: opacity 0.6s ease;
     backdrop-filter: saturate(1.08) brightness(1.02) contrast(1.03);
     -webkit-backdrop-filter: saturate(1.08) brightness(1.02) contrast(1.03);
     mask-image: radial-gradient(
-      circle calc(var(--r) * 0.6) at var(--cx) var(--cy),
-      rgba(255,255,255,0.85) 0%,
-      rgba(255,255,255,0.55) 40%,
-      rgba(255,255,255,0.18) 75%,
-      rgba(255,255,255,0.00) 100%
-    );
-    -webkit-mask-image: radial-gradient(
       circle calc(var(--r) * 0.6) at var(--cx) var(--cy),
       rgba(255,255,255,0.85) 0%,
       rgba(255,255,255,0.55) 40%,
