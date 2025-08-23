@@ -1,4 +1,3 @@
-import React from "react";
 import "./frases.scss";
 
 import resolvoProblemas from "../../assets/images/frases/resolvoProblemas.webp";

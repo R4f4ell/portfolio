@@ -1,10 +1,17 @@
-/* Seção ocupa 100% da largura e altura do viewport */
+/* src/components/frases/frases.scss */
+
+/* Seção ocupa 100% da largura e altura do viewport (mobile) */
 .frases {
   width: 100%;
-  min-height: 100svh;
+  min-height: 100svh; /* mobile mantém 100vh/svh */
   display: grid;
   place-items: center;
   padding: 1rem;
+
+  /* Tablets e desktops: 70vh */
+  @media (min-width: 768px) {
+    min-height: 70vh;
+  }
 }
 
 .frases__container {
