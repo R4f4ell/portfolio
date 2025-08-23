@@ -41,10 +41,10 @@
   }
 }
 
-/* TECNOLOGIAS NO TOPO (centralizadas, sobre a borda superior) */
+/* TECNOLOGIAS NO TOPO */
 .tech-top {
   position: relative;
-  z-index: 5; /* acima das máscaras de iluminação */
+  z-index: 5;
   display: grid;
   place-items: center;
   padding-top: 8px;
@@ -54,7 +54,7 @@
     gap: 10px;
     padding: 6px 12px;
     border-radius: 999px;
-    border: 1px solid rgba(255,255,255,0.16);
+    border: 1px solid rgba(255, 255, 255, 0.16);
     background: rgba(14,14,16,0.55);
     -webkit-backdrop-filter: blur(6px);
     backdrop-filter: blur(6px);
@@ -64,7 +64,9 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
+    transition: color .2s ease, filter .2s ease;
 
+    /* tamanho dos ícones de tecnologia */
     svg { width: 18px; height: 18px; }
     .tech-text { font-size: 12px; }
   }
@@ -99,7 +101,7 @@
   /* Linha 1 = título + GitHub */
   .info-row {
     display: flex;
-    align-items: center;        /* alinha na MESMA ALTURA */
+    align-items: center;
     justify-content: space-between;
     min-height: 28px;
   }
@@ -108,10 +110,11 @@
     margin: 0;
     font-size: 1rem;
     font-weight: 600;
-    line-height: 1.2;          /* mesma altura visual do ícone */
+    line-height: 1.2;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    transition: color .2s ease, text-shadow .3s ease; /* p/ efeito suave */
   }
 
   .repo-link {
@@ -120,14 +123,16 @@
     justify-content: center;
     color: #d0d0d0;
 
-    svg { width: 20px; height: 20px; display: block; }
+    /* Ícone do GitHub: mesmo tamanho do mobile em TODAS as telas */
+    svg { width: 24px; height: 24px; display: block; }
   }
 
-  /* Linha 2 = Desempenho (esquerda) */
+  /* Linha 2 = Desempenho (mantém à ESQUERDA) */
   .info-subrow {
     display: flex;
     align-items: center;
     gap: 10px;
+    margin-top: 12px; /* espaçamento via margin */
   }
 
   .perf-link {
@@ -140,27 +145,25 @@
     font-size: 12px;
     line-height: 1;
     cursor: pointer;
-    text-decoration: none;  /* sem animação/transição */
+    text-decoration: none;
+    margin-right: 8px; /* margem adicional */
   }
 }
 
-/* GitHub maior no mobile */
-@media (max-width: 767px) {
-  .chroma-info .repo-link svg { width: 24px; height: 24px; }
-}
+/* ===== CORES / ILUMINAÇÃO ===== */
 
-/* CORES POR TECNOLOGIA (mantidas) */
+/* DESKTOP: ícones começam BRANCOS; “lanterna/hover” pinta com cor da tecnologia
+   e o TÍTULO ganha a cor global + pulso quando iluminado */
 @media (min-width: 1366px) {
   .chroma-card .tech-item svg,
   .chroma-card .tech-item .tech-text {
-    color: var(--theme-color);
-    filter: saturate(1.1) contrast(1.05);
+    color: #ffffff; /* branco inicial */
+    filter: none;
   }
 
   .chroma-card .tech-item.tech-github svg,
   .chroma-card .tech-item.tech-github .tech-text {
     color: #d0d0d0;
-    filter: none;
   }
 
   .tech-item.in-lantern[data-key="react"]       { color: #61DAFB; }
@@ -169,11 +172,21 @@
   .tech-item.in-lantern[data-key="supabase"]    { color: #3ECF8E; }
   .tech-item.in-lantern[data-key="javascript"],
   .tech-item.in-lantern[data-key="js"]          { color: #F7DF1E; }
+  .tech-item.in-lantern[data-key="html"]        { color: #E34F26; }
+  .tech-item.in-lantern[data-key="api"]         { color: #22D3EE; }
 
   .tech-item.in-lantern svg,
   .tech-item.in-lantern .tech-text { color: inherit; }
+
+  /* Título colorido + pulso quando a lanterna passa */
+  .chroma-info .name.in-lantern {
+    color: var(--theme-color);
+    text-shadow: 0 0 0 rgba(255,255,255,0);
+    animation: title-glow 1.1s ease-in-out infinite alternate;
+  }
 }
 
+/* MOBILE/TABLET: cores oficiais diretas, e TÍTULO SEMPRE com a cor global */
 @media (max-width: 1365px) {
   .tech-item[data-key="react"]       { color: #61DAFB; }
   .tech-item[data-key="vite"]        { color: #646CFF; }
@@ -181,13 +194,18 @@
   .tech-item[data-key="supabase"]    { color: #3ECF8E; }
   .tech-item[data-key="javascript"],
   .tech-item[data-key="js"]          { color: #F7DF1E; }
+  .tech-item[data-key="html"]        { color: #E34F26; }
+  .tech-item[data-key="api"]         { color: #22D3EE; }
   .tech-item.tech-github             { color: #d0d0d0; }
 
   .tech-item svg,
   .tech-item .tech-text { color: inherit; }
+
+  /* Título com a cor global fixa */
+  .chroma-info .name { color: var(--theme-color); }
 }
 
-/* ILUMINAÇÃO (inalterada) */
+/* ===== ILUMINAÇÃO (máscaras) ===== */
 @media (min-width: 1366px) {
   .card-overlay,
   .card-fade {
@@ -242,6 +260,30 @@
   .chroma-card[data-hover="0"] { --r: 0px; }
 }
 
+/* Hover direto no ícone (apenas onde hover faz sentido) */
+@media (hover: hover) and (pointer: fine) and (min-width: 1366px) {
+  .tech-top__item:hover[data-key="react"]       { color: #61DAFB; }
+  .tech-top__item:hover[data-key="vite"]        { color: #646CFF; }
+  .tech-top__item:hover[data-key="scss"]        { color: #C76494; }
+  .tech-top__item:hover[data-key="supabase"]    { color: #3ECF8E; }
+  .tech-top__item:hover[data-key="javascript"],
+  .tech-top__item:hover[data-key="js"]          { color: #F7DF1E; }
+  .tech-top__item:hover[data-key="html"]        { color: #E34F26; }
+  .tech-top__item:hover[data-key="api"]         { color: #22D3EE; }
+}
+
+/* Acessibilidade: reduz movimento se o usuário preferir */
+@media (prefers-reduced-motion: reduce) {
+  .chroma-info .name.in-lantern { animation: none; text-shadow: none; }
+}
+
+/* Keyframes do pulso/glow do título */
+@keyframes title-glow {
+  0%   { text-shadow: 0 0 0 rgba(0,0,0,0); }
+  100% { text-shadow: 0 0 12px currentColor; }
+}
+
+/* Sem máscaras no mobile/tablet */
 @media (max-width: 1365px) {
   .card-overlay,
   .card-fade { display: none; }

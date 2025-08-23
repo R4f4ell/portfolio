@@ -12,10 +12,14 @@ const TECH_COLOR = {
   supabase: "#3ECF8E",
   javascript: "#F7DF1E",
   js: "#F7DF1E",
+  html: "#E34F26",
+  api: "#22D3EE",
 };
 
 function deriveThemeFromTech(tech = []) {
-  const primary = (tech.find((t) => t && t.toLowerCase() !== "github") || "").toLowerCase();
+  const primary =
+    (tech.find((t) => t && String(t).toLowerCase() !== "github") || "")
+      .toLowerCase();
   const color = TECH_COLOR[primary] || "#3B82F6";
   const gradient = `linear-gradient(145deg, ${color}, #000)`;
   return { borderColor: color, gradient, themeColor: color };
@@ -72,6 +76,7 @@ export default function ChromaGrid({
   // Efeito “lanterna”
   const rafMap = useRef(new WeakMap());
   const updateIconInLantern = (cardEl, x, y, r) => {
+    // Tecnologias (ícones)
     const items = cardEl.querySelectorAll(".tech-item");
     items.forEach((li) => {
       const rect = li.getBoundingClientRect();
@@ -85,11 +90,27 @@ export default function ChromaGrid({
       if (dist <= threshold) li.classList.add("in-lantern");
       else li.classList.remove("in-lantern");
     });
+
+    // Título (ganha cor global quando a lanterna passa)
+    const title = cardEl.querySelector(".chroma-info .name");
+    if (title) {
+      const tRect = title.getBoundingClientRect();
+      const cardRect = cardEl.getBoundingClientRect();
+      const tcx = tRect.left - cardRect.left + tRect.width / 2;
+      const tcy = tRect.top - cardRect.top + tRect.height / 2;
+      const dx = tcx - x;
+      const dy = tcy - y;
+      const dist = Math.hypot(dx, dy);
+      const threshold = r * 0.75;
+      if (dist <= threshold) title.classList.add("in-lantern");
+      else title.classList.remove("in-lantern");
+    }
   };
 
   const bindLanternHandlers = useCallback((cardEl) => {
     if (!cardEl) return;
-    const r = parseFloat(getComputedStyle(cardEl).getPropertyValue("--r-base")) || 280;
+    const r =
+      parseFloat(getComputedStyle(cardEl).getPropertyValue("--r-base")) || 280;
     const rect = cardEl.getBoundingClientRect();
     const startX = rect.width * 0.5;
     const startY = rect.height * 0.4;
@@ -97,13 +118,17 @@ export default function ChromaGrid({
     cardEl.style.setProperty("--cy", `${startY}px`);
     cardEl.dataset.hover = "0";
 
-    const onEnter = () => { if (isDesktop.current) cardEl.dataset.hover = "1"; };
+    const onEnter = () => {
+      if (isDesktop.current) cardEl.dataset.hover = "1";
+    };
     const onLeave = () => {
       if (!isDesktop.current) return;
       cardEl.dataset.hover = "0";
       setTimeout(() => {
         const items = cardEl.querySelectorAll(".tech-item.in-lantern");
         items.forEach((li) => li.classList.remove("in-lantern"));
+        const title = cardEl.querySelector(".chroma-info .name.in-lantern");
+        if (title) title.classList.remove("in-lantern");
       }, 600);
     };
     const onMove = (e) => {
@@ -169,11 +194,17 @@ export default function ChromaGrid({
                 return (
                   <li
                     key={`${key}-${idx}`}
-                    className={`tech-item tech-top__item${isGithub ? " tech-github" : ""}`}
+                    className={`tech-item tech-top__item${
+                      isGithub ? " tech-github" : ""
+                    }`}
                     data-key={key}
                     title={key}
                   >
-                    {Icon ? <Icon aria-label={`Tecnologia: ${key}`} /> : <span className="tech-text">{key}</span>}
+                    {Icon ? (
+                      <Icon aria-label={`Tecnologia: ${key}`} />
+                    ) : (
+                      <span className="tech-text">{key}</span>
+                    )}
                   </li>
                 );
               })}
@@ -190,7 +221,10 @@ export default function ChromaGrid({
           >
             {c.picture ? (
               <picture>
-                <source srcSet={c.picture.desktop} media="(min-width: 1024px)" />
+                <source
+                  srcSet={c.picture.desktop}
+                  media="(min-width: 1024px)"
+                />
                 <source srcSet={c.picture.tablet} media="(min-width: 768px)" />
                 <img
                   src={c.picture.mobile}
@@ -213,9 +247,11 @@ export default function ChromaGrid({
 
           {/* FOOTER */}
           <footer className="chroma-info">
-            {/* Linha 1: título + GitHub (alinhados na mesma altura) */}
+            {/* Linha 1: título + GitHub (mesma altura) */}
             <div className="info-row">
-              <h3 className="name" title={c.title}>{c.title}</h3>
+              <h3 className="name" title={c.title}>
+                {c.title}
+              </h3>
 
               {c.repoUrl && (
                 <a
@@ -231,7 +267,7 @@ export default function ChromaGrid({
               )}
             </div>
 
-            {/* Linha 2: Desempenho (à esquerda, abaixo do título) */}
+            {/* Linha 2: Desempenho (mantém à ESQUERDA) */}
             <div className="info-subrow">
               <button
                 type="button"

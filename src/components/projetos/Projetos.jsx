@@ -1,6 +1,7 @@
 import React, { useMemo } from "react";
-import { FaGithub, FaReact, FaJs, FaSass } from "react-icons/fa";
+import { FaGithub, FaReact, FaJs, FaSass, FaHtml5 } from "react-icons/fa";
 import { SiVite, SiSupabase } from "react-icons/si";
+import { TbApi } from "react-icons/tb";
 import ChromaGrid from "./ChromaGrid";
 import "./projetos.scss";
 
@@ -17,6 +18,8 @@ const TECH_ICON_MAP = {
   supabase: SiSupabase,
   javascript: FaJs,
   js: FaJs,
+  html: FaHtml5,
+  api: TbApi,      // mesmo ícone usado na sessão "Sobre"
   github: FaGithub,
 };
 
@@ -25,7 +28,8 @@ const ITEMS = [
     image: golfclub,
     alt: "Screenshot do projeto Tiya Golf Club",
     title: "Tiya Golf Club",
-    tech: ["react", "vite", "scss", "javascript"],
+    // React, Vite, JS, HTML, SCSS
+    tech: ["react", "vite", "javascript", "html", "scss"],
     onlineUrl: "https://tiyagolfclub.rafaelldev.com",
     repoUrl: "https://github.com/R4f4ell/tiyaGolfClub",
   },
@@ -37,52 +41,55 @@ const ITEMS = [
     },
     alt: "Screenshot do projeto Calculadora IMC",
     title: "Calculadora IMC",
-    tech: ["react", "vite", "scss", "supabase"],
+    // React, Vite, JS, HTML, SCSS
+    tech: ["react", "vite", "javascript", "html", "scss"],
     onlineUrl: "https://calculadoradeimc.rafaelldev.com",
     repoUrl: "https://github.com/R4f4ell/calculatorIMC",
   },
   {
     title: "Cronômetro",
     alt: "Screenshot do projeto Cronômetro",
-    tech: ["react", "vite", "scss"],
+    // React, Vite, JS, HTML, SCSS
+    tech: ["react", "vite", "javascript", "html", "scss"],
     onlineUrl: "https://cronometro.rafaelldev.com",
     repoUrl: "https://github.com/R4f4ell/cronometro",
   },
   {
     title: "Clima de Cidades",
     alt: "Screenshot do projeto Clima de Cidades",
-    tech: ["react", "vite", "scss", "javascript"],
+    // React, Vite, JS, HTML, SCSS + API (tempo real)
+    tech: ["react", "vite", "javascript", "html", "scss", "api"],
     onlineUrl: "https://climacidades.rafaelldev.com",
     repoUrl: "https://github.com/R4f4ell/climaCidades",
   },
   {
     title: "Álbum de Fotos",
     alt: "Screenshot do projeto Álbum de Fotos",
-    tech: ["react", "vite", "scss", "supabase"],
+    // React, Vite, JS, HTML, SCSS + Supabase + API (Unsplash)
+    tech: ["react", "vite", "javascript", "html", "scss", "supabase", "api"],
     onlineUrl: "https://albumdefotos.rafaelldev.com",
     repoUrl: "https://github.com/R4f4ell/albumFotosComAPI",
   },
   {
     title: "Citações",
     alt: "Screenshot do projeto Citações",
-    tech: ["react", "vite", "scss"],
+    // React, Vite, JS, HTML, SCSS
+    tech: ["react", "vite", "javascript", "html", "scss"],
     onlineUrl: "https://citacoes.rafaelldev.com",
     repoUrl: "https://github.com/R4f4ell/citacoes",
   },
   {
     title: "Tela de Login",
     alt: "Screenshot do projeto Tela de Login",
-    tech: ["react", "vite", "scss"],
+    // React, Vite, JS, HTML, SCSS
+    tech: ["react", "vite", "javascript", "html", "scss"],
     onlineUrl: "https://teladelogin.rafaelldev.com",
     repoUrl: "https://github.com/R4f4ell/telaLogin1-comReact",
   },
 ];
 
 export default function Projetos() {
-  const items = useMemo(
-    () => ITEMS.map((it) => ({ ...it, tech: Array.isArray(it.tech) ? it.tech.slice(0, 4) : [] })),
-    []
-  );
+  const items = useMemo(() => ITEMS, []);
 
   return (
     <section id="projects" className="projetos" aria-labelledby="projetos-titulo">
