@@ -1,3 +1,5 @@
+@use '../../styles/variables' as v;
+
 .sobre-mim {
   margin-bottom: 200px;
   --brand: var(--brand-color, #4f8cff);
@@ -69,7 +71,15 @@
     margin: 0 0 12px 0;
     opacity: 0.9;
     text-align: center;
-    color: #4f8cff;
+
+    /* ✅ cor global como gradiente no texto */
+    display: inline-block;
+    background: linear-gradient(90deg, #6366f1, #22d3ee);
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+
     position: relative;
     padding-bottom: 6px;
 
@@ -78,7 +88,8 @@
       display: block;
       width: 40px;
       height: 2px;
-      background-color: currentColor;
+      /* ✅ mesma cor global no sublinhado */
+      background: linear-gradient(90deg, #6366f1, #22d3ee);
       margin: 6px auto 0 auto;
       border-radius: 2px;
     }

@@ -1,17 +1,14 @@
-import React, { useEffect, useLayoutEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import './header.scss'
 import useLockBodyScroll from '../../hooks/header/useLockBodyScroll'
-import useScrollSpy from '../../hooks/header/useScrollSpy'
-
-const ACTIVE_MODE = 'both' // 'click' | 'scroll' | 'both'
-const CLICK_LOCK_MS = 1500
 
 const LINKS = [
   { id: 'home', label: 'HOME', href: '#home' },
   { id: 'about', label: 'ABOUT', href: '#about' },
   { id: 'projects', label: 'PROJECTS', href: '#projects' },
   { id: 'quotes', label: 'QUOTES', href: '#quotes' },
+  { id: 'certificados', label: 'CERTIFICATES', href: '#certificados' }, // novo link
 ]
 
 export default function Header() {
@@ -23,19 +20,6 @@ export default function Header() {
   const panelRef = useRef(null)
   const burgerRef = useRef(null)
   const rafRef = useRef(0)
-
-  // refs do nav desktop
-  const navListRef = useRef(null)
-  const pillRef = useRef(null)
-  const linkRefs = useRef(Object.fromEntries(LINKS.map(l => [l.id, React.createRef()])))
-  const [activeId, setActiveId] = useState(LINKS[0].id)
-  const lastClickAt = useRef(0)
-
-  // ScrollSpy existente
-  const spyId = useScrollSpy(LINKS.map(l => l.id), {
-    rootMargin: '-30% 0px -60% 0px',
-    threshold: 0.01,
-  })
 
   useLockBodyScroll(open)
 
@@ -90,21 +74,7 @@ export default function Header() {
     }
   }, [open])
 
-  // ativa por scroll/click/both
-  useEffect(() => {
-    if (ACTIVE_MODE === 'scroll') {
-      if (spyId) setActiveId(spyId)
-      return
-    }
-    if (ACTIVE_MODE === 'both') {
-      const now = performance.now()
-      const locked = (now - lastClickAt.current) < CLICK_LOCK_MS
-      if (!locked && spyId) setActiveId(spyId)
-      return
-    }
-    // 'click' ignora scroll
-  }, [spyId])
-
+  // scroll suave por clique
   const scrollToId = (id) => {
     const el = document.getElementById(id)
     if (!el) return
@@ -119,56 +89,13 @@ export default function Header() {
     setOpen(false)
     const checkbox = document.getElementById('burger')
     if (checkbox && checkbox.checked) checkbox.checked = false
-
-    lastClickAt.current = performance.now()
-    setActiveId(id)
     scrollToId(id)
-    requestAnimationFrame(updatePill)
   }
 
+  // brand agora apenas rola até a seção inicial (#home)
   const handleBrandClick = () => {
-    try {
-      const url = window.location.pathname + window.location.search
-      window.history.replaceState(null, '', url)
-    } catch {}
-    window.location.reload()
+    scrollToId('home')
   }
-
-  // ======== posiciona o PILL =========
-  const updatePill = () => {
-    const ul = navListRef.current
-    const pill = pillRef.current
-    const link = linkRefs.current[activeId]?.current
-    if (!ul || !pill || !link) return
-
-    const left = link.offsetLeft - ul.scrollLeft - 6
-    const width = link.offsetWidth + 12
-
-    pill.style.transform = `translateX(${Math.max(0, left)}px)`
-    pill.style.width = `${Math.max(0, width)}px`
-  }
-
-  useLayoutEffect(() => {
-    updatePill()
-  }, [activeId])
-
-  useEffect(() => {
-    if (document.fonts && document.fonts.ready) {
-      document.fonts.ready.then(() => updatePill())
-    }
-    const onResize = () => updatePill()
-    window.addEventListener('resize', onResize)
-    window.addEventListener('scroll', onResize, { passive: true })
-    const ro = new ResizeObserver(() => updatePill())
-    if (navListRef.current) ro.observe(navListRef.current)
-    if (linkRefs.current[activeId]?.current) ro.observe(linkRefs.current[activeId].current)
-
-    return () => {
-      window.removeEventListener('resize', onResize)
-      window.removeEventListener('scroll', onResize)
-      ro.disconnect()
-    }
-  }, [activeId])
 
   const panelVariants = {
     hidden: { opacity: 0, x: 18, scale: 0.98 },
@@ -184,22 +111,19 @@ export default function Header() {
         <button
           type="button"
           className="brand-plate"
-          aria-label="Voltar ao topo (recarregar)"
+          aria-label="Ir para o início"
           onClick={handleBrandClick}
         >
           <span className="brand-text">Portfólio</span>
         </button>
 
         <nav className="nav__links--desktop" aria-hidden="false">
-          <ul ref={navListRef} className="nav-pills">
-            <span ref={pillRef} className="nav__active-pill" aria-hidden="true" />
+          <ul className="nav-pills">
             {LINKS.map(link => (
               <li key={link.id}>
                 <a
-                  ref={linkRefs.current[link.id]}
                   href={link.href}
                   onClick={(e) => handleNavClick(e, link.id)}
-                  className={activeId === link.id ? 'is-active' : undefined}
                   aria-label={link.label}
                 >
                   {link.label}
@@ -209,7 +133,7 @@ export default function Header() {
           </ul>
         </nav>
 
-        {/* HAMBURGER NOVO */}
+        {/* HAMBURGER */}
         <label ref={burgerRef} className="hamburger" htmlFor="burger" aria-label={open ? 'Fechar menu' : 'Abrir menu'}>
           <input
             type="checkbox"

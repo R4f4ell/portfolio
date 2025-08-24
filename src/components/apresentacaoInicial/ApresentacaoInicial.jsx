@@ -6,13 +6,14 @@ import './apresentacaoInicial.scss'
 import imgPerfil from '../../assets/images/apresentacaoInicial/imgPerfil.jpg'
 
 const ApresentacaoInicial = () => {
-  const scrollToPortfolio = useCallback(() => {
-    const el =
-      document.querySelector('#portfolio') ||
-      document.querySelector('[data-section="portfolio"]')
-    if (el) {
-      el.scrollIntoView({ behavior: 'smooth', block: 'start' })
-    }
+  const scrollToProjects = useCallback(() => {
+    const el = document.getElementById('projects')
+    if (!el) return
+    const headerEl = document.querySelector('.site-header')
+    const headerHeight = headerEl?.offsetHeight || 0
+    const rectTop = el.getBoundingClientRect().top + window.pageYOffset
+    const targetTop = Math.max(rectTop - headerHeight - 8, 0)
+    window.scrollTo({ top: targetTop, behavior: 'smooth' })
   }, [])
 
   return (
@@ -36,19 +37,11 @@ const ApresentacaoInicial = () => {
             <button
               type="button"
               className="apresentacao-inicial__btn"
-              onClick={scrollToPortfolio}
+              onClick={scrollToProjects}
               aria-label="Ir para a seção de projetos"
             >
               Ver projetos
             </button>
-
-            <a
-              href="#contact"
-              className="apresentacao-inicial__link"
-              aria-label="Ir para a seção de contato"
-            >
-              Falar comigo
-            </a>
           </div>
 
           <div className="apresentacao-inicial__social" aria-label="Redes sociais">
@@ -96,7 +89,6 @@ const ApresentacaoInicial = () => {
           />
         </div>
 
-        {/* 🔽 Seta agora independente no grid */}
         <motion.div
           className="apresentacao-inicial__arrow"
           aria-hidden="true"
