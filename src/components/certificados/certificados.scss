@@ -19,9 +19,26 @@
 
   &__title {
     font-size: 1.6rem;
-    font-weight: 700;
+    font-weight: 800; /* mesmo peso do 'Sobre mim' */
     text-align: center;
-    margin-bottom: 0.75rem; // espaço acima dos dots
+    margin-bottom: 0.75rem;
+
+    /* === mesmo gradiente + animação do 'Sobre mim' === */
+    display: inline-block;
+    background: linear-gradient(
+      to right,
+      #6366f1 0%,
+      #22d3ee 35%,
+      #22d3ee 75%,
+      #6366f1 100%
+    );
+    background-size: 200% auto;
+    background-position: 0;
+    background-clip: text;
+    color: transparent;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: shine 4s linear infinite;
   }
 
   &__carousel {
@@ -50,4 +67,10 @@
     font-size: 2rem;
     margin-bottom: 1rem;
   }
+}
+
+/* Keyframes do efeito (caso não estejam globais) */
+@keyframes shine {
+  0%   { background-position: 0% center; }
+  100% { background-position: 200% center; }
 }
