@@ -4,7 +4,6 @@
   width: 100%;
   height: 70vh;
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
   overflow: hidden;
@@ -22,18 +21,18 @@
     font-size: 1.6rem;
     font-weight: 700;
     text-align: center;
+    margin-bottom: 0.75rem; // espaço acima dos dots
   }
 
   &__carousel {
     flex: 1;
     width: 100%;
-    height: auto;
-    display: flex;
+    display: grid;
     align-items: center;
-    justify-content: center;
+    justify-items: center;
 
     .circular-gallery {
-      width: 100%;
+      width: min(100%, 1200px);
       height: auto;
     }
   }
@@ -42,11 +41,13 @@
 @include bp.tablet {
   .certificados__title {
     font-size: 1.8rem;
+    margin-bottom: 0.85rem;
   }
 }
 
 @include bp.desktop {
   .certificados__title {
     font-size: 2rem;
+    margin-bottom: 1rem;
   }
 }

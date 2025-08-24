@@ -1,73 +1,213 @@
 @use "../../styles/breakpoints" as bp;
 
+/* ====== Base / Tokens locais ====== */
 .circular-gallery {
+  --brand: var(--brand, #3B82F6); // fallback global
+  --accent: #22d3ee;             // cor pedida para dot ativo/hover
+  --gap: 1rem;
+  --arrow-size: 56px;
+
+  /* Largura do slide/viewport (muda por breakpoint) */
+  --slide-w: 300px;
+
   width: 100%;
-  height: auto;
-  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* ====== Dots (entre título e imagens) ====== */
+.circular-gallery__dots {
   display: flex;
   align-items: center;
   justify-content: center;
+  gap: 10px;
+  margin-bottom: 0.75rem;
+}
 
-  &__track {
-    display: flex;
-    gap: 1rem;
-    animation: scroll 25s linear infinite;
+.circular-gallery__dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  transition: transform 220ms ease, background 220ms ease, box-shadow 220ms ease, border-color 220ms ease;
+  cursor: pointer;
+
+  &:hover,
+  &:focus-visible {
+    background: var(--accent);
+    border-color: var(--accent);
+    box-shadow: 0 0 0 6px color-mix(in oklab, var(--accent) 25%, transparent);
+    transform: scale(1.15);
+    outline: none;
   }
 
-  &__item {
-    flex: 0 0 auto;
-    border-radius: 12px;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-
-    .circular-gallery__image {
-      width: 100%;
-      img {
-        width: 100%;
-        height: auto;
-        display: block;
-        border-radius: 8px;
-      }
-    }
-
-    .circular-gallery__label {
-      margin-top: 0.5rem;
-      font-size: 0.9rem;
-      font-weight: 500;
-      color: #fff;
-      text-align: center;
-    }
+  &.is-active {
+    background: var(--accent);
+    border-color: var(--accent);
+    transform: scale(1.2);
   }
 }
 
-/* ==================== MOBILE-FIRST ==================== */
+/* ====== Slider (setas fora das imagens) ====== */
+.circular-gallery__slider {
+  display: grid;
+  grid-template-columns: 1fr; /* mobile-first: sem setas */
+  align-items: center;
+  justify-items: center;
+  width: 100%;
+  gap: 0.75rem;
+}
+
+/* Setas — escondidas por padrão (mobile/touch) */
+.circular-gallery__arrow {
+  display: none;
+}
+
+/* Viewport/Track */
+.circular-gallery__viewport {
+  /* TRAVA para mostrar apenas 1 slide por vez */
+  width: min(100%, var(--slide-w));
+  margin-inline: auto;
+  overflow: hidden;
+  cursor: grab;
+
+  &:active {
+    cursor: grabbing;
+  }
+}
+
+.circular-gallery__track {
+  display: flex;
+  align-items: stretch;
+  gap: var(--gap);
+  will-change: transform;
+  transition: transform 420ms cubic-bezier(0.22, 1, 0.36, 1);
+
+  &.is-dragging {
+    transition: none;
+  }
+}
+
+/* Slide */
 .circular-gallery__item {
-  width: 300px;
-  height: auto;
+  flex: 0 0 auto;
+  width: var(--slide-w); /* casa com a largura do viewport */
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  .circular-gallery__image {
+    width: 100%;
+
+    img {
+      width: 100%;
+      height: auto;
+      display: block;
+      border-radius: 8px;
+    }
+  }
+
+  .circular-gallery__label {
+    margin-top: 0.5rem;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #fff;
+    text-align: center;
+    transition: color 220ms ease, transform 220ms ease;
+  }
+
+  &.is-active .circular-gallery__label {
+    color: var(--brand);
+    transform: translateY(-1px);
+  }
+
+  &:hover .circular-gallery__label {
+    color: var(--brand);
+  }
 }
 
+/* ====== Tablet ====== */
 @include bp.tablet {
-  .circular-gallery__item {
-    width: 500px;
-    height: auto;
+  .circular-gallery {
+    --slide-w: 500px;
+  }
+
+  .circular-gallery__dots {
+    margin-bottom: 0.85rem;
   }
 }
 
+/* ====== Desktop ====== */
 @include bp.desktop {
-  .circular-gallery__item {
-    width: 550px; 
-    height: auto;
+  .circular-gallery {
+    --slide-w: 550px;
+  }
+
+  .circular-gallery__slider {
+    grid-template-columns: var(--arrow-size) 1fr var(--arrow-size);
+    gap: 1rem;
+  }
+
+  .circular-gallery__arrow {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: var(--arrow-size);
+    height: var(--arrow-size);
+    border-radius: 14px;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    background: rgba(255, 255, 255, 0.06);
+    backdrop-filter: blur(6px);
+    user-select: none;
+    cursor: pointer;
+    transition: border-color 200ms ease, box-shadow 200ms ease, transform 120ms ease, background 200ms ease;
+
+    span {
+      font-size: 28px;
+      line-height: 1;
+      color: #fff;
+      transform: translateY(-1px);
+    }
+
+    &:hover,
+    &:focus-visible {
+      border-color: var(--brand);
+      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.25),
+                  0 0 0 6px color-mix(in oklab, var(--brand) 20%, transparent);
+      outline: none;
+    }
+
+    &:active {
+      transform: scale(0.98);
+    }
+
+    &--prev { justify-self: end; }
+    &--next { justify-self: start; }
+  }
+
+  .circular-gallery__dots {
+    margin-bottom: 1rem;
   }
 }
 
-/* ==================== ANIMAÇÃO ==================== */
-@keyframes scroll {
-  0% {
-    transform: translateX(0);
+/* ====== Força remoção de setas em dispositivos touch ====== */
+@media (hover: none) and (pointer: coarse) {
+  .circular-gallery__slider {
+    grid-template-columns: 1fr !important;
   }
-  100% {
-    transform: translateX(-50%);
+  .circular-gallery__arrow {
+    display: none !important;
   }
+}
+
+/* ====== Acessibilidade ====== */
+.sr-only {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
 }
