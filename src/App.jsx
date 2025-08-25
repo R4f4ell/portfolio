@@ -5,6 +5,7 @@ import Sobre from "./components/sobre/Sobre";
 import Projetos from "./components/projetos/Projetos";
 import Frases from "./components/frases/Frases";
 import Certificados from "./components/certificados/Certificados";
+import Footer from "./components/footer/Footer";
 
 export default function App() {
   return (
@@ -29,6 +30,7 @@ export default function App() {
         <Projetos />
         <Frases />
         <Certificados />
+        <Footer />
       </main>
     </>
   );
