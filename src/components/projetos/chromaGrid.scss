@@ -80,12 +80,30 @@
   box-sizing: border-box;
   cursor: pointer;
 
+  /* Base: largura total, sem forçar aspecto */
   img {
     width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 12px;
+  }
+}
+
+/* >=768px: mantém thumbnail cinematográfica (16:9 + cover) */
+@media (min-width: 768px) {
+  .chroma-img-wrapper img {
     aspect-ratio: 16 / 9;
     object-fit: cover;
-    border-radius: 12px;
-    display: block;
+    object-position: center center; /* corte centralizado */
+  }
+}
+
+/* <768px: mostra a imagem inteira (sem cortes) */
+@media (max-width: 767px) {
+  .chroma-img-wrapper img {
+    aspect-ratio: auto;   /* não força 16:9 */
+    object-fit: contain;  /* garante 100% da imagem visível */
+    background: #0e0e10;  /* cor de fundo das “faixas” se sobrar espaço */
   }
 }
 
@@ -114,7 +132,7 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    transition: color .2s ease, text-shadow .3s ease; /* p/ efeito suave */
+    transition: color .2s ease, text-shadow .3s ease;
   }
 
   .repo-link {
@@ -132,7 +150,7 @@
     display: flex;
     align-items: center;
     gap: 10px;
-    margin-top: 12px; /* espaçamento via margin */
+    margin-top: 12px;
   }
 
   .perf-link {
@@ -146,18 +164,17 @@
     line-height: 1;
     cursor: pointer;
     text-decoration: none;
-    margin-right: 8px; /* margem adicional */
+    margin-right: 8px;
   }
 }
 
 /* ===== CORES / ILUMINAÇÃO ===== */
 
-/* DESKTOP: ícones começam BRANCOS; “lanterna/hover” pinta com cor da tecnologia
-   e o TÍTULO ganha a cor global + pulso quando iluminado */
+/* DESKTOP */
 @media (min-width: 1366px) {
   .chroma-card .tech-item svg,
   .chroma-card .tech-item .tech-text {
-    color: #ffffff; /* branco inicial */
+    color: #ffffff;
     filter: none;
   }
 
@@ -178,7 +195,6 @@
   .tech-item.in-lantern svg,
   .tech-item.in-lantern .tech-text { color: inherit; }
 
-  /* Título colorido + pulso quando a lanterna passa */
   .chroma-info .name.in-lantern {
     color: var(--theme-color);
     text-shadow: 0 0 0 rgba(255,255,255,0);
@@ -186,7 +202,7 @@
   }
 }
 
-/* MOBILE/TABLET: cores oficiais diretas, e TÍTULO SEMPRE com a cor global */
+/* MOBILE/TABLET: cores oficiais e título com cor global fixa */
 @media (max-width: 1365px) {
   .tech-item[data-key="react"]       { color: #61DAFB; }
   .tech-item[data-key="vite"]        { color: #646CFF; }
@@ -201,7 +217,6 @@
   .tech-item svg,
   .tech-item .tech-text { color: inherit; }
 
-  /* Título com a cor global fixa */
   .chroma-info .name { color: var(--theme-color); }
 }
 
@@ -226,7 +241,6 @@
       rgba(0,0,0,0.12) 30%,
       rgba(0,0,0,0.28) 45%,
       rgba(0,0,0,0.46) 60%,
-      rgba(0,0,0,0.70) 80%,
       rgba(0,0,0,1) 100%
     );
     -webkit-mask-image: radial-gradient(
@@ -236,7 +250,6 @@
       rgba(0,0,0,0.12) 30%,
       rgba(0,0,0,0.28) 45%,
       rgba(0,0,0,0.46) 60%,
-      rgba(0,0,0,0.70) 80%,
       rgba(0,0,0,1) 100%
     );
   }
@@ -260,7 +273,7 @@
   .chroma-card[data-hover="0"] { --r: 0px; }
 }
 
-/* Hover direto no ícone (apenas onde hover faz sentido) */
+/* Hover direto no ícone */
 @media (hover: hover) and (pointer: fine) and (min-width: 1366px) {
   .tech-top__item:hover[data-key="react"]       { color: #61DAFB; }
   .tech-top__item:hover[data-key="vite"]        { color: #646CFF; }
@@ -272,7 +285,7 @@
   .tech-top__item:hover[data-key="api"]         { color: #22D3EE; }
 }
 
-/* Acessibilidade: reduz movimento se o usuário preferir */
+/* Acessibilidade */
 @media (prefers-reduced-motion: reduce) {
   .chroma-info .name.in-lantern { animation: none; text-shadow: none; }
 }

@@ -5,11 +5,23 @@ import { TbApi } from "react-icons/tb";
 import ChromaGrid from "./ChromaGrid";
 import "./projetos.scss";
 
-// Imagens
-import golfclub from "../../assets/images/projetos/golfclub.png";
+/* Imagens dos cards (picture por projeto) */
+import albumFotosMobile from "../../assets/images/projetos/albumFotos/albumFotos-mobile.webp";
+import albumFotosTablet from "../../assets/images/projetos/albumFotos/albumFotos-tablet.webp";
+import albumFotosDesktop from "../../assets/images/projetos/albumFotos/albumFotos-desktop.webp";
+
 import calculatorImcMobile from "../../assets/images/projetos/calculatorImc/calculatorImc-mobile.webp";
 import calculatorImcTablet from "../../assets/images/projetos/calculatorImc/calculatorImc-tablet.webp";
 import calculatorImcDesktop from "../../assets/images/projetos/calculatorImc/calculatorImc-desktop.webp";
+
+import climaCidadesMobile from "../../assets/images/projetos/climaCidades/climaCidades-mobile.webp";
+import climaCidadesTablet from "../../assets/images/projetos/climaCidades/climaCidades-tablet.webp";
+import climaCidadesDesktop from "../../assets/images/projetos/climaCidades/climaCidades-desktop.webp";
+
+/* Tiya Golf Club (removido import duplicado/errado do diretório cronometro) */
+import golfClubMobile from "../../assets/images/projetos/tiyaGolfClub/golfclub-mobile.webp";
+import golfClubTablet from "../../assets/images/projetos/tiyaGolfClub/golfclub-tablet.webp";
+import golfClubDesktop from "../../assets/images/projetos/tiyaGolfClub/golfclub-desktop.webp";
 
 const TECH_ICON_MAP = {
   react: FaReact,
@@ -19,21 +31,26 @@ const TECH_ICON_MAP = {
   javascript: FaJs,
   js: FaJs,
   html: FaHtml5,
-  api: TbApi,      // mesmo ícone usado na sessão "Sobre"
+  api: TbApi,
   github: FaGithub,
 };
 
 const ITEMS = [
   {
-    image: golfclub,
+    /* Tiya Golf Club -> agora com <picture> */
+    picture: {
+      mobile: golfClubMobile,
+      tablet: golfClubTablet,
+      desktop: golfClubDesktop,
+    },
     alt: "Screenshot do projeto Tiya Golf Club",
     title: "Tiya Golf Club",
-    // React, Vite, JS, HTML, SCSS
     tech: ["react", "vite", "javascript", "html", "scss"],
     onlineUrl: "https://tiyagolfclub.rafaelldev.com",
     repoUrl: "https://github.com/R4f4ell/tiyaGolfClub",
   },
   {
+    /* Calculadora IMC (já estava correto) */
     picture: {
       mobile: calculatorImcMobile,
       tablet: calculatorImcTablet,
@@ -41,47 +58,56 @@ const ITEMS = [
     },
     alt: "Screenshot do projeto Calculadora IMC",
     title: "Calculadora IMC",
-    // React, Vite, JS, HTML, SCSS
     tech: ["react", "vite", "javascript", "html", "scss"],
     onlineUrl: "https://calculadoradeimc.rafaelldev.com",
     repoUrl: "https://github.com/R4f4ell/calculatorIMC",
   },
   {
+    /* Cronômetro (sem imagens novas por enquanto) */
     title: "Cronômetro",
     alt: "Screenshot do projeto Cronômetro",
-    // React, Vite, JS, HTML, SCSS
     tech: ["react", "vite", "javascript", "html", "scss"],
     onlineUrl: "https://cronometro.rafaelldev.com",
     repoUrl: "https://github.com/R4f4ell/cronometro",
   },
   {
-    title: "Clima de Cidades",
+    /* Clima de Cidades -> aplicado picture */
+    picture: {
+      mobile: climaCidadesMobile,
+      tablet: climaCidadesTablet,
+      desktop: climaCidadesDesktop,
+    },
     alt: "Screenshot do projeto Clima de Cidades",
-    // React, Vite, JS, HTML, SCSS + API (tempo real)
+    title: "Clima de Cidades",
     tech: ["react", "vite", "javascript", "html", "scss", "api"],
     onlineUrl: "https://climacidades.rafaelldev.com",
     repoUrl: "https://github.com/R4f4ell/climaCidades",
   },
   {
-    title: "Álbum de Fotos",
+    /* Álbum de Fotos -> aplicado picture */
+    picture: {
+      mobile: albumFotosMobile,
+      tablet: albumFotosTablet,
+      desktop: albumFotosDesktop,
+    },
     alt: "Screenshot do projeto Álbum de Fotos",
-    // React, Vite, JS, HTML, SCSS + Supabase + API (Unsplash)
+    title: "Álbum de Fotos",
     tech: ["react", "vite", "javascript", "html", "scss", "supabase", "api"],
     onlineUrl: "https://albumdefotos.rafaelldev.com",
     repoUrl: "https://github.com/R4f4ell/albumFotosComAPI",
   },
   {
+    /* Citações (sem images novas) */
     title: "Citações",
     alt: "Screenshot do projeto Citações",
-    // React, Vite, JS, HTML, SCSS
     tech: ["react", "vite", "javascript", "html", "scss"],
     onlineUrl: "https://citacoes.rafaelldev.com",
     repoUrl: "https://github.com/R4f4ell/citacoes",
   },
   {
+    /* Tela de Login (sem images novas) */
     title: "Tela de Login",
     alt: "Screenshot do projeto Tela de Login",
-    // React, Vite, JS, HTML, SCSS
     tech: ["react", "vite", "javascript", "html", "scss"],
     onlineUrl: "https://teladelogin.rafaelldev.com",
     repoUrl: "https://github.com/R4f4ell/telaLogin1-comReact",
