@@ -2,13 +2,14 @@ import React, { useEffect, useRef, useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import './header.scss'
 import useLockBodyScroll from '../../hooks/header/useLockBodyScroll'
+import { scrollToSection } from '../../utils/apresentacaoInicial/scroll'
 
 const LINKS = [
   { id: 'home', label: 'HOME', href: '#home' },
   { id: 'about', label: 'ABOUT', href: '#about' },
   { id: 'projects', label: 'PROJECTS', href: '#projects' },
   { id: 'quotes', label: 'QUOTES', href: '#quotes' },
-  { id: 'certificados', label: 'CERTIFICATES', href: '#certificados' }, // novo link
+  { id: 'certificados', label: 'CERTIFICATES', href: '#certificados' },
 ]
 
 export default function Header() {
@@ -57,44 +58,18 @@ export default function Header() {
     }
   }, [open])
 
-  // fecha painel ao clicar fora
-  useEffect(() => {
-    if (!open) return
-    const handleDown = (e) => {
-      const t = e.target
-      if (panelRef.current?.contains(t)) return
-      if (burgerRef.current?.contains(t)) return
-      setOpen(false)
-    }
-    document.addEventListener('mousedown', handleDown)
-    document.addEventListener('touchstart', handleDown, { passive: true })
-    return () => {
-      document.removeEventListener('mousedown', handleDown)
-      document.removeEventListener('touchstart', handleDown)
-    }
-  }, [open])
-
-  // scroll suave por clique
-  const scrollToId = (id) => {
-    const el = document.getElementById(id)
-    if (!el) return
-    const headerHeight = headerRef.current?.offsetHeight || 0
-    const rectTop = el.getBoundingClientRect().top + window.pageYOffset
-    const targetTop = Math.max(rectTop - headerHeight - 8, 0)
-    window.scrollTo({ top: targetTop, behavior: 'smooth' })
-  }
-
+  // clique nos links (desktop e painel)
   const handleNavClick = (e, id) => {
     e.preventDefault()
     setOpen(false)
     const checkbox = document.getElementById('burger')
     if (checkbox && checkbox.checked) checkbox.checked = false
-    scrollToId(id)
+    scrollToSection(id)
   }
 
-  // brand agora apenas rola até a seção inicial (#home)
+  // clique na marca (vai para #home)
   const handleBrandClick = () => {
-    scrollToId('home')
+    scrollToSection('home')
   }
 
   const panelVariants = {
@@ -117,6 +92,7 @@ export default function Header() {
           <span className="brand-text">Portfólio</span>
         </button>
 
+        {/* Links Desktop */}
         <nav className="nav__links--desktop" aria-hidden="false">
           <ul className="nav-pills">
             {LINKS.map(link => (
@@ -133,8 +109,13 @@ export default function Header() {
           </ul>
         </nav>
 
-        {/* HAMBURGER */}
-        <label ref={burgerRef} className="hamburger" htmlFor="burger" aria-label={open ? 'Fechar menu' : 'Abrir menu'}>
+        {/* Hamburger */}
+        <label
+          ref={burgerRef}
+          className="hamburger"
+          htmlFor="burger"
+          aria-label={open ? 'Fechar menu' : 'Abrir menu'}
+        >
           <input
             type="checkbox"
             id="burger"
@@ -152,6 +133,7 @@ export default function Header() {
           </svg>
         </label>
 
+        {/* Backdrop */}
         <AnimatePresence>
           {open && (
             <motion.button
@@ -167,6 +149,7 @@ export default function Header() {
           )}
         </AnimatePresence>
 
+        {/* Painel Mobile */}
         <AnimatePresence>
           {open && (
             <motion.div
@@ -186,7 +169,7 @@ export default function Header() {
                     <motion.li key={link.id} variants={itemVariants}>
                       <a
                         href={link.href}
-                        onClick={(e) => { e.preventDefault(); setOpen(false); scrollToId(link.id) }}
+                        onClick={(e) => { e.preventDefault(); setOpen(false); scrollToSection(link.id) }}
                         aria-label={link.label}
                       >
                         {link.label}

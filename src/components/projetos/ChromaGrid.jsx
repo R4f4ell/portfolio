@@ -4,7 +4,6 @@ import useRevealOnScroll from "../../hooks/projetos/useRevealOnScroll";
 import Modais from "../performanceModal/Modais";
 import "./chromaGrid.scss";
 
-// Paleta por tecnologia (predominância)
 const TECH_COLOR = {
   react: "#61DAFB",
   vite: "#646CFF",
@@ -17,9 +16,7 @@ const TECH_COLOR = {
 };
 
 function deriveThemeFromTech(tech = []) {
-  const primary =
-    (tech.find((t) => t && String(t).toLowerCase() !== "github") || "")
-      .toLowerCase();
+  const primary = (tech.find((t) => t && String(t).toLowerCase() !== "github") || "").toLowerCase();
   const color = TECH_COLOR[primary] || "#3B82F6";
   const gradient = `linear-gradient(145deg, ${color}, #000)`;
   return { borderColor: color, gradient, themeColor: color };
@@ -34,7 +31,6 @@ export default function ChromaGrid({
   const isDesktop = useRef(false);
   const { ref: ioRef, isVisible } = useRevealOnScroll({ threshold: 0.25 });
 
-  // Modal único
   const [perfOpen, setPerfOpen] = useState(false);
   const [selectedPerf, setSelectedPerf] = useState(null);
   const [selectedTitle, setSelectedTitle] = useState("");
@@ -55,28 +51,28 @@ export default function ChromaGrid({
     () =>
       (items.length ? items : []).map((it) => {
         const derived = deriveThemeFromTech(it.tech);
-        return {
-          themeColor: derived.themeColor,
-          borderColor: it.borderColor || derived.borderColor,
-          gradient: it.gradient || derived.gradient,
-          ...it,
-        };
+        return { themeColor: derived.themeColor, borderColor: it.borderColor || derived.borderColor, gradient: it.gradient || derived.gradient, ...it };
       }),
     [items]
   );
 
+  // Desktop + ponteiro fino (sem touch) — ativa "lanterna"
   useEffect(() => {
-    const mq = window.matchMedia("(min-width: 1366px)");
-    const update = () => (isDesktop.current = mq.matches);
+    const mqDesktop = window.matchMedia("(min-width: 1024px)");
+    const mqFine = window.matchMedia("(hover: hover) and (pointer: fine)");
+    const update = () => { isDesktop.current = mqDesktop.matches && mqFine.matches; };
     update();
-    mq.addEventListener?.("change", update);
-    return () => mq.removeEventListener?.("change", update);
+    mqDesktop.addEventListener?.("change", update);
+    mqFine.addEventListener?.("change", update);
+    return () => {
+      mqDesktop.removeEventListener?.("change", update);
+      mqFine.removeEventListener?.("change", update);
+    };
   }, []);
 
   // Efeito “lanterna”
   const rafMap = useRef(new WeakMap());
   const updateIconInLantern = (cardEl, x, y, r) => {
-    // Tecnologias (ícones)
     const items = cardEl.querySelectorAll(".tech-item");
     items.forEach((li) => {
       const rect = li.getBoundingClientRect();
@@ -91,7 +87,6 @@ export default function ChromaGrid({
       else li.classList.remove("in-lantern");
     });
 
-    // Título (ganha cor global quando a lanterna passa)
     const title = cardEl.querySelector(".chroma-info .name");
     if (title) {
       const tRect = title.getBoundingClientRect();
@@ -109,8 +104,10 @@ export default function ChromaGrid({
 
   const bindLanternHandlers = useCallback((cardEl) => {
     if (!cardEl) return;
-    const r =
-      parseFloat(getComputedStyle(cardEl).getPropertyValue("--r-base")) || 280;
+    // só adiciona listeners se for desktop + sem touch
+    if (!isDesktop.current) return;
+
+    const r = parseFloat(getComputedStyle(cardEl).getPropertyValue("--r-base")) || 280;
     const rect = cardEl.getBoundingClientRect();
     const startX = rect.width * 0.5;
     const startY = rect.height * 0.4;
@@ -118,15 +115,12 @@ export default function ChromaGrid({
     cardEl.style.setProperty("--cy", `${startY}px`);
     cardEl.dataset.hover = "0";
 
-    const onEnter = () => {
-      if (isDesktop.current) cardEl.dataset.hover = "1";
-    };
+    const onEnter = () => { if (isDesktop.current) cardEl.dataset.hover = "1"; };
     const onLeave = () => {
       if (!isDesktop.current) return;
       cardEl.dataset.hover = "0";
       setTimeout(() => {
-        const items = cardEl.querySelectorAll(".tech-item.in-lantern");
-        items.forEach((li) => li.classList.remove("in-lantern"));
+        cardEl.querySelectorAll(".tech-item.in-lantern").forEach((li) => li.classList.remove("in-lantern"));
         const title = cardEl.querySelector(".chroma-info .name.in-lantern");
         if (title) title.classList.remove("in-lantern");
       }, 600);
@@ -184,7 +178,6 @@ export default function ChromaGrid({
           }}
           aria-label={`Projeto: ${c.title}`}
         >
-          {/* TECNOLOGIAS NO TOPO */}
           <div className="tech-top" aria-hidden="false">
             <ul className="tech-top__list" aria-label="Tecnologias usadas">
               {(c.tech || []).map((t, idx) => {
@@ -194,24 +187,17 @@ export default function ChromaGrid({
                 return (
                   <li
                     key={`${key}-${idx}`}
-                    className={`tech-item tech-top__item${
-                      isGithub ? " tech-github" : ""
-                    }`}
+                    className={`tech-item tech-top__item${isGithub ? " tech-github" : ""}`}
                     data-key={key}
                     title={key}
                   >
-                    {Icon ? (
-                      <Icon aria-label={`Tecnologia: ${key}`} />
-                    ) : (
-                      <span className="tech-text">{key}</span>
-                    )}
+                    {Icon ? <Icon aria-label={`Tecnologia: ${key}`} /> : <span className="tech-text">{key}</span>}
                   </li>
                 );
               })}
             </ul>
           </div>
 
-          {/* IMAGEM (link para o projeto online) */}
           <a
             href={c.onlineUrl}
             target="_blank"
@@ -221,38 +207,18 @@ export default function ChromaGrid({
           >
             {c.picture ? (
               <picture>
-                <source
-                  srcSet={c.picture.desktop}
-                  media="(min-width: 1024px)"
-                />
+                <source srcSet={c.picture.desktop} media="(min-width: 1024px)" />
                 <source srcSet={c.picture.tablet} media="(min-width: 768px)" />
-                <img
-                  src={c.picture.mobile}
-                  alt={c.alt || c.title}
-                  width={IMG_W}
-                  height={IMG_H}
-                  loading="lazy"
-                />
+                <img src={c.picture.mobile} alt={c.alt || c.title} width={IMG_W} height={IMG_H} loading="lazy" />
               </picture>
             ) : (
-              <img
-                src={c.image}
-                alt={c.alt || c.title}
-                width={IMG_W}
-                height={IMG_H}
-                loading="lazy"
-              />
+              <img src={c.image} alt={c.alt || c.title} width={IMG_W} height={IMG_H} loading="lazy" />
             )}
           </a>
 
-          {/* FOOTER */}
           <footer className="chroma-info">
-            {/* Linha 1: título + GitHub (mesma altura) */}
             <div className="info-row">
-              <h3 className="name" title={c.title}>
-                {c.title}
-              </h3>
-
+              <h3 className="name" title={c.title}>{c.title}</h3>
               {c.repoUrl && (
                 <a
                   href={c.repoUrl}
@@ -266,33 +232,19 @@ export default function ChromaGrid({
                 </a>
               )}
             </div>
-
-            {/* Linha 2: Desempenho (mantém à ESQUERDA) */}
             <div className="info-subrow">
-              <button
-                type="button"
-                className="perf-link"
-                onClick={() => openPerf(c)}
-                aria-label="Ver desempenho do projeto"
-              >
+              <button type="button" className="perf-link" onClick={() => openPerf(c)} aria-label="Ver desempenho do projeto">
                 Desempenho
               </button>
             </div>
           </footer>
 
-          {/* Iluminação */}
           <div className="card-overlay" aria-hidden="true" />
           <div className="card-fade" aria-hidden="true" />
         </article>
       ))}
 
-      {/* Modal */}
-      <Modais
-        open={perfOpen}
-        onClose={closePerf}
-        projectTitle={selectedTitle}
-        performance={selectedPerf}
-      />
+      <Modais open={perfOpen} onClose={closePerf} projectTitle={selectedTitle} performance={selectedPerf} />
     </div>
   );
 }

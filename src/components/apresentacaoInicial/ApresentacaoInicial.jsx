@@ -1,21 +1,12 @@
-import React, { useCallback } from 'react'
+import React from 'react'
 import { Github, Linkedin } from 'lucide-react'
 import { FaWhatsapp } from 'react-icons/fa'
 import { motion } from 'framer-motion'
+import { scrollToSection } from '../../utils/apresentacaoInicial/scroll'
 import './apresentacaoInicial.scss'
 import imgPerfil from '../../assets/images/apresentacaoInicial/imgPerfil.jpg'
 
 const ApresentacaoInicial = () => {
-  const scrollToProjects = useCallback(() => {
-    const el = document.getElementById('projects')
-    if (!el) return
-    const headerEl = document.querySelector('.site-header')
-    const headerHeight = headerEl?.offsetHeight || 0
-    const rectTop = el.getBoundingClientRect().top + window.pageYOffset
-    const targetTop = Math.max(rectTop - headerHeight - 8, 0)
-    window.scrollTo({ top: targetTop, behavior: 'smooth' })
-  }, [])
-
   return (
     <section
       id="home"
@@ -37,7 +28,7 @@ const ApresentacaoInicial = () => {
             <button
               type="button"
               className="apresentacao-inicial__btn"
-              onClick={scrollToProjects}
+              onClick={() => scrollToSection('projects')}
               aria-label="Ir para a seção de projetos"
             >
               Ver projetos
@@ -85,7 +76,6 @@ const ApresentacaoInicial = () => {
             src={imgPerfil}
             alt="Foto de Rafael"
             className="apresentacao-inicial__foto"
-            loading="lazy"
           />
         </div>
 
