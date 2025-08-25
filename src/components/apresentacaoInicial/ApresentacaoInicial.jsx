@@ -4,7 +4,7 @@ import { FaWhatsapp } from 'react-icons/fa'
 import { motion } from 'framer-motion'
 import { scrollToSection } from '../../utils/apresentacaoInicial/scroll'
 import './apresentacaoInicial.scss'
-import imgPerfil from '../../assets/images/apresentacaoInicial/imgPerfil.jpg'
+import imgPerfil from '../../assets/images/apresentacaoInicial/imgPerfil.webp'
 
 const ApresentacaoInicial = () => {
   return (

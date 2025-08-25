@@ -1,12 +1,12 @@
 import React, { Fragment } from "react";
 import "./frases.scss";
 
-import resolvoProblemas from "../../assets/images/frases/resolvoProblemas.webp";
 import aprendoRapido from "../../assets/images/frases/aprendoRapido.webp";
-import focoEmPerformance from "../../assets/images/frases/focoEmPerformance.webp";
-import trabalhoEmEquipe from "../../assets/images/frases/trabalhoEmEquipe.webp";
-import olhoNoDetalhe from "../../assets/images/frases/olhoNoDetalhe.webp";
 import autonomia from "../../assets/images/frases/autonomia.webp";
+import focoEmPerformance from "../../assets/images/frases/focoEmPerformance.webp";
+import olhoNoDetalhe from "../../assets/images/frases/olhoNoDetalhe.webp";
+import resolvoProblemas from "../../assets/images/frases/resolvoProblemas.webp";
+import trabalhoEmEquipe from "../../assets/images/frases/trabalhoEmEquipe.webp";
 import visaoDeProduto from "../../assets/images/frases/visaoDeProduto.webp";
 
 const FRASES = [
