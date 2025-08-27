@@ -22,15 +22,11 @@ export default function Modais({ open, onClose, projectTitle, performance }) {
   useEffect(() => {
     if (!open) return;
 
-    // guarda o elemento que tinha foco
     previouslyFocusedRef.current = document.activeElement;
-
-    // foca o botão fechar assim que abrir
     const t = setTimeout(() => {
       closeBtnRef.current?.focus();
     }, 0);
 
-    // trap de tab dentro do conteúdo do modal
     const handleKeyDown = (e) => {
       if (e.key === "Escape") {
         e.stopPropagation();
@@ -66,7 +62,6 @@ export default function Modais({ open, onClose, projectTitle, performance }) {
     return () => {
       clearTimeout(t);
       document.removeEventListener("keydown", handleKeyDown);
-      // devolve foco ao gatilho
       const prev = previouslyFocusedRef.current;
       if (prev && typeof prev.focus === "function") prev.focus();
     };
@@ -124,6 +119,7 @@ export default function Modais({ open, onClose, projectTitle, performance }) {
                 src={performance?.mobile || performance?.desktop || ""}
                 alt={altText}
                 decoding="async"
+                loading="lazy"
                 className="perf-modal__img"
               />
             </picture>

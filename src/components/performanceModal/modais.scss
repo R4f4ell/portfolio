@@ -46,15 +46,42 @@
     background: transparent;
     border: 0;
     color: #fff;
-    font-size: 22px;
+    font-size: 28px; /* aumentado */
     line-height: 1;
     cursor: pointer;
 
-    &:hover { opacity: .85; }
-    &:active { transform: scale(.98); }
+    /* remove hover, active, outline */
+    &:hover, &:active {
+      opacity: 1;
+      transform: none;
+    }
+    &:focus {
+      outline: none;
+      box-shadow: none;
+    }
   }
 
-  &__body { padding: 12px; overflow: auto; }
-  &__img  { width: 100%; height: auto; display: block; border-radius: 10px; }
-  &__empty { padding: 24px; color: #cfcfcf; text-align: center; }
+  &__body {
+    padding: 12px;
+    /* bloqueia scroll interno no desktop */
+    @media (min-width: 1024px) {
+      overflow: hidden;
+    }
+    @media (max-width: 1023px) {
+      overflow: auto; /* mobile continua com scroll se precisar */
+    }
+  }
+
+  &__img {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 10px;
+  }
+
+  &__empty {
+    padding: 24px;
+    color: #cfcfcf;
+    text-align: center;
+  }
 }
