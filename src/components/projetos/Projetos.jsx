@@ -1,3 +1,4 @@
+// src/components/projetos/Projetos.jsx
 import React, { useMemo } from "react";
 import { FaGithub, FaReact, FaJs, FaSass, FaHtml5 } from "react-icons/fa";
 import { SiVite, SiSupabase } from "react-icons/si";
@@ -18,10 +19,13 @@ import climaCidadesMobile from "../../assets/images/projetos/climaCidades/climaC
 import climaCidadesTablet from "../../assets/images/projetos/climaCidades/climaCidades-tablet.webp";
 import climaCidadesDesktop from "../../assets/images/projetos/climaCidades/climaCidades-desktop.webp";
 
-/* Tiya Golf Club (removido import duplicado/errado do diretório cronometro) */
 import golfClubMobile from "../../assets/images/projetos/tiyaGolfClub/golfclub-mobile.webp";
 import golfClubTablet from "../../assets/images/projetos/tiyaGolfClub/golfclub-tablet.webp";
 import golfClubDesktop from "../../assets/images/projetos/tiyaGolfClub/golfclub-desktop.webp";
+
+import telaLoginMobile from "../../assets/images/projetos/telaLogin/telaLogin-mobile.webp";
+import telaLoginTablet from "../../assets/images/projetos/telaLogin/telaLogin-tablet.webp";
+import telaLoginDesktop from "../../assets/images/projetos/telaLogin/telaLogin-desktop.webp";
 
 const TECH_ICON_MAP = {
   react: FaReact,
@@ -37,7 +41,7 @@ const TECH_ICON_MAP = {
 
 const ITEMS = [
   {
-    /* Tiya Golf Club -> agora com <picture> */
+    /* Tiya Golf Club */
     picture: {
       mobile: golfClubMobile,
       tablet: golfClubTablet,
@@ -50,7 +54,7 @@ const ITEMS = [
     repoUrl: "https://github.com/R4f4ell/tiyaGolfClub",
   },
   {
-    /* Calculadora IMC (já estava correto) */
+    /* Calculadora IMC */
     picture: {
       mobile: calculatorImcMobile,
       tablet: calculatorImcTablet,
@@ -71,7 +75,7 @@ const ITEMS = [
     repoUrl: "https://github.com/R4f4ell/cronometro",
   },
   {
-    /* Clima de Cidades -> aplicado picture */
+    /* Clima de Cidades -> com <picture> */
     picture: {
       mobile: climaCidadesMobile,
       tablet: climaCidadesTablet,
@@ -84,7 +88,7 @@ const ITEMS = [
     repoUrl: "https://github.com/R4f4ell/climaCidades",
   },
   {
-    /* Álbum de Fotos -> aplicado picture */
+    /* Álbum de Fotos -> com <picture> */
     picture: {
       mobile: albumFotosMobile,
       tablet: albumFotosTablet,
@@ -97,7 +101,7 @@ const ITEMS = [
     repoUrl: "https://github.com/R4f4ell/albumFotosComAPI",
   },
   {
-    /* Citações (sem images novas) */
+    /* Citações (sem imagens novas) */
     title: "Citações",
     alt: "Screenshot do projeto Citações",
     tech: ["react", "vite", "javascript", "html", "scss"],
@@ -105,9 +109,14 @@ const ITEMS = [
     repoUrl: "https://github.com/R4f4ell/citacoes",
   },
   {
-    /* Tela de Login (sem images novas) */
-    title: "Tela de Login",
+    /* Tela de Login -> com <picture> */
+    picture: {
+      mobile: telaLoginMobile,
+      tablet: telaLoginTablet,
+      desktop: telaLoginDesktop,
+    },
     alt: "Screenshot do projeto Tela de Login",
+    title: "Tela de Login",
     tech: ["react", "vite", "javascript", "html", "scss"],
     onlineUrl: "https://teladelogin.rafaelldev.com",
     repoUrl: "https://github.com/R4f4ell/telaLogin1-comReact",
