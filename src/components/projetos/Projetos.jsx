@@ -15,9 +15,17 @@ import calculatorImcMobile from "../../assets/images/projetos/calculatorImc/calc
 import calculatorImcTablet from "../../assets/images/projetos/calculatorImc/calculatorImc-tablet.webp";
 import calculatorImcDesktop from "../../assets/images/projetos/calculatorImc/calculatorImc-desktop.webp";
 
+import citacoesMobile from "../../assets/images/projetos/citacoes/citacoes-mobile.webp";
+import citacoesTablet from "../../assets/images/projetos/citacoes/citacoes-tablet.webp";
+import citacoesDesktop from "../../assets/images/projetos/citacoes/citacoes-desktop.webp";
+
 import climaCidadesMobile from "../../assets/images/projetos/climaCidades/climaCidades-mobile.webp";
 import climaCidadesTablet from "../../assets/images/projetos/climaCidades/climaCidades-tablet.webp";
 import climaCidadesDesktop from "../../assets/images/projetos/climaCidades/climaCidades-desktop.webp";
+
+import cronometroMobile from "../../assets/images/projetos/cronometro/cronometro-mobile.webp";
+import cronometroTablet from "../../assets/images/projetos/cronometro/cronometro-tablet.webp";
+import cronometroDesktop from "../../assets/images/projetos/cronometro/cronometro-desktop.webp";
 
 import golfClubMobile from "../../assets/images/projetos/tiyaGolfClub/golfclub-mobile.webp";
 import golfClubTablet from "../../assets/images/projetos/tiyaGolfClub/golfclub-tablet.webp";
@@ -27,7 +35,7 @@ import telaLoginMobile from "../../assets/images/projetos/telaLogin/telaLogin-mo
 import telaLoginTablet from "../../assets/images/projetos/telaLogin/telaLogin-tablet.webp";
 import telaLoginDesktop from "../../assets/images/projetos/telaLogin/telaLogin-desktop.webp";
 
-/* Imagens dos modais */
+/* Imagens dos modais (Lighthouse) */
 import albumFotosPerfMobile from "../../assets/images/modalProjetos/albumFotos/albumFotosModal-mobile.jpg";
 import albumFotosPerfDesktop from "../../assets/images/modalProjetos/albumFotos/albumFotosModal-desktop.jpg";
 
@@ -86,8 +94,9 @@ const ITEMS = [
   },
   {
     /* Cronômetro */
-    title: "Cronômetro",
+    picture: { mobile: cronometroMobile, tablet: cronometroTablet, desktop: cronometroDesktop },
     alt: "Screenshot do projeto Cronômetro",
+    title: "Cronômetro",
     tech: ["react", "vite", "javascript", "html", "scss"],
     onlineUrl: "https://cronometro.rafaelldev.com",
     repoUrl: "https://github.com/R4f4ell/cronometro",
@@ -127,11 +136,13 @@ const ITEMS = [
   },
   {
     /* Citações */
-    title: "Citações",
+    picture: { mobile: citacoesMobile, tablet: citacoesTablet, desktop: citacoesDesktop },
     alt: "Screenshot do projeto Citações",
+    title: "Citações",
     tech: ["react", "vite", "javascript", "html", "scss"],
     onlineUrl: "https://citacoes.rafaelldev.com",
     repoUrl: "https://github.com/R4f4ell/citacoes",
+    // Se quiser desempenho depois, é só adicionar o objeto `performance` aqui.
   },
   {
     /* Tela de Login */
