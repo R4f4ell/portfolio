@@ -1,12 +1,28 @@
-# React + Vite
+# Portfólio — Rafael Martins
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Portfólio pessoal, mostrando projetos reais, design responsivo, acessibilidade e atenção a performance. O site traz uma home de apresentação, descrições sobre minhas experiências, grid de projetos com modal de desempenho, carrossel de frases retratando minhas habilidades adicionais, carrossel de certificados e um background WebGL leve com efeitos para um fundo fixo do site.
 
-Currently, two official plugins are available:
+## 🔧 Tecnologias
+- React + Vite
+- SCSS
+- Framer Motion
+- React Icons / Lucide
+- IntersectionObserver (reveal on scroll, scroll spy)
+- OGL (WebGL) para o background de luzes, com shaders customizados e controle de DPR (suave no mobile)
+- Hooks utilitários: useLockBodyScroll, useRevealOnScroll, useScrollSpy e useBackSite
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🚀 Funcionalidades
+- Header fixo e responsivo: com clique e animação com scroll até a sessão específica do link
+- Sessão inicial: com links para redes de comunicação (Linkedin, Github e WhatsApp)
+- Sessão 'Sobre': texto direto sobre minhas habilidades, projetos reais e ícones de habilidades que possuo
+- Sessão 'Projetos': Cards com lanterna interativa (desktop): quando o cursor passa, ícones de tecnologias e o título ganham destaque. Cada card abre o projeto online, traz link para repositório e botão “Desempenho” para abrir o modal. Imagens usam <picture> com breakpoints (768px/1024px).
+- Modal de Desempenho: Acessível (role="dialog" + aria-modal), fecha por ESC/backdrop e exibe print Lighthouse por dispositivo.
+- Sessão 'Frases': Carrossel leve com 7 cartões (com contagem)
+- Sessão 'Certificados': Carrossel arrastável, setas, dots e teclado (←/→). Possui aria-live para leitura do slide atual. Cada certificado usa <picture> com mobile/tablet/desktop e fallback com dimensões (evita CLS).
+- Background WebGL: Efeito de raios de luz suave e configurável, com DPR limitado e desalocação de contexto ao desmontar (economia de GPU).
+- Footer minimalista: “© 2025 Rafael Martins". 
 
-## Expanding the ESLint configuration
+## 🔗 Links
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- Projeto online: https://portfolio.rafaelldev.com
+- Código-fonte: https://github.com/R4f4ell/portfolio
