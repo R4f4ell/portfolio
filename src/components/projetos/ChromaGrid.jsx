@@ -1,7 +1,6 @@
 import React, { useEffect, useMemo, useRef, useCallback, useState } from "react";
 import { FaGithub } from "react-icons/fa";
 import useRevealOnScroll from "../../hooks/projetos/useRevealOnScroll";
-import Modais from "../performanceModal/Modais";
 import "./chromaGrid.scss";
 
 const TECH_COLOR = {
@@ -31,22 +30,6 @@ export default function ChromaGrid({
   const isDesktop = useRef(false);
   const { ref: ioRef, isVisible } = useRevealOnScroll({ threshold: 0.25 });
 
-  const [perfOpen, setPerfOpen] = useState(false);
-  const [selectedPerf, setSelectedPerf] = useState(null);
-  const [selectedTitle, setSelectedTitle] = useState("");
-
-  const openPerf = useCallback((project) => {
-    setSelectedPerf(project?.performance || null);
-    setSelectedTitle(project?.title || "");
-    setPerfOpen(true);
-  }, []);
-
-  const closePerf = useCallback(() => {
-    setPerfOpen(false);
-    setSelectedPerf(null);
-    setSelectedTitle("");
-  }, []);
-
   const data = useMemo(
     () =>
       (items.length ? items : []).map((it) => {
@@ -56,7 +39,6 @@ export default function ChromaGrid({
     [items]
   );
 
-  // Desktop + ponteiro fino (sem touch) — ativa "lanterna"
   useEffect(() => {
     const mqDesktop = window.matchMedia("(min-width: 1024px)");
     const mqFine = window.matchMedia("(hover: hover) and (pointer: fine)");
@@ -70,7 +52,6 @@ export default function ChromaGrid({
     };
   }, []);
 
-  // Efeito “lanterna”
   const rafMap = useRef(new WeakMap());
   const updateIconInLantern = (cardEl, x, y, r) => {
     const items = cardEl.querySelectorAll(".tech-item");
@@ -104,7 +85,6 @@ export default function ChromaGrid({
 
   const bindLanternHandlers = useCallback((cardEl) => {
     if (!cardEl) return;
-    // só adiciona listeners se for desktop + sem touch
     if (!isDesktop.current) return;
 
     const r = parseFloat(getComputedStyle(cardEl).getPropertyValue("--r-base")) || 280;
@@ -232,19 +212,12 @@ export default function ChromaGrid({
                 </a>
               )}
             </div>
-            <div className="info-subrow">
-              <button type="button" className="perf-link" onClick={() => openPerf(c)} aria-label="Ver desempenho do projeto">
-                Desempenho
-              </button>
-            </div>
           </footer>
 
           <div className="card-overlay" aria-hidden="true" />
           <div className="card-fade" aria-hidden="true" />
         </article>
       ))}
-
-      <Modais open={perfOpen} onClose={closePerf} projectTitle={selectedTitle} performance={selectedPerf} />
     </div>
   );
 }

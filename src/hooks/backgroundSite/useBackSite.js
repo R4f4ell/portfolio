@@ -35,8 +35,6 @@ export default function useBackSite(opcoes = {}) {
       distortion: { value: opts.distortion },
       intensity: { value: opts.intensity },
     }),
-    // cria uma vez
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     []
   );
 
@@ -135,9 +133,8 @@ export default function useBackSite(opcoes = {}) {
       uniformsRef.current = null;
       meshRef.current = null;
     };
-  }, []); // monta uma vez
+  }, []);
 
-  // Atualiza uniforms quando as opções mudam
   useEffect(() => {
     const u = uniformsRef.current;
     const r = rendererRef.current;
@@ -156,7 +153,6 @@ export default function useBackSite(opcoes = {}) {
     u.distortion.value = opcoes.distortion ?? PADROES_BACKGROUND.distortion;
     u.intensity.value = opcoes.intensity ?? PADROES_BACKGROUND.intensity;
 
-    // origem pode mudar
     const wCSS = el.clientWidth;
     const hCSS = el.clientHeight;
     const dpr = r.dpr;

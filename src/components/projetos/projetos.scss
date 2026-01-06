@@ -21,8 +21,6 @@
     font-weight: 800;
     margin: 0 auto;
     display: inline-block;
-
-    /* gradiente animado */
     background: linear-gradient(
       to right,
       #6366f1 0%,
@@ -40,7 +38,6 @@
   }
 }
 
-/* Keyframes para o shine */
 @keyframes shine {
   0%   { background-position: 0% center; }
   100% { background-position: 200% center; }

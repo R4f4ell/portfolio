@@ -14,7 +14,6 @@ export default function Footer() {
           © 2025 Rafael Martins
         </span>
 
-        {/* Ícone só será exibido no desktop via CSS */}
         <button
           type="button"
           className="footer__to-top"

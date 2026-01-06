@@ -22,7 +22,7 @@
     margin-inline: auto;
     padding: 16px 0 calc(16px + env(safe-area-inset-bottom));
     display: grid;
-    grid-template-columns: 1fr auto 1fr; /* centro fixo + botão à direita */
+    grid-template-columns: 1fr auto 1fr;
     align-items: center;
   }
 
@@ -35,7 +35,6 @@
     letter-spacing: 0.2px;
   }
 
-  /* Por padrão, escondemos o botão (touch e telas pequenas) */
   .footer__to-top {
     display: none;
     grid-column: 3;
@@ -60,12 +59,10 @@
       border-color: rgba(255,255,255,.28);
     }
 
-    /* Exibir SOMENTE no desktop com mouse (não-touch) */
     @media (min-width: 1024px) and (hover: hover) and (pointer: fine) {
       display: inline-grid;
     }
 
-    /* Hover só para quem tem mouse */
     @media (hover: hover) and (pointer: fine) {
       &:hover {
         transform: translateY(-2px);

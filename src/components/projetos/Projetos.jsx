@@ -1,4 +1,3 @@
-// src/components/projetos/Projetos.jsx
 import React, { useMemo } from "react";
 import { FaGithub, FaReact, FaJs, FaSass, FaHtml5 } from "react-icons/fa";
 import { SiVite, SiSupabase } from "react-icons/si";
@@ -6,7 +5,6 @@ import { TbApi } from "react-icons/tb";
 import ChromaGrid from "./ChromaGrid";
 import "./projetos.scss";
 
-/* Imagens dos cards (picture por projeto) */
 import albumFotosMobile from "../../assets/images/projetos/albumFotos/albumFotos-mobile.webp";
 import albumFotosTablet from "../../assets/images/projetos/albumFotos/albumFotos-tablet.webp";
 import albumFotosDesktop from "../../assets/images/projetos/albumFotos/albumFotos-desktop.webp";
@@ -35,7 +33,6 @@ import telaLoginMobile from "../../assets/images/projetos/telaLogin/telaLogin-mo
 import telaLoginTablet from "../../assets/images/projetos/telaLogin/telaLogin-tablet.webp";
 import telaLoginDesktop from "../../assets/images/projetos/telaLogin/telaLogin-desktop.webp";
 
-/* Imagens dos modais (Lighthouse) */
 import albumFotosPerfMobile from "../../assets/images/modalProjetos/albumFotos/albumFotosModal-mobile.jpg";
 import albumFotosPerfDesktop from "../../assets/images/modalProjetos/albumFotos/albumFotosModal-desktop.jpg";
 
@@ -142,7 +139,6 @@ const ITEMS = [
     tech: ["react", "vite", "javascript", "html", "scss"],
     onlineUrl: "https://citacoes.rafaelldev.com",
     repoUrl: "https://github.com/R4f4ell/citacoes",
-    // Se quiser desempenho depois, é só adicionar o objeto `performance` aqui.
   },
   {
     /* Tela de Login */

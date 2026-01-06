@@ -1,6 +1,5 @@
 @use '../../styles/breakpoints' as breakpoint;
 
-/* ================== HEADER BASE ================== */
 .site-header {
   position: fixed;
   top: 0; left: 0; right: 0;
@@ -26,7 +25,6 @@
   column-gap: 8px;
 }
 
-/* ================== BRAND ================== */
 .brand-plate {
   --plate-bg: rgba(255,255,255,0.08);
   --plate-br: 9999px;
@@ -64,7 +62,6 @@
   }
 }
 
-/* ================== DESKTOP NAV ================== */
 .nav__links--desktop {
   display: none;
   position: absolute;
@@ -82,7 +79,6 @@
   gap: clamp(12px, 3vw, 24px);
   justify-content: center;
   align-items: center;
-
   background: rgba(12,12,12,0.42);
   backdrop-filter: blur(16px) saturate(155%) contrast(108%);
   -webkit-backdrop-filter: blur(16px) saturate(155%) contrast(108%);
@@ -91,7 +87,6 @@
   box-shadow: 0 8px 28px rgba(0,0,0,0.28), inset 0 1px 0 rgba(255,255,255,0.06);
 }
 
-/* Links do desktop */
 .nav-pills a {
   position: relative;
   z-index: 1;
@@ -106,7 +101,6 @@
   border-radius: 9999px;
 }
 
-/* Hover: gradiente + scale (apenas desktop com hover real) */
 @media (min-width: breakpoint.$bp-desk-1366) and (hover: hover) and (pointer: fine) {
   .nav-pills a {
     transition: transform 160ms ease;
@@ -124,7 +118,6 @@
   }
 }
 
-/* Focus via teclado (desktop): aplica mesmo estilo do hover */
 @media (min-width: breakpoint.$bp-desk-1366) {
   .nav-pills a:focus-visible {
     transform: scale(1.04);
@@ -136,12 +129,10 @@
   }
 }
 
-/* Respeita redução de movimento */
 @media (prefers-reduced-motion: reduce) {
   .nav-pills a { transition: none !important; }
 }
 
-/* ================== HAMBURGER ================== */
 .hamburger {
   cursor: pointer;
   justify-self: end;
@@ -174,7 +165,6 @@
   }
 }
 
-/* ================== BACKDROP ================== */
 .nav__backdrop {
   position: fixed;
   inset: 0;
@@ -183,7 +173,6 @@
   z-index: 60;
 }
 
-/* ================== PAINEL MOBILE ================== */
 .nav__panel {
   position: fixed;
   z-index: 70;
@@ -191,7 +180,6 @@
   width: fit-content;
   max-width: calc(100vw - 24px);
   border-radius: 14px;
-
   background: rgba(10,10,10,0.32);
   backdrop-filter: blur(12px) saturate(150%) contrast(105%);
   -webkit-backdrop-filter: blur(12px) saturate(150%) contrast(105%);
@@ -222,12 +210,10 @@
   }
 }
 
-/* ================== TABLET ================== */
 @media (min-width: breakpoint.$bp-tab-768) {
   .site-header { --header-h: 64px; }
 }
 
-/* ================== DESKTOP ================== */
 @media (min-width: breakpoint.$bp-desk-1366) {
   .site-header { --header-h: 72px; }
 

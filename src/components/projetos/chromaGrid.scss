@@ -1,4 +1,3 @@
-/* GRID */
 .chroma-grid {
   position: relative;
   width: 100%;
@@ -21,7 +20,6 @@
   }
 }
 
-/* CARD */
 .chroma-card {
   position: relative;
   display: flex;
@@ -41,7 +39,6 @@
   }
 }
 
-/* TECNOLOGIAS NO TOPO */
 .tech-top {
   position: relative;
   z-index: 5;
@@ -66,13 +63,11 @@
     justify-content: center;
     transition: color .2s ease, filter .2s ease;
 
-    /* tamanho dos ícones de tecnologia */
     svg { width: 18px; height: 18px; }
     .tech-text { font-size: 12px; }
   }
 }
 
-/* IMAGEM (link) */
 .chroma-img-wrapper {
   position: relative;
   display: block;
@@ -80,7 +75,6 @@
   box-sizing: border-box;
   cursor: pointer;
 
-  /* Base: largura total, sem forçar aspecto */
   img {
     width: 100%;
     height: auto;
@@ -89,25 +83,22 @@
   }
 }
 
-/* >=768px: mantém thumbnail cinematográfica (16:9 + cover) */
 @media (min-width: 768px) {
   .chroma-img-wrapper img {
     aspect-ratio: 16 / 9;
     object-fit: cover;
-    object-position: center center; /* corte centralizado */
+    object-position: center center;
   }
 }
 
-/* <768px: mostra a imagem inteira (sem cortes) */
 @media (max-width: 767px) {
   .chroma-img-wrapper img {
-    aspect-ratio: auto;   /* não força 16:9 */
-    object-fit: contain;  /* garante 100% da imagem visível */
-    background: #0e0e10;  /* cor de fundo das “faixas” se sobrar espaço */
+    aspect-ratio: auto;   
+    object-fit: contain;  
+    background: #0e0e10;  
   }
 }
 
-/* FOOTER */
 .chroma-info {
   position: relative;
   padding: 0.9rem 1rem 1.1rem;
@@ -116,7 +107,6 @@
   grid-template-rows: auto auto;
   gap: 8px;
 
-  /* Linha 1 = título + GitHub */
   .info-row {
     display: flex;
     align-items: center;
@@ -141,36 +131,17 @@
     justify-content: center;
     color: #d0d0d0;
 
-    /* Ícone do GitHub: mesmo tamanho do mobile em TODAS as telas */
     svg { width: 24px; height: 24px; display: block; }
   }
 
-  /* Linha 2 = Desempenho (mantém à ESQUERDA) */
   .info-subrow {
     display: flex;
     align-items: center;
     gap: 10px;
     margin-top: 12px;
   }
-
-  .perf-link {
-    appearance: none;
-    background: transparent;
-    color: #e6e6e6;
-    border: 1px solid rgba(255,255,255,0.28);
-    border-radius: 999px;
-    padding: 6px 10px;
-    font-size: 12px;
-    line-height: 1;
-    cursor: pointer;
-    text-decoration: none;
-    margin-right: 8px;
-  }
 }
 
-/* ===== CORES / ILUMINAÇÃO ===== */
-
-/* DESKTOP */
 @media (min-width: 1366px) {
   .chroma-card .tech-item svg,
   .chroma-card .tech-item .tech-text {
@@ -202,7 +173,6 @@
   }
 }
 
-/* MOBILE/TABLET: cores oficiais e título com cor global fixa */
 @media (max-width: 1365px) {
   .tech-item[data-key="react"]       { color: #61DAFB; }
   .tech-item[data-key="vite"]        { color: #646CFF; }
@@ -220,7 +190,6 @@
   .chroma-info .name { color: var(--theme-color); }
 }
 
-/* ===== ILUMINAÇÃO (máscaras) ===== */
 @media (min-width: 1366px) {
   .card-overlay,
   .card-fade {
@@ -273,7 +242,6 @@
   .chroma-card[data-hover="0"] { --r: 0px; }
 }
 
-/* Hover direto no ícone */
 @media (hover: hover) and (pointer: fine) and (min-width: 1366px) {
   .tech-top__item:hover[data-key="react"]       { color: #61DAFB; }
   .tech-top__item:hover[data-key="vite"]        { color: #646CFF; }
@@ -285,18 +253,15 @@
   .tech-top__item:hover[data-key="api"]         { color: #22D3EE; }
 }
 
-/* Acessibilidade */
 @media (prefers-reduced-motion: reduce) {
   .chroma-info .name.in-lantern { animation: none; text-shadow: none; }
 }
 
-/* Keyframes do pulso/glow do título */
 @keyframes title-glow {
   0%   { text-shadow: 0 0 0 rgba(0,0,0,0); }
   100% { text-shadow: 0 0 12px currentColor; }
 }
 
-/* Sem máscaras no mobile/tablet */
 @media (max-width: 1365px) {
   .card-overlay,
   .card-fade { display: none; }

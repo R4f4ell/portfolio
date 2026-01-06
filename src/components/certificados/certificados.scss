@@ -21,8 +21,6 @@
     font-weight: 800;
     margin: 0;
     display: inline-block;
-
-    /* gradiente animado */
     background: linear-gradient(
       to right,
       #6366f1 0%,
@@ -41,7 +39,6 @@
   }
 
   &__carousel {
-    /* mantém o comportamento atual do carrossel */
     width: 100%;
     display: grid;
     align-items: center;
@@ -60,7 +57,6 @@
   }
 }
 
-/* ===== Desktop: full-screen + centralizado ===== */
 @include bp.desktop {
   .certificados {
     width: 100%;
@@ -85,7 +81,6 @@
   }
 }
 
-/* Keyframes do efeito (caso não estejam globais) */
 @keyframes shine {
   0%   { background-position: 0% center; }
   100% { background-position: 200% center; }

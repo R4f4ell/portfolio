@@ -72,18 +72,20 @@ const ApresentacaoInicial = () => {
         </div>
 
         <div className="apresentacao-inicial__visual">
-          <img
-            src={imgPerfil}
-            alt="Foto de Rafael"
-            className="apresentacao-inicial__foto"
-          />
+          <div className="apresentacao-inicial__avatar">
+            <img
+              src={imgPerfil}
+              alt="Foto de Rafael"
+              className="apresentacao-inicial__foto"
+            />
+          </div>
         </div>
 
         <motion.div
           className="apresentacao-inicial__arrow"
           aria-hidden="true"
-          initial={{ opacity: 0, y: -10 }}
-          animate={{ opacity: 1, y: [0, 10, 0] }}
+          initial={{ y: 0 }}
+          animate={{ y: [0, 10, 0] }}
           transition={{ repeat: Infinity, duration: 2, ease: 'easeInOut' }}
         >
           <svg

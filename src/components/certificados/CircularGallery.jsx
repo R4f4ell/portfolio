@@ -60,7 +60,6 @@ export default function CircularGallery({ items = [] }) {
       ro.disconnect()
       window.removeEventListener("resize", onWinResize)
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [items.length])
 
   const onKeyDown = (e) => {
@@ -68,7 +67,6 @@ export default function CircularGallery({ items = [] }) {
     if (e.key === "ArrowLeft") prev()
   }
 
-  // Pointer/Touch drag
   const onPointerDown = (e) => {
     e.preventDefault()
     const x = e.touches ? e.touches[0].clientX : e.clientX

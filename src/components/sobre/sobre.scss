@@ -15,7 +15,6 @@
     @media (min-width: 1366px) { width: 70%; }
   }
 
-  /* título */
   .sobre-mim__header { margin-bottom: 24px; text-align: left; }
 
   .sobre-mim__title {
@@ -23,8 +22,6 @@
     font-weight: 800;
     margin: 0;
     display: inline-block;
-
-    /* gradiente animado */
     background: linear-gradient(
       to right,
       #6366f1 0%,
@@ -41,10 +38,8 @@
     animation: shine 4s linear infinite;
   }
 
-  /* coluna em todos os dispositivos */
   .sobre-mim__content { display: flex; flex-direction: column; gap: 20px; }
 
-  /* Card full width (borda só no primeiro) */
   .sobre-mim__card {
     width: 100%;
     background: rgba(255, 255, 255, 0.04);
@@ -57,7 +52,6 @@
 
   .sobre-mim__texto { p + p { margin-top: 14px; } }
 
-  /* Tecnologias */
   .sobre-mim__tecnologias {
     padding-top: 14px;
     display: flex;
@@ -71,8 +65,6 @@
     margin: 0 0 12px 0;
     opacity: 0.9;
     text-align: center;
-
-    /* ✅ cor global como gradiente no texto */
     display: inline-block;
     background: linear-gradient(90deg, #6366f1, #22d3ee);
     background-clip: text;
@@ -88,14 +80,12 @@
       display: block;
       width: 40px;
       height: 2px;
-      /* ✅ mesma cor global no sublinhado */
       background: linear-gradient(90deg, #6366f1, #22d3ee);
       margin: 6px auto 0 auto;
       border-radius: 2px;
     }
   }
 
-  /* Grid 2/4/8 */
   .tec-grid {
     --size-icon: 28px;
     --label-gap: 18px;
@@ -198,7 +188,6 @@
   }
 }
 
-/* Keyframes para o shine */
 @keyframes shine {
   0%   { background-position: 0% center; }
   100% { background-position: 200% center; }

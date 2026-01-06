@@ -1,4 +1,3 @@
-// ================== Variáveis ==================
 // Mobile
 $bp-mob-390: 390px;
 $bp-mob-360: 360px;
@@ -13,23 +12,21 @@ $bp-desk-1366: 1366px;
 $bp-desk-1440: 1440px;
 $bp-desk-1920: 1920px;
 
-// ================== Mixins ==================
-
-// Até mobile (máx 412px)
+// Até 412px
 @mixin mobile {
   @media (max-width: #{$bp-mob-412}) {
     @content;
   }
 }
 
-// Tablet (entre 768px e 1024px, usando 800 como base)
+// Entre 768px e 1024px
 @mixin tablet {
   @media (min-width: #{$bp-tab-768}) and (max-width: 1024px) {
     @content;
   }
 }
 
-// Desktop (a partir de 1366px)
+// A partir de 1366px
 @mixin desktop {
   @media (min-width: #{$bp-desk-1366}) {
     @content;

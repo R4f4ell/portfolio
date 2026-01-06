@@ -1,14 +1,10 @@
-/* src/components/frases/frases.scss */
-
-/* Seção ocupa 100% da largura e altura do viewport (mobile) */
 .frases {
   width: 100%;
-  min-height: 100svh; /* mobile mantém 100vh/svh */
+  min-height: 100svh;
   display: grid;
   place-items: center;
   padding: 1rem;
 
-  /* Tablets e desktops: 70vh */
   @media (min-width: 768px) {
     min-height: 70vh;
   }
@@ -26,7 +22,6 @@
   }
 }
 
-/* Variáveis e resets locais */
 *, ::before, ::after { margin: 0; box-sizing: border-box; }
 
 @property --angle {
@@ -35,7 +30,6 @@
   inherits: true;
 }
 
-/* Esconde radios mantendo acessibilidade */
 .cards input[type="radio"] {
   position: absolute;
   width: 1px;
@@ -48,7 +42,6 @@
   border: 0;
 }
 
-/* Grid principal dos cards (carousel por empilhamento) */
 .cards {
   --img-w: 200px;
   --duration: 300ms;
@@ -60,7 +53,6 @@
   min-height: clamp(420px, 70vh, 720px);
 }
 
-/* Cada card ocupa a mesma área (empilhados) */
 .card {
   --cards-grid-cols: auto;
   --cards-grid-rows: var(--img-w) auto;
@@ -75,7 +67,6 @@
   padding: 0.25rem;
 }
 
-/* Desktop ≥ 1024px: imagem à esquerda, texto à direita */
 @media (min-width: 1024px) {
   .card {
     --cards-grid-cols: var(--img-w) auto;
@@ -84,7 +75,6 @@
   }
 }
 
-/* ===== IMAGEM ===== */
 .card-img {
   width: var(--img-w);
   height: var(--img-w);
@@ -99,18 +89,13 @@
   box-shadow: 0 0 5px 3px rgba(0 0 0 / 0.05);
 }
 
-/* ===== CONTEÚDO ===== */
 .card-data {
   position: relative;
   display: grid;
   align-content: start;
   gap: 0.9rem;
   max-width: 52ch;
-
-  /* NÃO precisamos mais reservar espaço para nav fixa */
   padding-bottom: 0;
-
-  /* Ordem vertical semântica */
   grid-template-areas:
     "num"
     "title"
@@ -138,7 +123,6 @@
   color: #e6e9ed;
 }
 
-/* Número acima do título */
 .card-data > .card-num {
   grid-area: num;
   justify-self: center;
@@ -152,7 +136,6 @@
   pointer-events: none;
 }
 
-/* ===== NAVEGAÇÃO (setas) — SEM position absolute ===== */
 .card-data > .card-nav {
   grid-area: nav;
   display: flex;
@@ -191,7 +174,6 @@ input:checked:focus-visible + .card > .card-data > .card-nav label {
   outline-offset: 2px;
 }
 
-/* ===== ANIMAÇÕES ===== */
 @keyframes reveal-img { 50% { translate: -150% 0; --angle: 0deg; } }
 @keyframes straighten-img-1 { 50% { --angle: 0deg; } }
 @keyframes straighten-img-2 { 50% { --angle: 0deg; } }
@@ -201,7 +183,6 @@ input:checked:focus-visible + .card > .card-data > .card-nav label {
 @keyframes straighten-img-6 { 50% { --angle: 0deg; } }
 @keyframes straighten-img-7 { 50% { --angle: 0deg; } }
 
-/* Disparo das animações conforme o radio selecionado */
 input:nth-of-type(1):checked + .card ~ .card > .card-img { animation: straighten-img-1 calc(var(--duration) * 2) forwards; animation-timing-function: var(--img-easing); }
 .card:has(~ input:nth-of-type(2):checked) > .card-img,
 input:nth-of-type(2):checked + .card ~ .card > .card-img { animation: straighten-img-2 calc(var(--duration) * 2) forwards; animation-timing-function: var(--img-easing); }
@@ -216,7 +197,6 @@ input:nth-of-type(6):checked + .card ~ .card > .card-img { animation: straighten
 .card:has(~ input:nth-of-type(7):checked) > .card-img,
 input:nth-of-type(7):checked + .card ~ .card > .card-img { animation: straighten-img-7 calc(var(--duration) * 2) forwards; animation-timing-function: var(--img-easing); }
 
-/* Estado ativo do card selecionado */
 input:checked + .card {
   --data-opacity: 1;
   --data-y: 0;
@@ -228,7 +208,6 @@ input:checked + .card {
 
 input:checked + .card > .card-img { animation: reveal-img calc(var(--duration) * 2) forwards; }
 
-/* Ordem de empilhamento */
 .card { z-index: -1; }
 input:checked + .card { z-index: 10 !important; }
 .card:has(+ input:checked) { z-index: 9; }
@@ -239,7 +218,6 @@ input:checked + .card { z-index: 10 !important; }
 .card:has(+ input + .card + input + .card + input + input + .card + input + .card + input + .card + input:checked) { z-index: 4; }
 .card:has(+ input + .card + input + .card + input + .card + input + input + .card + input + .card + input + .card + input:checked) { z-index: 3; }
 
-/* Ajuste para telas muito altas */
 @media (min-height: 900px) {
   .cards { transform: translateY(-1vh); }
 }

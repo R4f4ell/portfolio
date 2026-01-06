@@ -31,7 +31,6 @@ export default function Header() {
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
-  // posiciona painel mobile
   useEffect(() => {
     const updateAnchors = () => {
       if (!burgerRef.current) return
@@ -58,7 +57,6 @@ export default function Header() {
     }
   }, [open])
 
-  // clique nos links (desktop e painel)
   const handleNavClick = (e, id) => {
     e.preventDefault()
     setOpen(false)
@@ -67,7 +65,6 @@ export default function Header() {
     scrollToSection(id)
   }
 
-  // clique na marca (vai para #home)
   const handleBrandClick = () => {
     scrollToSection('home')
   }
@@ -92,7 +89,6 @@ export default function Header() {
           <span className="brand-text">Portfólio</span>
         </button>
 
-        {/* Links Desktop */}
         <nav className="nav__links--desktop" aria-hidden="false">
           <ul className="nav-pills">
             {LINKS.map(link => (
@@ -109,7 +105,6 @@ export default function Header() {
           </ul>
         </nav>
 
-        {/* Hamburger */}
         <label
           ref={burgerRef}
           className="hamburger"
@@ -133,7 +128,6 @@ export default function Header() {
           </svg>
         </label>
 
-        {/* Backdrop */}
         <AnimatePresence>
           {open && (
             <motion.button
@@ -149,7 +143,6 @@ export default function Header() {
           )}
         </AnimatePresence>
 
-        {/* Painel Mobile */}
         <AnimatePresence>
           {open && (
             <motion.div
