@@ -17,3 +17,18 @@ svg,
 svg * {
   -webkit-tap-highlight-color: transparent;
 }
+
+/* Bloquear hover em dispositivos touch */
+@media (hover: none) and (pointer: coarse) {
+  *:hover {
+    transform: none !important;
+    filter: none !important;
+    box-shadow: none !important;
+  }
+
+  a:hover,
+  button:hover {
+    background: none !important;
+    color: inherit !important;
+  }
+}
