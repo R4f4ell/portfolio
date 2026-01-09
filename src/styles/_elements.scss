@@ -9,8 +9,11 @@ input,
 textarea,
 select,
 summary,
+label,
 [role="button"],
 [tabindex],
-[onclick] {
+[onclick],
+svg,
+svg * {
   -webkit-tap-highlight-color: transparent;
 }
