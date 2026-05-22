@@ -1,0 +1,19 @@
+.pageBackground {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse at 18% 22%, #def5fe 0%, rgba(222, 245, 254, 0.72) 24%, rgba(222, 245, 254, 0) 54%),
+    radial-gradient(ellipse at 82% 20%, #fef1d8 0%, rgba(254, 241, 216, 0.78) 26%, rgba(254, 241, 216, 0) 56%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, #ffffff 66%, #ffffff 100%);
+  background-position: 50% 100%;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.pageContent {
+  position: relative;
+  z-index: 1;
+  min-height: 100vh;
+}

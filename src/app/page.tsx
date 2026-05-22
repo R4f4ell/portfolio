@@ -5,12 +5,14 @@ import { AboutSection } from "@/components/sections/sobre/Sobre";
 import { SkillsSection } from "@/components/sections/habilidades/Habilidades";
 import { ProjectsSection } from "@/components/sections/projetos/Projetos";
 import { ContactSection } from "@/components/sections/contato/Contato";
+import "./page.scss";
 
 export default function Home() {
   return (
     <>
+      <div className="pageBackground" />
       <Header />
-      <main>
+      <main className="pageContent">
         <HeroSection />
         <AboutSection />
         <SkillsSection />
