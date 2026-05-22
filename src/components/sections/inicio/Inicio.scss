@@ -1,3 +1,5 @@
+@use "@/styles/variables" as variables;
+
 .inicio {
   position: relative;
   overflow: hidden;
@@ -16,7 +18,7 @@
 .inicioContent h1 {
   max-width: 620px;
   margin-bottom: 24px;
-  color: #0f2943;
+  color: variables.$cor-global;
   font-family: "Inter Tight", sans-serif;
   font-size: 56px;
   font-weight: 700;
@@ -59,24 +61,24 @@
 }
 
 .inicioButtonPrimary {
-  border: 2px solid #e87532;
-  background-color: #e87532;
+  border: 2px solid variables.$cor-global;
+  background-color: variables.$cor-global;
   color: #ffffff;
 }
 
 .inicioButtonPrimary:hover {
-  border-color: color-mix(in srgb, #e87532, transparent 15%);
-  background-color: color-mix(in srgb, #e87532, transparent 15%);
+  border-color: color-mix(in srgb, variables.$cor-global, transparent 15%);
+  background-color: color-mix(in srgb, variables.$cor-global, transparent 15%);
 }
 
 .inicioButtonSecondary {
-  border: 2px solid color-mix(in srgb, #e87532, transparent 70%);
+  border: 2px solid color-mix(in srgb, variables.$cor-global, transparent 70%);
   background-color: transparent;
-  color: #e87532;
+  color: variables.$cor-global;
 }
 
 .inicioButtonSecondary:hover {
-  background-color: #e87532;
+  background-color: variables.$cor-global;
   color: #ffffff;
 }
 
