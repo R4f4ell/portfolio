@@ -1,0 +1,206 @@
+.inicio {
+  position: relative;
+  overflow: hidden;
+  padding: 160px 0 80px;
+}
+
+.inicioContainer {
+  width: min(100% - 48px, 1140px);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  gap: 48px;
+}
+
+.inicioContent h1 {
+  max-width: 620px;
+  margin-bottom: 24px;
+  color: #0f2943;
+  font-family: "Inter Tight", sans-serif;
+  font-size: 56px;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.inicioContent p {
+  max-width: 580px;
+  margin-bottom: 32px;
+  color: color-mix(in srgb, #0a0f14, transparent 20%);
+  font-family: "Inter Tight", sans-serif;
+  font-size: 20px;
+  font-weight: 300;
+  line-height: 1.5;
+}
+
+.inicioActions {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 48px;
+}
+
+.inicioButton {
+  padding: 13px 32px;
+  border-radius: 50px;
+  font-family: "Inter Tight", sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1.2;
+  text-decoration: none;
+  transition:
+    background-color 300ms ease,
+    border-color 300ms ease,
+    color 300ms ease,
+    transform 300ms ease;
+}
+
+.inicioButton:hover {
+  transform: translateY(-2px);
+}
+
+.inicioButtonPrimary {
+  border: 2px solid #e87532;
+  background-color: #e87532;
+  color: #ffffff;
+}
+
+.inicioButtonPrimary:hover {
+  border-color: color-mix(in srgb, #e87532, transparent 15%);
+  background-color: color-mix(in srgb, #e87532, transparent 15%);
+}
+
+.inicioButtonSecondary {
+  border: 2px solid color-mix(in srgb, #e87532, transparent 70%);
+  background-color: transparent;
+  color: #e87532;
+}
+
+.inicioButtonSecondary:hover {
+  background-color: #e87532;
+  color: #ffffff;
+}
+
+.inicioStats {
+  display: flex;
+  gap: 48px;
+  margin-top: 32px;
+}
+
+.inicioStatNumber {
+  display: block;
+  color: #0f2943;
+  font-family: "Inter Tight", sans-serif;
+  font-size: 40px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.inicioStatLabel {
+  display: block;
+  margin-top: 8px;
+  color: color-mix(in srgb, #0a0f14, transparent 30%);
+  font-family: "Inter Tight", sans-serif;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.inicioVisual {
+  position: relative;
+  padding: 32px;
+}
+
+.inicioVisual img {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.inicioShape {
+  position: absolute;
+  z-index: 1;
+  border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+}
+
+.inicioShapePrimary {
+  width: 300px;
+  height: 300px;
+  top: -20px;
+  right: -20px;
+  background-color: color-mix(in srgb, #e87532, transparent 85%);
+  animation: inicioMorphShape 15s linear infinite;
+}
+
+.inicioShapeSecondary {
+  width: 200px;
+  height: 200px;
+  bottom: -20px;
+  left: -20px;
+  background-color: color-mix(in srgb, #0f2943, transparent 90%);
+  animation: inicioMorphShape 20s linear infinite reverse;
+}
+
+@keyframes inicioMorphShape {
+  0% {
+    border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+  }
+
+  25% {
+    border-radius: 58% 42% 75% 25% / 76% 46% 54% 24%;
+  }
+
+  50% {
+    border-radius: 50% 50% 33% 67% / 55% 27% 73% 45%;
+  }
+
+  75% {
+    border-radius: 33% 67% 58% 42% / 63% 68% 32% 37%;
+  }
+
+  100% {
+    border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+  }
+}
+
+@media (max-width: 991px) {
+  .inicio {
+    padding: 140px 0 60px;
+    text-align: center;
+  }
+
+  .inicioContainer {
+    grid-template-columns: 1fr;
+  }
+
+  .inicioContent h1,
+  .inicioContent p {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .inicioContent h1 {
+    font-size: 40px;
+  }
+
+  .inicioActions,
+  .inicioStats {
+    justify-content: center;
+  }
+
+  .inicioVisual {
+    margin-top: 48px;
+  }
+}
+
+@media (max-width: 575px) {
+  .inicioContainer {
+    width: min(100% - 32px, 1140px);
+  }
+
+  .inicioActions,
+  .inicioStats {
+    flex-direction: column;
+    gap: 24px;
+  }
+}
