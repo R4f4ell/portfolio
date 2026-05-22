@@ -1,3 +1,3 @@
-export function SkillsSection() {
+export function Habilidades() {
   return null;
 }

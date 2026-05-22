@@ -1,7 +1,7 @@
 import Image from "next/image";
 import "./Inicio.scss";
 
-export function HeroSection() {
+export function Inicio() {
   return (
     <section className="inicio" id="inicio">
       <div className="inicioContainer">
@@ -14,9 +14,6 @@ export function HeroSection() {
           <div className="inicioActions">
             <a className="inicioButton inicioButtonPrimary" href="#projetos">
               Ver projetos
-            </a>
-            <a className="inicioButton inicioButtonSecondary" href="#contato">
-              Entrar em contato
             </a>
           </div>
 

@@ -1,10 +1,10 @@
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
-import { HeroSection } from "@/components/sections/inicio/Inicio";
-import { AboutSection } from "@/components/sections/sobre/Sobre";
-import { SkillsSection } from "@/components/sections/habilidades/Habilidades";
-import { ProjectsSection } from "@/components/sections/projetos/Projetos";
-import { ContactSection } from "@/components/sections/contato/Contato";
+import { Inicio } from "@/components/sections/inicio/Inicio";
+import { Sobre } from "@/components/sections/sobre/Sobre";
+import { Habilidades } from "@/components/sections/habilidades/Habilidades";
+import { Projetos } from "@/components/sections/projetos/Projetos";
+import { Contato } from "@/components/sections/contato/Contato";
 import "./page.scss";
 
 export default function Home() {
@@ -13,11 +13,11 @@ export default function Home() {
       <div className="pageBackground" />
       <Header />
       <main className="pageContent">
-        <HeroSection />
-        <AboutSection />
-        <SkillsSection />
-        <ProjectsSection />
-        <ContactSection />
+        <Inicio />
+        <Sobre />
+        <Habilidades />
+        <Projetos />
+        <Contato />
       </main>
       <Footer />
     </>

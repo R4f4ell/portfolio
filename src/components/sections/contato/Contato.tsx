@@ -1,3 +1,3 @@
-export function ContactSection() {
+export function Contato() {
   return null;
 }

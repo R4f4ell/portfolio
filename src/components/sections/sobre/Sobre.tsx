@@ -1,3 +1,3 @@
-export function AboutSection() {
+export function Sobre() {
   return null;
 }

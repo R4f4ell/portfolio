@@ -18,9 +18,12 @@
 .inicioContent h1 {
   max-width: 620px;
   margin-bottom: 24px;
-  color: variables.$cor-global;
+  color: transparent;
+  background: linear-gradient(135deg, color-mix(in srgb, variables.$cor-global, #0a0f14 18%), variables.$cor-global);
+  -webkit-background-clip: text;
+  background-clip: text;
   font-family: "Inter Tight", sans-serif;
-  font-size: 56px;
+  font-size: 52px;
   font-weight: 700;
   line-height: 1.2;
 }
@@ -57,7 +60,7 @@
 }
 
 .inicioButton:hover {
-  transform: translateY(-2px);
+  transform: translateY(-1px);
 }
 
 .inicioButtonPrimary {
@@ -90,7 +93,7 @@
 
 .inicioStatNumber {
   display: block;
-  color: #0f2943;
+  color: variables.$cor-global;
   font-family: "Inter Tight", sans-serif;
   font-size: 40px;
   font-weight: 700;
@@ -100,7 +103,7 @@
 .inicioStatLabel {
   display: block;
   margin-top: 8px;
-  color: color-mix(in srgb, #0a0f14, transparent 30%);
+  color: variables.$cor-global;
   font-family: "Inter Tight", sans-serif;
   font-size: 14px;
   line-height: 1.4;
@@ -182,7 +185,7 @@
   }
 
   .inicioContent h1 {
-    font-size: 40px;
+    font-size: 38px;
   }
 
   .inicioActions,
