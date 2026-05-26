@@ -3,33 +3,39 @@ import "./Sobre.scss";
 const sobreTimeline = [
   {
     periodo: "2022",
-    titulo: "Início da formação em tecnologia",
+    titulo: "Início da graduação",
     descricao:
-      "Comecei a graduação em Análise e Desenvolvimento de Sistemas, direcionando meus estudos para desenvolvimento web e criação de aplicações full-stack.",
+      "Iniciei a graduação em Análise e Desenvolvimento de Sistemas, desenvolvendo uma base em lógica de programação, software e tecnologias web.",
   },
   {
     periodo: "2023",
     titulo: "Primeiros projetos web",
     descricao:
-      "Passei a desenvolver projetos com HTML, CSS, SCSS, JavaScript, TypeScript, Bootstrap e React, aplicando responsividade, organização de código e boas práticas de interface.",
+      "Criei interfaces e páginas responsivas com HTML, CSS, JavaScript e Bootstrap, consolidando a base prática em desenvolvimento front-end.",
   },
   {
     periodo: "2024",
-    titulo: "Evolução técnica e projetos completos",
+    titulo: "Evolução para aplicações completas",
     descricao:
-      "Aprofundei meus estudos em React, APIs REST, Git/GitHub, deploy com Vercel e otimização de performance, criando projetos mais estruturados e próximos de cenários reais.",
+      "Aprofundei meus estudos em React, TypeScript, SCSS, APIs REST e banco de dados, criando projetos mais estruturados e próximos de aplicações reais.",
   },
   {
-    periodo: "2025",
-    titulo: "Formação concluída e experiência prática",
+    periodo: "Jan/2025",
+    titulo: "Conclusão da graduação",
     descricao:
-      "Concluí a graduação em janeiro de 2025 e desenvolvi o Sistema Ativo para uma clínica de fonoaudiologia, digitalizando rotinas manuais com uma solução web.",
+      "Concluí a graduação em Análise e Desenvolvimento de Sistemas, consolidando minha formação acadêmica em desenvolvimento de software.",
+  },
+  {
+    periodo: "Set/2025",
+    titulo: "Estágio em desenvolvimento full-stack",
+    descricao:
+      "Iniciei minha experiência como desenvolvedor full-stack, atuando em projetos web com front-end, back-end, banco de dados e versionamento com Git.",
   },
   {
     periodo: "Atual",
-    titulo: "Desenvolvedor Full-stack Júnior",
+    titulo: "Evolução contínua",
     descricao:
-      "Busco minha primeira oportunidade na área de tecnologia para aplicar meus conhecimentos em projetos reais, evoluir profissionalmente e contribuir com soluções web bem estruturadas.",
+      "Atualmente aprofundo meus estudos em Next.js, FastAPI, Python e testes com Postman, ampliando minha base em front-end, back-end e integração de APIs.",
   },
 ];
 

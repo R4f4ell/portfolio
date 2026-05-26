@@ -69,23 +69,62 @@
 }
 
 .sobreTimelineContent {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
   width: min(100%, 390px);
-  padding: 22px 24px;
-  border: 1px solid color-mix(in srgb, variables.$cor-global, transparent 72%);
-  border-radius: 14px;
-  background-color: rgba(255, 255, 255, 0.56);
-  box-shadow: 0 18px 45px rgba(15, 41, 67, 0.08);
+  padding: 26px 28px;
+  border: 0;
+  border-radius: 24px;
+  background:
+    radial-gradient(circle at 14% 12%, color-mix(in srgb, variables.$cor-global, transparent 55%), transparent 26%),
+    radial-gradient(circle at 88% 88%, rgba(255, 255, 255, 0.95), transparent 34%),
+    linear-gradient(145deg, rgba(255, 255, 255, 0.64), rgba(255, 255, 255, 0.28));
+  -webkit-backdrop-filter: blur(22px) saturate(145%);
+  backdrop-filter: blur(22px) saturate(145%);
+  box-shadow:
+    0 30px 90px rgba(15, 41, 67, 0.14),
+    0 14px 38px color-mix(in srgb, variables.$cor-global, transparent 84%),
+    inset 0 1px 0 rgba(255, 255, 255, 0.74);
   font-family: "Inter Tight", sans-serif;
+}
+
+.sobreTimelineContent::before {
+  content: "";
+  position: absolute;
+  inset: 1px;
+  z-index: -1;
+  border-radius: 23px;
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.78), transparent 34%),
+    radial-gradient(circle at 100% 0%, color-mix(in srgb, variables.$cor-global, transparent 72%), transparent 30%);
+  opacity: 0.85;
+}
+
+.sobreTimelineContent::after {
+  content: "";
+  position: absolute;
+  top: -45%;
+  right: -18%;
+  z-index: -1;
+  width: 190px;
+  height: 190px;
+  border-radius: 50%;
+  background: color-mix(in srgb, variables.$cor-global, transparent 76%);
+  filter: blur(28px);
+  opacity: 0.75;
 }
 
 .sobreTimelinePeriod {
   display: inline-flex;
   align-items: center;
-  margin-bottom: 12px;
-  padding: 5px 12px;
+  margin-bottom: 14px;
+  padding: 6px 13px;
   border-radius: 999px;
-  background-color: variables.$cor-global;
+  background:
+    linear-gradient(135deg, variables.$cor-global, color-mix(in srgb, variables.$cor-global, #0a0f14 16%));
   color: #ffffff;
+  box-shadow: 0 8px 18px color-mix(in srgb, variables.$cor-global, transparent 78%);
   font-size: 13px;
   font-weight: 700;
   line-height: 1;
@@ -93,7 +132,7 @@
 
 .sobreTimelineContent h3 {
   margin-bottom: 10px;
-  color: #0f2943;
+  color: color-mix(in srgb, #0f2943, variables.$cor-global 18%);
   font-family: "Questrial", sans-serif;
   font-size: 22px;
   font-weight: 700;
@@ -109,13 +148,14 @@
 
 .sobreTimelineDot {
   position: absolute;
-  top: 26px;
+  top: 50%;
   width: 16px;
   height: 16px;
   border: 3px solid rgba(255, 255, 255, 0.82);
   border-radius: 50%;
   background-color: variables.$cor-global;
   box-shadow: 0 0 0 6px color-mix(in srgb, variables.$cor-global, transparent 86%);
+  transform: translateY(-50%);
 }
 
 .sobreTimelineItemLeft .sobreTimelineDot {
