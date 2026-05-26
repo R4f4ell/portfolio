@@ -16,9 +16,6 @@ export function Header() {
           <a className="headerLink" href="#sobre">
             Sobre
           </a>
-          <a className="headerLink" href="#habilidades">
-            Habilidades
-          </a>
           <a className="headerLink" href="#projetos">
             Projetos
           </a>

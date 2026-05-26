@@ -2,23 +2,7 @@
 
 .sobre {
   position: relative;
-  padding: 80px 0;
-}
-
-.sobreLine {
-  position: absolute;
-  left: 50%;
-  z-index: 0;
-  width: 1px;
-  background-color: variables.$cor-global;
-  opacity: 0.55;
-  transform: translateX(-50%);
-  pointer-events: none;
-}
-
-.sobreLineTop {
-  top: 0;
-  height: 66px;
+  padding: 40px 0 80px;
 }
 
 .sobreContainer {
@@ -173,10 +157,6 @@
 }
 
 @media (max-width: 767px) {
-  .sobreLineTop {
-    height: 58px;
-  }
-
   .sobreTimeline::before {
     left: 8px;
   }

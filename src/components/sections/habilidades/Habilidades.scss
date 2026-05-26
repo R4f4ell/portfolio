@@ -1,0 +1,93 @@
+@use "@/styles/variables" as variables;
+
+.habilidades {
+  position: relative;
+  padding: 64px 0 76px;
+}
+
+.habilidadesContainer {
+  width: min(100% - 48px, 1385px);
+  margin: 0 auto;
+}
+
+.habilidadesIntro {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  padding: 0 25px;
+  margin-bottom: 24px;
+}
+
+.habilidadesIntro p {
+  color: rgba(27, 29, 30, 0.6);
+  font-family: "Inter Tight", sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1.4;
+  text-align: center;
+}
+
+.habilidadesDivider {
+  width: 170px;
+  height: 2px;
+  flex: 0 1 170px;
+  background-image: linear-gradient(90deg, rgba(27, 30, 29, 0), rgba(27, 29, 30, 0.1) 80%);
+}
+
+.habilidadesDivider:last-child {
+  background-image: linear-gradient(90deg, rgba(27, 29, 30, 0.1), rgba(27, 30, 29, 0) 81%);
+}
+
+.habilidadesMarquee {
+  position: relative;
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000000 12%, #000000 88%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000000 12%, #000000 88%, transparent);
+}
+
+.habilidadesMarquee .rfm-marquee-container {
+  overflow: visible;
+}
+
+.habilidadesItem {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 30px;
+  color: #1b1d1e;
+  font-family: "Inter Tight", sans-serif;
+  font-size: 19px;
+  font-weight: 700;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.habilidadesIcon {
+  width: 26px;
+  height: 26px;
+  flex: 0 0 auto;
+}
+
+@media (max-width: 767px) {
+  .habilidades {
+    padding: 44px 0 62px;
+  }
+
+  .habilidadesContainer {
+    width: min(100% - 32px, 1385px);
+  }
+
+  .habilidadesIntro {
+    padding: 0;
+  }
+
+  .habilidadesDivider {
+    display: none;
+  }
+
+  .habilidadesItem {
+    padding: 0 22px;
+    font-size: 17px;
+  }
+}

@@ -14,8 +14,8 @@ export default function Home() {
       <Header />
       <main className="pageContent">
         <Inicio />
-        <Sobre />
         <Habilidades />
+        <Sobre />
         <Projetos />
         <Contato />
       </main>

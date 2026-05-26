@@ -42,7 +42,6 @@ const sobreTimeline = [
 export function Sobre() {
   return (
     <section className="sobre" id="sobre">
-      <span className="sobreLine sobreLineTop" aria-hidden="true" />
       <div className="sobreContainer">
         <div className="sectionTitle">
           <h2 className="sectionTitleHeading">Sobre</h2>
